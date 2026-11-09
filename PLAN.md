@@ -12,7 +12,7 @@ máy công nghiệp trong MuJoCo, tính cả bước thực thi quỹ đạo b�
 Các tay gắn đế cố định và độc lập về động học, đúng trường hợp dRRT\* cơ bản (Mục 5 của bài). **da-dRRT\* (Mục 7) ngoài
 phạm vi**, vì nó dành cho robot có khớp dùng chung.
 
-**Tiến độ:** P0, P1 (`docs/p1_results.md`), P2 (`docs/p2_results.md`) xong. Tiếp theo: P3.
+**Tiến độ:** P0–P5 xong (`docs/p1_results.md`, `docs/p2_results.md`, `docs/p3_p4_results.md`). P6 chỉ làm khi có yêu cầu.
 
 ## 1. Số liệu hiện có
 
@@ -102,16 +102,17 @@ Tái hiện Hình 11: n = 50, 100k vòng lặp, 10 lần chạy, so với dRRT, 
   - `kin + collision` cho cùng kết quả với `mj_forward`;
   - có bảng đo thực tế: tốc độ collision, tỉ lệ va chạm giữa các tay, thời gian dựng roadmap, số thành phần liên thông theo n.
 
-### P4. Cell 2 tay: benchmark chính (2–3 ngày)
-Tương ứng Hình 12, 13, nhưng 12 chiều thay vì 14: dRRT\* so với Implicit A\* và RRT\*, n = 50…5000, 4 cặp roadmap × 5 seed.
-- Thực thi: tham số hoá thời gian → bám bằng actuator → `mj_step`, ghi lại sai số bám và va chạm thực tế.
-  (Bài chỉ phát lại open-loop, phần này là mở rộng của mình.)
-- **Xong khi:** tỉ lệ thành công tăng theo n và cost giảm theo thời gian như Hình 13; quỹ đạo tốt nhất chạy trong
-  `mj_step` không có va chạm; có video.
+### P4. Cell 2 tay: demo và benchmark gọn (1–2 ngày)
+**Thu gọn (2026-11-10):** không tái hiện toàn bộ thí nghiệm tay máy của bài, chỉ giữ phần phục vụ ứng dụng.
+Tác vụ đi chéo qua cột giữa bàn (`cell_tasks.crossing_two_arms`). dRRT\* so với Implicit A\* và RRT\* 12 chiều,
+n = 300, 1000, 3000, 5 bộ roadmap, ngân sách 60 s.
+- Thực thi: rút ngắn đường (ngoài bài) → tham số hoá thời gian → bám bằng actuator có feedforward → `mj_step`,
+  ghi lại sai số bám và va chạm thực tế. (Bài chỉ phát lại open-loop.)
+- **Xong khi:** quỹ đạo chạy trong `mj_step` không có va chạm; có video; có bảng so sánh ba thuật toán.
 
-### P5. Cell 4 tay (1–2 ngày)
-24 chiều, gần với mức 28 chiều trong bài. Kịch bản lấy ý từ Hình 18, 19: nhiều tay cùng tới vị trí làm việc trên bàn gá, và
-luân phiên đi qua vùng hẹp. Cần `Adj ∩ T` đã tối ưu từ P2. Thử 6 tay chỉ khi còn thời gian.
+### P5. Cell 4 tay: demo (1 ngày)
+24 chiều, gần mức 28 chiều trong bài: bốn tay quanh bàn vuông cùng vươn qua vùng giữa bàn (`cell_tasks.rotate_four_arms`).
+Chỉ làm demo, không benchmark đầy đủ.
 - **Xong khi:** n = 1000 mỗi tay, tìm được nghiệm trong thời gian chấp nhận được, chạy `mj_step` không va chạm, có video.
 
 **Tổng P0–P5:** khoảng 9–12 ngày.

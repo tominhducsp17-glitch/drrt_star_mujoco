@@ -80,6 +80,17 @@ class Roadmap:
         edges = [(u, v) for u, v in sorted(pairs) if space.edge_free(q[u], q[v])]
         return cls(q, edges)
 
+    def edges(self) -> np.ndarray:
+        return np.array([(u, int(v)) for u in range(self.n) for v in self.nbrs[u] if u < v], dtype=np.int32).reshape(-1, 2)
+
+    def save(self, path) -> None:
+        np.savez_compressed(path, q=self.q, edges=self.edges())
+
+    @classmethod
+    def load(cls, path) -> "Roadmap":
+        data = np.load(path)
+        return cls(data["q"], [tuple(map(int, e)) for e in data["edges"]])
+
     def unit_vectors(self, v: int) -> np.ndarray:
         """Vector đơn vị từ v tới từng phần tử của nbrs[v], dùng cho oracle góc O_d."""
         cached = self._unit.get(v)

@@ -1,0 +1,21 @@
+{
+  "n": 1000,
+  "budget_s": 120.0,
+  "first_time": 0.013889076999475947,
+  "first_cost": 67.68850669812213,
+  "drrt_cost": 6.678603716280005,
+  "lower_bound": 2.939001472232261,
+  "waypoints": 5,
+  "shortcut_cost": 6.678603716280005,
+  "shortcut_waypoints": 5,
+  "straight_line_free": false,
+  "straight_line_cost": 2.9390014722322615,
+  "raw_duration_s": 7.677497752848609,
+  "raw_max_tracking_error_rad": 0.015542376244981115,
+  "raw_collision_steps": 0,
+  "raw_collision_pairs": [],
+  "shortcut_duration_s": 7.677497752848609,
+  "shortcut_max_tracking_error_rad": 0.015542376244981115,
+  "shortcut_collision_steps": 0,
+  "shortcut_collision_pairs": []
+}
