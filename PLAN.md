@@ -12,7 +12,7 @@ máy công nghiệp trong MuJoCo, tính cả bước thực thi quỹ đạo b�
 Các tay gắn đế cố định và độc lập về động học, đúng trường hợp dRRT\* cơ bản (Mục 5 của bài). **da-dRRT\* (Mục 7) ngoài
 phạm vi**, vì nó dành cho robot có khớp dùng chung.
 
-**Tiến độ:** P0 xong. P1 xong (`docs/p1_results.md`). Tiếp theo: P2.
+**Tiến độ:** P0, P1 (`docs/p1_results.md`), P2 (`docs/p2_results.md`) xong. Tiếp theo: P3.
 
 ## 1. Số liệu hiện có
 

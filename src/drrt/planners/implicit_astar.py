@@ -37,7 +37,13 @@ def implicit_astar(graph: TensorGraph, time_limit: float | None = None) -> Resul
             break
         base = g_cost[v]
         adjacency = [rm.adj[a].tolist() for rm, a in zip(graph.roadmaps, v)]
-        for u in itertools.product(*adjacency):
+        # Với nhiều robot, một lần mở rộng có thể phải duyệt hàng triệu láng giềng nên phải kiểm tra thời gian ngay trong đó.
+        for count, u in enumerate(itertools.product(*adjacency)):
+            if time_limit is not None and count % 4096 == 4095 and time.perf_counter() - t0 > time_limit:
+                result.iterations = expansions
+                result.elapsed = time.perf_counter() - t0
+                result.collision_checks = graph.collision_checks
+                return result
             if u == v or u in closed:
                 continue
             c = base + graph.edge_cost(v, u)

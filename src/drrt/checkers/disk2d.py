@@ -56,6 +56,20 @@ def segment_rect_distance(a: Sequence[float], b: Sequence[float], rect: Rect) ->
     return math.sqrt(best)
 
 
+def perimeter_point(fraction: float, low: float = -0.2, high: float = 9.2) -> tuple[float, float]:
+    """Điểm trên biên hình vuông [low, high]², đi ngược chiều kim đồng hồ theo tỉ lệ chu vi."""
+    side = high - low
+    s = (fraction % 1.0) * 4
+    k = int(s)
+    t = (s - k) * side
+    return ((low + t, low), (high, low + t), (high - t, high), (low, high - t))[k]
+
+
+def perimeter_swap_query(R: int, offset: float = 0.0) -> list[tuple[tuple[float, float], tuple[float, float]]]:
+    """(s_i, t_i) của Mục 8.1: R robot xuất phát trên biên, mỗi robot tới phía đối diện."""
+    return [(perimeter_point(offset + i / R), perimeter_point(offset + i / R + 0.5)) for i in range(R)]
+
+
 @dataclass
 class DiskSpace:
     """Không gian của một đĩa. Theo Mục 8.1, vật cản trong Hình 9 đã phình sẵn theo bán kính đĩa ("inflated by the

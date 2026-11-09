@@ -10,6 +10,6 @@ uv pip install --python .venv/bin/python -e ".[dev]"
 .venv/bin/python -m pytest -q        # khoảng 2–3 phút
 ```
 
-- `src/drrt/`: roadmap, đồ thị tensor ngầm, cây, planner (dRRT, ao-dRRT, dRRT\*, Implicit A\*). Planner không phụ thuộc MuJoCo.
+- `src/drrt/`: roadmap, đồ thị tensor ngầm, cây, planner (dRRT, ao-dRRT, dRRT\*, Implicit A\*, RRT\* hợp). Planner không phụ thuộc MuJoCo.
 - `experiments/`: tái hiện thí nghiệm của bài; kết quả ở `results/`.
 - `docs/`: ghi chú đọc bài, khảo sát robot, kết quả từng giai đoạn.

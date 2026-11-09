@@ -39,8 +39,7 @@ class TensorGraph:
         self.cost_kind = cost
         self.h_i = [rm.heuristic(t).tolist() for rm, t in zip(self.roadmaps, self.target)]
         self.target_q = np.concatenate([rm.q[t] for rm, t in zip(self.roadmaps, self.target)])
-        self.lower = np.concatenate([np.tile(rm.q.min(axis=0), 1) for rm in self.roadmaps])
-        self.upper = np.concatenate([np.tile(rm.q.max(axis=0), 1) for rm in self.roadmaps])
+        self._bounds = [(rm.q.min(axis=0), rm.q.max(axis=0)) for rm in self.roadmaps]
         self._edge_cache: dict[tuple[Vertex, Vertex], bool] = {}
         self.collision_checks = 0
 
@@ -79,7 +78,7 @@ class TensorGraph:
         goal = rng.random(self.R) < goal_bias
         for i, rm in enumerate(self.roadmaps):
             slot = slice(i * self.d, (i + 1) * self.d)
-            q[slot] = rm.q[self.target[i]] if goal[i] else rng.uniform(rm.q.min(axis=0), rm.q.max(axis=0))
+            q[slot] = rm.q[self.target[i]] if goal[i] else rng.uniform(*self._bounds[i])
         return q, goal
 
     def path_cost(self, path: Sequence[Vertex]) -> float:
