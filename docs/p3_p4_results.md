@@ -70,7 +70,7 @@ Video: `results/p4/crossing2_demo.mp4`. Số liệu: `results/p4/demo.json`.
 - **Rút ngắn đường giảm cost 31%.** Roadmap 6 chiều thưa nên đường trên Ĝ đi vòng; đây là bước ngoài bài nhưng cần cho ứng dụng.
 - **Feedforward vận tốc** (ctrl = q_ref + (kd/kp)·q̇_ref) giảm sai số bám từ 0,10 xuống 0,017 rad. Không có nó, robot trễ khoảng 0,1 s
   và đầu dụng cụ lệch tới cỡ 10 cm, lớn hơn lề an toàn 2 cm.
-- Robot dừng ở mỗi đỉnh (đa thức bậc năm mỗi đoạn). Quỹ đạo liền mạch hơn (ví dụ TOPP-RA) là việc có thể làm sau.
+- Bảng trên là cách dừng ở mỗi đỉnh (đa thức bậc năm mỗi đoạn). Quỹ đạo liền mạch: xem mục bên dưới.
 
 ## P5: bốn tay (24 chiều)
 
@@ -96,3 +96,48 @@ Demo (`results/p5/rotate4_demo.mp4`, `results/p5/demo.json`): cost 6,68 rad, 7,7
 `mj_step`. Rút ngắn đường không cải thiện được thêm ở nghiệm này.
 
 Chưa làm: chi phí cuối vẫn gấp 2,3–3 lần mốc lạc quan, nên chưa biết còn cách tối ưu bao xa (không có A\* để so).
+
+## Quỹ đạo liền mạch (spline + TOPP-RA)
+
+Code: `src/drrt/smoothing.py`. Spline bậc ba (đầu mút vận tốc 0) qua các đỉnh của đường đã rút ngắn. Vì spline không trùng đường gấp
+khúc đã kiểm tra, va chạm được kiểm tra lại dày dọc spline (bước 0,05 rad); đoạn nào va chạm thì chèn thêm điểm của đường gấp khúc
+vào đoạn đó và làm lại. Sau đó TOPP-RA (thư viện `toppra`) tìm tham số hoá thời gian nhanh nhất với |q̇| ≤ 1 rad/s, |q̈| ≤ 2 rad/s².
+Nếu không làm được sau 8 vòng thì quay về cách dừng ở từng đỉnh.
+
+| Demo | Dừng ở từng đỉnh | Liền mạch | Sai số bám | Va chạm trong `mj_step` |
+| --- | --- | --- | --- | --- |
+| 2 tay đi chéo (`results/p4/`) | 6,9 s | **3,1 s** | 0,018 rad | 0 |
+| 2 tay đổi chỗ (`results/swap2/`) | 6,0 s | **3,0 s** | 0,019 rad | 0 |
+| 4 tay (`results/p5/`) | 7,7 s | **4,9 s** | 0,018 rad | 0 |
+
+Video trong các thư mục trên giờ là bản liền mạch.
+
+## Tác vụ 2 tay khó hơn
+
+Mục tiêu: tìm tác vụ 2 tay mà A\* không còn giải nhanh, để so với dRRT\* có ý nghĩa. Script: `experiments/task_difficulty.py`,
+số liệu đầy đủ: `results/difficulty/two_arm_variants.txt` (3 bộ roadmap, n = 1000 và 3000, ngân sách 60 s).
+
+Biến thể mới `swap2` (`cell_tasks.swap_two_arms`): hai dụng cụ đổi chỗ cho nhau ở giữa bàn, gần như trên cùng một đường, với một
+thanh ngang ở độ cao 1,30 m hạn chế cách vượt qua bằng nhấc cao.
+
+| Biến thể | Đi riêng lẻ va nhau | Tối ưu / mốc lạc quan | A\* | dRRT\* nghiệm đầu |
+| --- | --- | --- | --- | --- |
+| Đi chéo qua cột (cũ) | 3/6 | 1,0–1,1 | 0,5–4,4 s | 0–2 ms |
+| Đổi chỗ, không vật cản | 6/6 | 1,9–2,9 | 0,4–3,4 s | 2–13 ms |
+| **Đổi chỗ, thanh 1,30 m** | **6/6** | **2,9–7,0** | 0,1–1,4 s | 5–42 ms |
+| Đổi chỗ, thanh 1,40 m + cột | 0/6 | 1,0–1,1 | 0,5–1,3 s | 0–2 ms |
+
+**Kết luận: với 2 tay, không tìm được tác vụ nào làm A\* thất bại.** Biến thể đổi chỗ buộc phối hợp thật sự (đi riêng lẻ luôn
+va nhau, đường tối ưu dài gấp 3–7 lần mốc), nhưng A\* vẫn giải trong vài giây vì mỗi đỉnh chỉ có 24²–40² láng giềng. dRRT\* có
+nghiệm đầu nhanh hơn 10–1000 lần và trong 60 s đạt đúng tối ưu ở cả 12/12 lần chạy của hai biến thể đổi chỗ trong bảng, nhưng
+nghiệm đầu có thể tệ (gấp tới gần 8 lần tối ưu).
+
+Hệ quả thực tế:
+
+- **2 tay, có vài giây để lập kế hoạch:** dùng A\* trên Ĝ để có nghiệm tối ưu.
+- **Cần phản hồi tức thì, hoặc từ 3–4 tay trở lên:** dùng dRRT\*. Ở 4 tay A\* không xong nổi một lần mở rộng (mục P5).
+- Chưa đo điểm chuyển ở 3 tay.
+
+Trong lúc làm phát hiện một lỗi: cache roadmap chỉ dựa trên tên tác vụ nên một biến thể đã dùng nhầm roadmap của cell khác.
+Đã sửa (khoá cache gồm mô tả cell và start/goal) và thêm test. Kết quả P4 và P5 ở trên không bị ảnh hưởng vì cell của chúng không
+đổi giữa các lần chạy.

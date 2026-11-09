@@ -1,7 +1,7 @@
 """P4: cell 2 tay UR10e, tác vụ đi chéo qua cột (cell_tasks.crossing_two_arms).
 
 Benchmark gọn theo tinh thần Hình 13: dRRT* so với Implicit A* (tối ưu trên cùng Ĝ) và RRT* trong không gian hợp 12 chiều,
-với vài cỡ roadmap. Sau đó lấy nghiệm dRRT* tốt nhất, rút ngắn (ngoài bài) và chạy mj_step, ghi video.
+với vài cỡ roadmap. Sau đó lấy nghiệm dRRT* tốt nhất, rút ngắn và làm liền mạch bằng spline + TOPP-RA (ngoài bài), chạy mj_step, ghi video.
 """
 from __future__ import annotations
 
@@ -19,6 +19,7 @@ from drrt.cell_tasks import TASKS, CompositeSpace, free_volume, make_problem, ro
 from drrt.execute import execute, save_video, time_parameterize
 from drrt.planners import CompositeRRTStar, DRRTStar, implicit_astar
 from drrt.shortcut import path_length, shortcut
+from drrt.smoothing import smooth
 
 CACHE = Path("outputs/cache")
 
@@ -100,15 +101,22 @@ def demo(args) -> None:
             "shortcut_cost": path_length(short, problem.R), "shortcut_waypoints": len(short),
             "straight_line_free": bool(space.edge_free(raw[0], raw[-1])),
             "straight_line_cost": path_length([raw[0], raw[-1]], problem.R)}
-    for label, path in (("raw", raw), ("shortcut", short)):
-        traj = time_parameterize(path, vmax=1.0, amax=2.0)
-        ex = execute(problem.task.cell, traj, render_fps=30 if label == "shortcut" else 0)
+    smooth_traj = smooth(short, space.edge_free, vmax=1.0, amax=2.0)
+    info["smooth_ok"] = smooth_traj is not None
+    runs = [("raw", time_parameterize(raw)), ("shortcut", time_parameterize(short))]
+    if smooth_traj is not None:
+        runs.append(("smooth", smooth_traj))
+        info["smooth_knots"] = len(smooth_traj.knots)
+    video_label = runs[-1][0]
+    for label, traj in runs:
+        ex = execute(problem.task.cell, traj, render_fps=30 if label == video_label else 0)
         info[f"{label}_duration_s"] = traj.duration
         info[f"{label}_max_tracking_error_rad"] = ex.max_tracking_error
         info[f"{label}_collision_steps"] = ex.collision_steps
         info[f"{label}_collision_pairs"] = sorted(map(list, ex.collision_pairs))
         if ex.frames:
             save_video(ex.frames, args.out / f"{args.task}_demo.mp4", 30)
+            info["video"] = label
     (args.out / "demo.json").write_text(json.dumps(info, indent=2, ensure_ascii=False))
     print(json.dumps(info, indent=2, ensure_ascii=False))
 

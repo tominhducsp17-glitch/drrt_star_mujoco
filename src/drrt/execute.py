@@ -76,8 +76,9 @@ def execute(cell: CellSpec, traj: Trajectory, settle: float = 0.5, render_fps: f
                            ("shoulder_pan", "shoulder_lift", "elbow", "wrist_1", "wrist_2", "wrist_3")]
                           for k in range(cell.n_arms)])
     lead = m.actuator_biasprm[act, 2] / m.actuator_biasprm[act, 1]  # (-kd)/(-kp)
-    d.qpos[idx] = traj.waypoints[0]
-    d.ctrl[act] = traj.waypoints[0]
+    q0 = traj.sample(0.0)
+    d.qpos[idx] = q0
+    d.ctrl[act] = q0
     mj.mj_forward(m, d)
 
     renderer = camera = None

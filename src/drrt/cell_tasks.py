@@ -1,6 +1,7 @@
 """Tác vụ trên cell UR10e: từ điểm đặt dụng cụ tới cấu hình khớp start/goal, roadmap có cache, và không gian hợp."""
 from __future__ import annotations
 
+import hashlib
 import math
 from dataclasses import dataclass
 from pathlib import Path
@@ -9,7 +10,7 @@ from typing import Sequence
 import numpy as np
 
 from . import ik
-from .mujoco_cell import DOF, ArmSpace, CellPairChecker, CellSpec, four_arm_cell, two_arm_cell
+from .mujoco_cell import DOF, ArmSpace, Box, CellPairChecker, CellSpec, four_arm_cell, two_arm_cell
 from .roadmap import Roadmap, r_star
 from .tensor_graph import TensorGraph
 
@@ -44,7 +45,22 @@ def rotate_four_arms() -> Task:
     return Task("rotate4", cell, points)
 
 
-TASKS = {"crossing2": crossing_two_arms, "rotate4": rotate_four_arms}
+def _two_arm_variant(name: str, spacing: float, pole: bool, bar: bool, points, bar_height: float = 1.4) -> Task:
+    cell = two_arm_cell(spacing, pole)
+    if bar:
+        # Thanh ngang phía trên bàn, dọc theo trục y: chặn đường "nhấc cao lên rồi vòng qua" của các tay.
+        cell.obstacles = list(cell.obstacles) + [Box("bar", (0.0, 0.0, bar_height), (0.04, 0.6, 0.04), (0.85, 0.35, 0.2, 1))]
+    return Task(name, cell, points)
+
+
+def swap_two_arms(spacing: float = 1.5, pole: bool = False, bar: bool = True, bar_height: float = 1.3) -> Task:
+    """Hai dụng cụ đổi chỗ cho nhau ở giữa bàn: tay 0 đi từ +y sang -y, tay 1 ngược lại, gần như cùng một đường. Một tay
+    phải nhường (vòng hoặc chờ); thanh ngang phía trên hạn chế cách vượt qua bằng cách nhấc cao."""
+    return _two_arm_variant("swap2", spacing, pole, bar, [((0.05, 0.3, 0.9), (0.05, -0.3, 0.9)),
+                                                         ((-0.05, -0.3, 0.9), (-0.05, 0.3, 0.9))], bar_height)
+
+
+TASKS = {"crossing2": crossing_two_arms, "swap2": swap_two_arms, "rotate4": rotate_four_arms}
 
 
 @dataclass
@@ -79,8 +95,11 @@ def roadmaps(problem: Problem, n: int, seed: int, cache: Path | None = None,
              k: int | None = None) -> list[Roadmap]:
     """Roadmap của từng tay (s_i, t_i ở chỉ số 0, 1), dựng lại tới khi s_i và t_i liên thông. Có cache theo tham số."""
     out = []
+    # Khoá cache gồm cả mô tả cell và start/goal, không chỉ tên tác vụ: đổi vật cản thì roadmap cũ không còn đúng.
+    key = hashlib.sha1(repr((problem.task.cell, [np.round(q, 9).tolist() for q in problem.start + problem.goal]))
+                       .encode()).hexdigest()[:10]
     for arm, s, g in zip(problem.arms, problem.start, problem.goal):
-        tag = f"{problem.task.name}_a{arm.arm}_n{n}_s{seed}" + (f"_k{k}" if k else "")
+        tag = f"{problem.task.name}_{key}_a{arm.arm}_n{n}_s{seed}" + (f"_k{k}" if k else "")
         path = cache / f"{tag}.npz" if cache else None
         if path is not None and path.exists():
             out.append(Roadmap.load(path))
