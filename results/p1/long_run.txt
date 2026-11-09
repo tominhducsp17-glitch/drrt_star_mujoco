@@ -1,0 +1,10 @@
+pair 0: tối ưu 32.3516, dRRT* 32.3516, chênh 0.0000%, cải thiện cuối ở vòng 18183, 405s
+pair 1: tối ưu 30.1670, dRRT* 30.1670, chênh -0.0000%, cải thiện cuối ở vòng 100659, 374s
+pair 2: tối ưu 31.4915, dRRT* 31.4915, chênh -0.0000%, cải thiện cuối ở vòng 57639, 359s
+pair 3: tối ưu 31.6754, dRRT* 31.6754, chênh 0.0000%, cải thiện cuối ở vòng 110657, 368s
+pair 4: tối ưu 32.2595, dRRT* 32.2595, chênh 0.0000%, cải thiện cuối ở vòng 52855, 386s
+pair 5: tối ưu 29.3391, dRRT* 29.3391, chênh 0.0000%, cải thiện cuối ở vòng 16310, 347s
+pair 6: tối ưu 34.1290, dRRT* 34.1290, chênh -0.0000%, cải thiện cuối ở vòng 14550, 408s
+pair 7: tối ưu 32.1492, dRRT* 32.1492, chênh 0.0000%, cải thiện cuối ở vòng 29099, 420s
+pair 8: tối ưu 32.3842, dRRT* 32.3842, chênh -0.0000%, cải thiện cuối ở vòng 268348, 359s
+pair 9: tối ưu 31.3010, dRRT* 31.3010, chênh 0.0000%, cải thiện cuối ở vòng 10106, 377s
