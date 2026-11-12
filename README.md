@@ -53,7 +53,6 @@ Ngoài paper, cho MuJoCo:
 - [docs/paper_notes.md](docs/paper_notes.md): tóm tắt paper và các chỗ paper không viết rõ, kèm cách code xử lý.
 - [docs/results_disks_two_robots.md](docs/results_disks_two_robots.md), [docs/results_disks_many_robots.md](docs/results_disks_many_robots.md): đối chiếu với thí nghiệm của paper.
 - [docs/results_ur10e.md](docs/results_ur10e.md): cell UR10e trong MuJoCo.
-- [docs/plan.md](docs/plan.md), [docs/robot_survey.md](docs/robot_survey.md): kế hoạch và khảo sát chọn robot.
 
 ## Thư mục
 

@@ -12,7 +12,7 @@ from helpers import swap_graph
 
 
 def test_r_star_matches_hand_calculation_for_one_ur10e_arm():
-    # Thu khớp về ±π: thể tích (2π)^6, d = 6, n = 1000 (bảng trong docs/robot_survey.md).
+    # Một tay UR10e, khớp thu về ±π: thể tích (2π)^6, d = 6, n = 1000.
     assert r_star(1000, 6, (2 * math.pi) ** 6) == pytest.approx(3.09, abs=0.01)
     assert k_prm_star(1000, 6) == 22
 

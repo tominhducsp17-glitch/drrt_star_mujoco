@@ -5,3 +5,7 @@ __pycache__/
 outputs/
 MUJOCO_LOG.TXT
 paper/*.pdf
+
+# Ghi chú nội bộ, không đưa lên repo
+docs/plan.md
+docs/robot_survey.md
