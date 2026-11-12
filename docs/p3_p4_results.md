@@ -58,19 +58,24 @@ Cost là tổng độ dài đường trong không gian khớp (rad).
 
 Video: `results/p4/crossing2_demo.mp4`. Số liệu: `results/p4/demo.json`.
 
-| | Đường dRRT\* | Sau rút ngắn |
+| | Đường dRRT\* (dùng cho video) | Sau rút ngắn (tham khảo, ngoài bài) |
 | --- | --- | --- |
-| Cost (rad) | 8,44 (tối ưu trên Ĝ ≥ 7,55) | **5,80** |
-| Số đỉnh | 4 | 16 |
-| Thời lượng (vmax 1 rad/s, amax 2 rad/s²) | 9,8 s | 9,0 s |
-| Sai số bám lớn nhất | 0,017 rad | 0,017 rad |
+| Cost (rad) | 8,59 (tối ưu trên Ĝ ≥ 7,55) | **4,77** |
+| Số cạnh | 2 | 19 |
+| Thời lượng (vmax 1 rad/s, amax 2 rad/s²) | 6,1 s | 6,9 s |
+| Sai số bám lớn nhất | 0,017 rad | 0,018 rad |
 | Bước có va chạm trong `mj_step` | 0 | 0 |
 
+Số liệu lấy từ lần chạy demo gần nhất. dRRT\* chạy theo ngân sách thời gian nên mỗi lần chạy có thể ra cost hơi khác.
+
 - **Đường thẳng trong không gian khớp** (cost 1,29) va chạm, nên tác vụ thật sự cần lập kế hoạch.
-- **Rút ngắn đường giảm cost 31%.** Roadmap 6 chiều thưa nên đường trên Ĝ đi vòng; đây là bước ngoài bài nhưng cần cho ứng dụng.
+- **Rút ngắn đường giảm cost 44%** vì roadmap 6 chiều thưa nên đường trên Ĝ đi vòng. Bước này ngoài bài và có thể xoá các đoạn
+  một tay đứng chờ, nên chỉ ghi lại để tham khảo, không dùng cho video.
 - **Feedforward vận tốc** (ctrl = q_ref + (kd/kp)·q̇_ref) giảm sai số bám từ 0,10 xuống 0,017 rad. Không có nó, robot trễ khoảng 0,1 s
   và đầu dụng cụ lệch tới cỡ 10 cm, lớn hơn lề an toàn 2 cm.
-- Bảng trên là cách dừng ở mỗi đỉnh (đa thức bậc năm mỗi đoạn). Quỹ đạo liền mạch: xem mục bên dưới.
+- **Thực thi đúng như bài:** mỗi cạnh của đường trên Ĝ là một bước di chuyển đồng thời (đa thức bậc năm, dừng ở mỗi đỉnh);
+  tay nào không đổi đỉnh trên cạnh đó thì đứng yên chờ. Video dùng đường gốc này. Đã thử làm mượt bằng spline + TOPP-RA
+  (nhanh hơn 1,6–2,3 lần) rồi bỏ để giữ đúng hành vi của bài.
 
 ## P5: bốn tay (24 chiều)
 
@@ -92,25 +97,10 @@ Mốc lạc quan là 2,94 rad (từng tay đi thẳng). Đường thẳng đó v
 Đây là chỗ thấy rõ ý tưởng chính của bài: mỗi đỉnh có khoảng 24⁴ ≈ 330.000 láng giềng trong Ĝ, nên A\* liệt kê láng giềng là không
 khả thi, còn dRRT\* chỉ đi một láng giềng mỗi vòng.
 
-Demo (`results/p5/rotate4_demo.mp4`, `results/p5/demo.json`): cost 6,68 rad, 7,7 s, sai số bám 0,016 rad, 0 bước va chạm trong
-`mj_step`. Rút ngắn đường không cải thiện được thêm ở nghiệm này.
+Demo (`results/p5/rotate4_demo.mp4`, `results/p5/demo.json`): cost 6,68 rad, 4 cạnh, 7,7 s, sai số bám 0,016 rad, 0 bước va chạm
+trong `mj_step`. **11 lần một tay đứng yên chờ** trong khi các tay khác di chuyển (danh sách `waits` trong `demo.json`).
 
 Chưa làm: chi phí cuối vẫn gấp 2,3–3 lần mốc lạc quan, nên chưa biết còn cách tối ưu bao xa (không có A\* để so).
-
-## Quỹ đạo liền mạch (spline + TOPP-RA)
-
-Code: `src/drrt/smoothing.py`. Spline bậc ba (đầu mút vận tốc 0) qua các đỉnh của đường đã rút ngắn. Vì spline không trùng đường gấp
-khúc đã kiểm tra, va chạm được kiểm tra lại dày dọc spline (bước 0,05 rad); đoạn nào va chạm thì chèn thêm điểm của đường gấp khúc
-vào đoạn đó và làm lại. Sau đó TOPP-RA (thư viện `toppra`) tìm tham số hoá thời gian nhanh nhất với |q̇| ≤ 1 rad/s, |q̈| ≤ 2 rad/s².
-Nếu không làm được sau 8 vòng thì quay về cách dừng ở từng đỉnh.
-
-| Demo | Dừng ở từng đỉnh | Liền mạch | Sai số bám | Va chạm trong `mj_step` |
-| --- | --- | --- | --- | --- |
-| 2 tay đi chéo (`results/p4/`) | 6,9 s | **3,1 s** | 0,018 rad | 0 |
-| 2 tay đổi chỗ (`results/swap2/`) | 6,0 s | **3,0 s** | 0,019 rad | 0 |
-| 4 tay (`results/p5/`) | 7,7 s | **4,9 s** | 0,018 rad | 0 |
-
-Video trong các thư mục trên giờ là bản liền mạch.
 
 ## Tác vụ 2 tay khó hơn
 
@@ -131,6 +121,9 @@ thanh ngang ở độ cao 1,30 m hạn chế cách vượt qua bằng nhấc cao
 va nhau, đường tối ưu dài gấp 3–7 lần mốc), nhưng A\* vẫn giải trong vài giây vì mỗi đỉnh chỉ có 24²–40² láng giềng. dRRT\* có
 nghiệm đầu nhanh hơn 10–1000 lần và trong 60 s đạt đúng tối ưu ở cả 12/12 lần chạy của hai biến thể đổi chỗ trong bảng, nhưng
 nghiệm đầu có thể tệ (gấp tới gần 8 lần tối ưu).
+
+Demo (`results/swap2/swap2_demo.mp4`): cost 4,61 rad, 3 cạnh, 5,8 s, 0 va chạm. Ở **mỗi** cạnh có một tay đứng yên nhường tay
+kia: đúng kiểu phối hợp chờ mà Adj(v) chứa chính v cho phép.
 
 Hệ quả thực tế:
 

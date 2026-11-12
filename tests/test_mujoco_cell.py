@@ -110,24 +110,6 @@ def test_execution_tracks_a_short_move_without_collision(problem):
     assert result.max_tracking_error < 0.03
 
 
-def test_smooth_trajectory_is_collision_free_within_limits_and_hits_endpoints(problem):
-    from drrt.smoothing import smooth
-
-    space = CompositeSpace(problem)
-    s = np.concatenate(problem.start)
-    g = s.copy()
-    g[[0, 6]] += 0.2
-    path = [s, _free_detour(space, s, g), g]
-    traj = smooth(path, space.edge_free, vmax=1.0, amax=2.0)
-    assert traj is not None
-    assert np.allclose(traj.sample(0), s, atol=1e-6) and np.allclose(traj.sample(traj.duration), g, atol=1e-6)
-    ts = np.linspace(0, traj.duration, 400)
-    samples = [traj.sample(t) for t in ts]
-    assert max(np.max(np.abs(traj.velocity(t))) for t in ts) <= 1.0 * 1.01
-    assert all(space.edge_free(a, b) for a, b in zip(samples, samples[1:]))
-    assert traj.duration <= time_parameterize(path).duration
-
-
 def test_roadmap_cache_is_keyed_by_the_cell_not_only_the_task_name(tmp_path):
     from drrt.cell_tasks import roadmaps, swap_two_arms
 

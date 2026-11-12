@@ -1,7 +1,7 @@
 {
   "n": 1000,
   "budget_s": 60.0,
-  "first_time": 0.0011988890000793617,
+  "first_time": 0.0012051400117343292,
   "first_cost": 11.883081309757456,
   "drrt_cost": 8.585532741999684,
   "lower_bound": 7.55069217252602,
@@ -10,19 +10,15 @@
   "shortcut_waypoints": 20,
   "straight_line_free": false,
   "straight_line_cost": 1.2870109543760835,
-  "smooth_ok": true,
-  "smooth_knots": 22,
+  "edges": 2,
+  "waits": [],
   "raw_duration_s": 6.131272659440246,
   "raw_max_tracking_error_rad": 0.016649495352188293,
   "raw_collision_steps": 0,
   "raw_collision_pairs": [],
+  "video": "raw",
   "shortcut_duration_s": 6.926104621213203,
   "shortcut_max_tracking_error_rad": 0.01791070533918715,
   "shortcut_collision_steps": 0,
-  "shortcut_collision_pairs": [],
-  "smooth_duration_s": 3.0519486357768364,
-  "smooth_max_tracking_error_rad": 0.018175894072985477,
-  "smooth_collision_steps": 0,
-  "smooth_collision_pairs": [],
-  "video": "smooth"
+  "shortcut_collision_pairs": []
 }

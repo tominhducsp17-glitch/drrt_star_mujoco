@@ -1,7 +1,8 @@
 """P4: cell 2 tay UR10e, tác vụ đi chéo qua cột (cell_tasks.crossing_two_arms).
 
 Benchmark gọn theo tinh thần Hình 13: dRRT* so với Implicit A* (tối ưu trên cùng Ĝ) và RRT* trong không gian hợp 12 chiều,
-với vài cỡ roadmap. Sau đó lấy nghiệm dRRT* tốt nhất, rút ngắn và làm liền mạch bằng spline + TOPP-RA (ngoài bài), chạy mj_step, ghi video.
+với vài cỡ roadmap. Sau đó chạy nghiệm dRRT* trong mj_step đúng như planner trả về: mỗi cạnh là một bước di chuyển đồng thời, tay nào không đổi
+đỉnh trên cạnh đó thì đứng yên chờ (Adj(v) chứa chính v, như bài). Ghi video. Bản rút ngắn đường (ngoài bài) chỉ để tham khảo.
 """
 from __future__ import annotations
 
@@ -19,7 +20,6 @@ from drrt.cell_tasks import TASKS, CompositeSpace, free_volume, make_problem, ro
 from drrt.execute import execute, save_video, time_parameterize
 from drrt.planners import CompositeRRTStar, DRRTStar, implicit_astar
 from drrt.shortcut import path_length, shortcut
-from drrt.smoothing import smooth
 
 CACHE = Path("outputs/cache")
 
@@ -101,15 +101,13 @@ def demo(args) -> None:
             "shortcut_cost": path_length(short, problem.R), "shortcut_waypoints": len(short),
             "straight_line_free": bool(space.edge_free(raw[0], raw[-1])),
             "straight_line_cost": path_length([raw[0], raw[-1]], problem.R)}
-    smooth_traj = smooth(short, space.edge_free, vmax=1.0, amax=2.0)
-    info["smooth_ok"] = smooth_traj is not None
+    # Các (cạnh, tay) mà tay đó đứng yên trong khi tay khác di chuyển.
+    waits = [(e, k) for e, (u, v) in enumerate(zip(r.path, r.path[1:])) for k in range(problem.R) if u[k] == v[k]]
+    info["edges"] = len(r.path) - 1
+    info["waits"] = waits
     runs = [("raw", time_parameterize(raw)), ("shortcut", time_parameterize(short))]
-    if smooth_traj is not None:
-        runs.append(("smooth", smooth_traj))
-        info["smooth_knots"] = len(smooth_traj.knots)
-    video_label = runs[-1][0]
     for label, traj in runs:
-        ex = execute(problem.task.cell, traj, render_fps=30 if label == video_label else 0)
+        ex = execute(problem.task.cell, traj, render_fps=30 if label == "raw" else 0)
         info[f"{label}_duration_s"] = traj.duration
         info[f"{label}_max_tracking_error_rad"] = ex.max_tracking_error
         info[f"{label}_collision_steps"] = ex.collision_steps

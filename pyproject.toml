@@ -3,7 +3,7 @@ name = "drrt-star-mujoco"
 version = "0.1.0"
 description = "dRRT*: asymptotically-optimal multi-robot motion planning, on MuJoCo"
 requires-python = ">=3.10"
-dependencies = ["numpy>=1.24", "scipy>=1.11", "mujoco>=3.3,<4", "matplotlib>=3.8", "toppra>=0.6"]
+dependencies = ["numpy>=1.24", "scipy>=1.11", "mujoco>=3.3,<4", "matplotlib>=3.8"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8"]
