@@ -4,10 +4,9 @@ import pytest
 
 from drrt import ik
 from drrt.cell_tasks import DOWN, CompositeSpace, crossing_two_arms, make_problem
-from drrt.execute import Trajectory, execute, time_parameterize
+from drrt.execute import execute, time_parameterize
 from drrt.mujoco_cell import ArmSpace, CellPairChecker, FullChecker, two_arm_cell
 from drrt.roadmap import Roadmap
-from drrt.shortcut import path_length, shortcut
 
 
 @pytest.fixture(scope="module")
@@ -80,17 +79,6 @@ def _free_detour(space, s, g):
             if space.edge_free(s, mid) and space.edge_free(mid, g):
                 return mid
     raise AssertionError("không tìm được điểm vòng tự do")
-
-
-def test_shortcut_keeps_endpoints_shortens_and_stays_free(problem):
-    space = CompositeSpace(problem)
-    s, g = np.concatenate(problem.start), np.concatenate(problem.start)
-    g[[0, 6]] += 0.2
-    path = [s, _free_detour(space, s, g), g]
-    out = shortcut(path, space.edge_free, 2, np.random.default_rng(0), attempts=50)
-    assert np.allclose(out[0], s) and np.allclose(out[-1], g)
-    assert path_length(out, 2) <= path_length(path, 2) + 1e-9
-    assert all(space.edge_free(a, b) for a, b in zip(out, out[1:]))
 
 
 def test_quintic_trajectory_hits_waypoints_and_respects_vmax():

@@ -12,11 +12,11 @@ máy công nghiệp trong MuJoCo, tính cả bước thực thi quỹ đạo b�
 Các tay gắn đế cố định và độc lập về động học, đúng trường hợp dRRT\* cơ bản (Mục 5 của bài). **da-dRRT\* (Mục 7) ngoài
 phạm vi**, vì nó dành cho robot có khớp dùng chung.
 
-**Tiến độ:** P0–P5 xong (`docs/p1_results.md`, `docs/p2_results.md`, `docs/p3_p4_results.md`). P6 chỉ làm khi có yêu cầu.
+**Tiến độ:** P0–P5 xong (`docs/results_disks_two_robots.md`, `docs/results_disks_many_robots.md`, `docs/results_ur10e.md`). P6 chỉ làm khi có yêu cầu.
 
 ## 1. Số liệu hiện có
 
-**Đo trên UR10e** (`experiments/p0_ur10e_probe.py`; MuJoCo 3.17, một luồng, 20.000 mẫu, khớp ±π, có sàn):
+**Đo trên UR10e** (script đo ban đầu, nay đã thay bằng `experiments/ur10e_cell_check.py`; MuJoCo 3.17, một luồng, 20.000 mẫu, khớp ±π, có sàn):
 
 | Cell | µs/lần kiểm tra | Cấu hình tự do | Tự va chạm | Va sàn | Va giữa các tay |
 | --- | --- | --- | --- | --- | --- |
@@ -51,7 +51,7 @@ Máy: 18 luồng, 30 GB RAM, không có GPU rời. Chạy thí nghiệm song son
 
 ```
 drrt_star_mujoco/
-├── PLAN.md, README.md, pyproject.toml
+├── README.md, pyproject.toml
 ├── paper/, docs/
 ├── third_party/                    # UR10e từ Menagerie (kèm SOURCE.md, giữ license gốc)
 ├── robots/                         # cấu hình: file model, tên khớp, giới hạn dùng cho planning

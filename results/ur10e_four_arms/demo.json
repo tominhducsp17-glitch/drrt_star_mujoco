@@ -6,8 +6,6 @@
   "drrt_cost": 6.678603716280005,
   "lower_bound": 2.939001472232261,
   "waypoints": 5,
-  "shortcut_cost": 6.678603716280005,
-  "shortcut_waypoints": 5,
   "straight_line_free": false,
   "straight_line_cost": 2.9390014722322615,
   "edges": 4,
@@ -57,13 +55,8 @@
       2
     ]
   ],
-  "raw_duration_s": 7.677497752848609,
-  "raw_max_tracking_error_rad": 0.015542376244981115,
-  "raw_collision_steps": 0,
-  "raw_collision_pairs": [],
-  "video": "raw",
-  "shortcut_duration_s": 7.677497752848609,
-  "shortcut_max_tracking_error_rad": 0.015542376244981115,
-  "shortcut_collision_steps": 0,
-  "shortcut_collision_pairs": []
+  "duration_s": 7.677497752848609,
+  "max_tracking_error_rad": 0.015542376244981115,
+  "collision_steps": 0,
+  "collision_pairs": []
 }

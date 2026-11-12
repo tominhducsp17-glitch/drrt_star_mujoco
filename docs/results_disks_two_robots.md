@@ -1,18 +1,18 @@
-# Kết quả P1: 2 đĩa 2D (Mục 8.1, Hình 10, Bảng 1)
+# Kết quả: 2 robot đĩa 2D (Mục 8.1, Hình 10, Bảng 1)
 
 Chạy lại:
 
 ```bash
-.venv/bin/python experiments/p1_disks_fig10.py && .venv/bin/python experiments/p1_report.py
-.venv/bin/python experiments/p1_long_run.py
+.venv/bin/python experiments/disks_two_robots.py && .venv/bin/python experiments/disks_two_robots_report.py
+.venv/bin/python experiments/disks_two_robots_long_run.py
 ```
 
-Dữ liệu và hình ở `results/p1/`. Mỗi n có 10 cặp roadmap, dRRT\* và ao-dRRT chạy 5 lần trên mỗi cặp, 100.000 vòng lặp.
+Dữ liệu và hình ở `results/disks_two_robots/`. Mỗi n có 10 cặp roadmap, dRRT\* và ao-dRRT chạy 5 lần trên mỗi cặp, 100.000 vòng lặp.
 N²-PRM\* dựng 10 lần ở n = 50, 100 và 3 lần ở n = 200.
 
 ## Kết luận
 
-Tiêu chí nghiệm thu của P1 đều đạt:
+Các tiêu chí nghiệm thu đều đạt:
 
 | Tiêu chí | Kết quả |
 | --- | --- |
@@ -48,7 +48,7 @@ Nguyên nhân dưới đây là giả thuyết, chưa được kiểm chứng ri
 
 1. **Implicit A\* nhanh hơn bài 150–400 lần.** Hướng kết luận vẫn đúng (dRRT\* nhanh hơn), nhưng độ chênh chỉ 9–22 lần so với
    300–7.700 lần trong bài. Giả thuyết: heuristic ΣH_i gần như hoàn hảo khi hai đĩa ít tương tác, còn bài không mô tả A\* của họ.
-   **Lợi thế thật của dRRT\* so với A\* trên kịch bản này chưa được chứng minh đầy đủ**; P2 (nhiều robot) mới là phép thử thật,
+   **Lợi thế thật của dRRT\* so với A\* trên kịch bản này chưa được chứng minh đầy đủ**; thí nghiệm nhiều robot (`results_disks_many_robots.md`) mới là phép thử thật,
    vì bài báo cáo A\* thất bại ngay từ R=3.
 2. **ao-dRRT có nghiệm đầu nhanh hơn bài 25–110 lần.** Bài không định nghĩa `Connect_to_Target`; bản của mình cho robot đi thẳng
    theo đường ngắn nhất tới đích, chính nó tạo ra nghiệm đầu. Đổi lại nghiệm đầu kém (~50, so với tối ưu ~33).
@@ -62,4 +62,4 @@ Nguyên nhân dưới đây là giả thuyết, chưa được kiểm chứng ri
 
 - Vật cản đo từ hình và cách hiểu "inflated by the radius" là của mình.
 - Chưa cài focused sampling kiểu BIT\* mà Mục 5.2 nhắc tới.
-- Tính đến P1 chưa dùng MuJoCo; planner chạy trên checker giải tích.
+- Thí nghiệm này không dùng MuJoCo; planner chạy trên checker giải tích.

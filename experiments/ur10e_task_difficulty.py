@@ -10,7 +10,7 @@ from pathlib import Path
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).parent))
-from p4_two_arm import limit_memory, uncoordinated_free  # noqa: E402
+from ur10e_cells import limit_memory, uncoordinated_free  # noqa: E402
 
 from drrt.cell_tasks import crossing_two_arms, make_problem, roadmaps, swap_two_arms, tensor_graph  # noqa: E402
 from drrt.planners import DRRTStar, implicit_astar  # noqa: E402

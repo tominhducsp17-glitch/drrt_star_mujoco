@@ -1,4 +1,4 @@
-"""Đọc kết quả P1, in Bảng 1 và vẽ hình tương ứng Hình 10 của bài."""
+"""Đọc kết quả thí nghiệm 2 đĩa, in Bảng 1 và vẽ hình tương ứng Hình 10 của bài."""
 from __future__ import annotations
 
 import argparse
@@ -122,7 +122,7 @@ def plot(rows: list[dict], conv: list[dict], sizes: list[int], out: Path) -> Non
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--dir", type=Path, default=Path("results/p1"))
+    ap.add_argument("--dir", type=Path, default=Path("results/disks_two_robots"))
     args = ap.parse_args()
     rows = load(args.dir / "summary.csv")
     conv = load(args.dir / "convergence.csv")

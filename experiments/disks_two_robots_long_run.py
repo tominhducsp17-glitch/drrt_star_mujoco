@@ -1,4 +1,4 @@
-"""P1: chạy dài dRRT* ở n=200 để xác nhận hội tụ đúng tối ưu của Ĝ (Theorem 2), không chỉ tới lân cận."""
+"""Chạy dài dRRT* ở n=200 để xác nhận hội tụ đúng tối ưu của Ĝ (Theorem 2), không chỉ tới lân cận."""
 from __future__ import annotations
 
 import sys
@@ -8,7 +8,7 @@ from pathlib import Path
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).parent))
-from p1_disks_fig10 import graph_for  # noqa: E402
+from disks_two_robots import graph_for  # noqa: E402
 
 from drrt.planners import DRRTStar, implicit_astar  # noqa: E402
 

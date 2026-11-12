@@ -1,0 +1,30 @@
+{
+  "n": 1000,
+  "budget_s": 60.0,
+  "first_time": 0.016719013001420535,
+  "first_cost": 12.465914006120585,
+  "drrt_cost": 4.614251211960273,
+  "lower_bound": 1.435256141271064,
+  "waypoints": 4,
+  "straight_line_free": false,
+  "straight_line_cost": 1.435256141271064,
+  "edges": 3,
+  "waits": [
+    [
+      0,
+      1
+    ],
+    [
+      1,
+      0
+    ],
+    [
+      2,
+      1
+    ]
+  ],
+  "duration_s": 5.8094570945038955,
+  "max_tracking_error_rad": 0.01869128422671773,
+  "collision_steps": 0,
+  "collision_pairs": []
+}

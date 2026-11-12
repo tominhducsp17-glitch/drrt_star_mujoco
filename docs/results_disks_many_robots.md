@@ -1,9 +1,9 @@
-# Kết quả P2: R = 3…10 đĩa (Hình 11)
+# Kết quả: 3 đến 10 robot đĩa (Hình 11)
 
 Chạy lại:
 
 ```bash
-.venv/bin/python experiments/p2_disks_fig11.py && .venv/bin/python experiments/p2_report.py
+.venv/bin/python experiments/disks_many_robots.py && .venv/bin/python experiments/disks_many_robots_report.py
 ```
 
 Thiết lập: mỗi robot xuất phát trên biên và đi tới điểm đối xứng qua tâm, roadmap n = 50 mỗi robot, 10 lần chạy cho mỗi R.
@@ -11,7 +11,7 @@ Mỗi lần chạy dùng chung roadmap và truy vấn cho mọi thuật toán. G
 giới hạn thời gian). Implicit A\* chỉ chạy tới R = 6 và bị giới hạn 1,4 GB RAM mỗi tiến trình.
 "Mốc" là tổng đường ngắn nhất riêng lẻ của từng robot, bỏ qua va chạm giữa các robot, giống bài.
 
-Dữ liệu: `results/p2/summary.csv`, bảng đầy đủ `results/p2/tables.md`, hình `results/p2/fig11.png`.
+Dữ liệu: `results/disks_many_robots/summary.csv`, bảng đầy đủ `results/disks_many_robots/tables.md`, hình `results/disks_many_robots/fig11.png`.
 
 ## Kết luận
 

@@ -54,7 +54,7 @@ Những điểm làm dRRT\* nhanh:
 | 5 | Alg. 7 dòng 11 | Viết cost(V_new) nhưng V_new có thể chưa ở trong cây | Dùng cost(V_best) + cost(L(V_best, V_new)). Có thể cộng thêm H để cắt mạnh hơn: đây là mở rộng, không phải của bài |
 | 6 | Alg. 7 dòng 15, 18 | Rewire không nói việc cập nhật cost cho nhánh con | Lan truyền cost xuống cây con |
 | 7 | Alg. 7 dòng 19 | H hợp "suy ra từ các không gian thành phần" | Cost tổng: ΣH_i. Cost Euclid: √(ΣH_i²). Hai dạng đều không vượt quá cost thật |
-| 8 | Mục 5.2 | Tỉ lệ focused sampling và goal bias không cho | Tham số cấu hình, quét thử ở P1 |
+| 8 | Mục 5.2 | Tỉ lệ focused sampling và goal bias không cho | Tham số cấu hình; đang dùng goal bias 10% cho từng robot |
 | 9 | Alg. 6 dòng 6, Alg. 7 dòng 17 | Ký hiệu `∩` nghĩa là "và" | Đọc là AND logic |
 | 10 | Mục 4.1 | Không nói cách nối s_i, t_i vào G_i | Chèn thành đỉnh mới, nối theo cùng luật kết nối, kiểm tra cùng thành phần liên thông |
 | 11 | Mục 6 | Chứng minh cho r(n) ≥ r\*(n); μ là thể tích C_f | k-PRM\* ngoài phạm vi chứng minh, phải ghi rõ khi báo cáo. μ ước lượng bằng thể tích hộp khớp × tỉ lệ tự do |

@@ -73,16 +73,14 @@ def two_arm_cell(spacing: float = 1.5, pole: bool = True) -> CellSpec:
 
 def four_arm_cell(spacing: float = 1.5) -> CellSpec:
     """Bốn tay quanh một bàn vuông, mỗi cạnh một tay."""
-    cell = two_arm_cell(spacing, pole=False)
-    obstacles = [Box("table", (0.0, 0.0, 0.375), (0.35, 0.35, 0.375))]
+    obstacles: list[Box | Cylinder] = [Box("table", (0.0, 0.0, 0.375), (0.35, 0.35, 0.375))]
     bases = []
     for k in range(4):
         yaw = math.pi / 2 * k
         x, y = -spacing / 2 * math.cos(yaw), -spacing / 2 * math.sin(yaw)
         bases.append((x, y, 0.6, yaw))
         obstacles.append(Box(f"pedestal{k}", (x, y, 0.3), (0.15, 0.15, 0.3), (0.3, 0.3, 0.32, 1)))
-    cell.bases, cell.obstacles = bases, obstacles
-    return cell
+    return CellSpec(bases=bases, obstacles=obstacles)
 
 
 def _arm_spec(cell: CellSpec) -> mj.MjSpec:

@@ -1,8 +1,10 @@
-"""P4: cell 2 tay UR10e, tác vụ đi chéo qua cột (cell_tasks.crossing_two_arms).
+"""Cell UR10e trong MuJoCo: benchmark và demo cho một tác vụ trong cell_tasks.TASKS.
 
-Benchmark gọn theo tinh thần Hình 13: dRRT* so với Implicit A* (tối ưu trên cùng Ĝ) và RRT* trong không gian hợp 12 chiều,
-với vài cỡ roadmap. Sau đó chạy nghiệm dRRT* trong mj_step đúng như planner trả về: mỗi cạnh là một bước di chuyển đồng thời, tay nào không đổi
-đỉnh trên cạnh đó thì đứng yên chờ (Adj(v) chứa chính v, như bài). Ghi video. Bản rút ngắn đường (ngoài bài) chỉ để tham khảo.
+Benchmark: dRRT* so với Implicit A* (tối ưu trên cùng Ĝ) và RRT* trong không gian hợp, với vài cỡ roadmap.
+Demo: chạy nghiệm dRRT* trong mj_step đúng như planner trả về. Mỗi cạnh là một bước di chuyển đồng thời; tay nào không đổi
+đỉnh trên cạnh đó thì đứng yên chờ (Adj(v) chứa chính v, như bài). Ghi video.
+
+    MUJOCO_GL=egl python experiments/ur10e_cells.py --task swap2 --skip-benchmark
 """
 from __future__ import annotations
 
@@ -19,9 +21,14 @@ import numpy as np
 from drrt.cell_tasks import TASKS, CompositeSpace, free_volume, make_problem, roadmaps, tensor_graph
 from drrt.execute import execute, save_video, time_parameterize
 from drrt.planners import CompositeRRTStar, DRRTStar, implicit_astar
-from drrt.shortcut import path_length, shortcut
 
 CACHE = Path("outputs/cache")
+OUT = {"crossing2": "results/ur10e_crossing", "swap2": "results/ur10e_swap", "rotate4": "results/ur10e_four_arms"}
+
+
+def path_length(path, R: int) -> float:
+    """Tổng độ dài cung của từng tay trong không gian khớp."""
+    return float(sum(np.linalg.norm((b - a).reshape(R, -1), axis=1).sum() for a, b in zip(path, path[1:])))
 
 
 def limit_memory(gigabytes: float) -> None:
@@ -95,26 +102,21 @@ def demo(args) -> None:
     r = DRRTStar(g, np.random.default_rng(0)).solve(time_limit=args.budget)
     raw = [g.flat(v) for v in r.path]
     space = CompositeSpace(problem)
-    short = shortcut(raw, space.edge_free, problem.R, np.random.default_rng(0))
     info = {"n": args.demo_n, "budget_s": args.budget, "first_time": r.first_time, "first_cost": r.first_cost,
             "drrt_cost": r.cost, "lower_bound": g.h(g.start), "waypoints": len(raw),
-            "shortcut_cost": path_length(short, problem.R), "shortcut_waypoints": len(short),
             "straight_line_free": bool(space.edge_free(raw[0], raw[-1])),
             "straight_line_cost": path_length([raw[0], raw[-1]], problem.R)}
     # Các (cạnh, tay) mà tay đó đứng yên trong khi tay khác di chuyển.
     waits = [(e, k) for e, (u, v) in enumerate(zip(r.path, r.path[1:])) for k in range(problem.R) if u[k] == v[k]]
     info["edges"] = len(r.path) - 1
     info["waits"] = waits
-    runs = [("raw", time_parameterize(raw)), ("shortcut", time_parameterize(short))]
-    for label, traj in runs:
-        ex = execute(problem.task.cell, traj, render_fps=30 if label == "raw" else 0)
-        info[f"{label}_duration_s"] = traj.duration
-        info[f"{label}_max_tracking_error_rad"] = ex.max_tracking_error
-        info[f"{label}_collision_steps"] = ex.collision_steps
-        info[f"{label}_collision_pairs"] = sorted(map(list, ex.collision_pairs))
-        if ex.frames:
-            save_video(ex.frames, args.out / f"{args.task}_demo.mp4", 30)
-            info["video"] = label
+    traj = time_parameterize(raw)
+    ex = execute(problem.task.cell, traj, render_fps=30)
+    info["duration_s"] = traj.duration
+    info["max_tracking_error_rad"] = ex.max_tracking_error
+    info["collision_steps"] = ex.collision_steps
+    info["collision_pairs"] = sorted(map(list, ex.collision_pairs))
+    save_video(ex.frames, args.out / f"{args.task}_demo.mp4", 30)
     (args.out / "demo.json").write_text(json.dumps(info, indent=2, ensure_ascii=False))
     print(json.dumps(info, indent=2, ensure_ascii=False))
 
@@ -122,7 +124,7 @@ def demo(args) -> None:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--task", default="crossing2", choices=sorted(TASKS))
-    ap.add_argument("--out", type=Path, default=Path("results/p4"))
+    ap.add_argument("--out", type=Path, help="mặc định theo tác vụ, xem OUT")
     ap.add_argument("--sizes", type=int, nargs="+", default=[300, 1000, 3000])
     ap.add_argument("--seeds", type=int, default=5)
     ap.add_argument("--budget", type=float, default=60.0)
@@ -131,6 +133,7 @@ def main() -> None:
     ap.add_argument("--demo-n", type=int, default=1000)
     ap.add_argument("--skip-benchmark", action="store_true")
     args = ap.parse_args()
+    args.out = args.out or Path(OUT[args.task])
     args.out.mkdir(parents=True, exist_ok=True)
     if not args.skip_benchmark:
         benchmark(args)

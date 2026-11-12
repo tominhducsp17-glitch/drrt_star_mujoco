@@ -1,4 +1,4 @@
-"""P3: kiểm tra cell UR10e trước khi lập kế hoạch.
+"""Kiểm tra cell UR10e trước khi lập kế hoạch.
 
 1. Phép tách va chạm (offline từng tay + online giữa các tay) cho cùng kết quả với model đầy đủ.
 2. Tốc độ kiểm tra và tỉ lệ cấu hình tự do.

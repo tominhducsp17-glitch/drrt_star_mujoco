@@ -1,4 +1,4 @@
-"""P2: tái hiện Hình 11. R = 3…10 đĩa từ biên sang phía đối diện, roadmap n = 50 cho mỗi robot, 100k vòng, 10 lần chạy.
+"""Tái hiện Hình 11. R = 3…10 đĩa từ biên sang phía đối diện, roadmap n = 50 cho mỗi robot, 100k vòng, 10 lần chạy.
 
 Mỗi lần chạy dùng cùng một bộ roadmap và cùng truy vấn cho mọi thuật toán. Bài không giới hạn thời gian, nhưng ở đây mỗi lần
 chạy dừng sau --time-limit giây; số vòng lặp thực tế được ghi lại để biết thuật toán nào không chạy đủ 100k vòng.
@@ -103,7 +103,7 @@ FIELDS = ["algo", "R", "n", "run", "solved", "first_time", "first_iter", "first_
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--out", type=Path, default=Path("results/p2"))
+    ap.add_argument("--out", type=Path, default=Path("results/disks_many_robots"))
     ap.add_argument("--robots", type=int, nargs="+", default=list(range(3, 11)))
     ap.add_argument("--n", type=int, default=50)
     ap.add_argument("--runs", type=int, default=10)

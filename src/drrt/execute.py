@@ -13,7 +13,7 @@ from typing import Sequence
 import mujoco as mj
 import numpy as np
 
-from .mujoco_cell import CellSpec, _arm_of, _qpos_indices, execution_model
+from .mujoco_cell import CellSpec, _qpos_indices, execution_model
 
 
 @dataclass

@@ -1,4 +1,4 @@
-"""P1: tái hiện Mục 8.1, Hình 10 và Bảng 1. Hai đĩa đổi chỗ (0,0) ↔ (9,9) trong môi trường Hình 9.
+"""Tái hiện Mục 8.1, Hình 10 và Bảng 1. Hai đĩa đổi chỗ (0,0) ↔ (9,9) trong môi trường Hình 9.
 
 Cấu trúc thí nghiệm theo chú thích Hình 10: với mỗi n, 10 cặp roadmap; dRRT* và ao-dRRT chạy 5 lần trên mỗi cặp;
 Implicit A* chạy trên cả 10 tổ hợp; N²-PRM* dựng 10 lần (3 lần ở n=200 vì rất tốn).
@@ -107,7 +107,7 @@ FIELDS = ["algo", "n", "pair", "run", "first_time", "first_iter", "first_cost", 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--out", type=Path, default=Path("results/p1"))
+    ap.add_argument("--out", type=Path, default=Path("results/disks_two_robots"))
     ap.add_argument("--sizes", type=int, nargs="+", default=[50, 100, 200])
     ap.add_argument("--pairs", type=int, default=10)
     ap.add_argument("--runs", type=int, default=5)

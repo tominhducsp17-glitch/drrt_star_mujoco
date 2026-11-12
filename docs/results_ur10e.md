@@ -1,15 +1,16 @@
-# Kết quả P3–P4: cell UR10e trong MuJoCo
+# Kết quả: cell UR10e trong MuJoCo
 
 Chạy lại:
 
 ```bash
-.venv/bin/python experiments/p3_cell_check.py
-MUJOCO_GL=egl .venv/bin/python experiments/p4_two_arm.py            # benchmark + demo, kết quả ở results/p4/
+.venv/bin/python experiments/ur10e_cell_check.py
+MUJOCO_GL=egl .venv/bin/python experiments/ur10e_cells.py --task crossing2   # benchmark + demo, kết quả ở results/ur10e_crossing/
+MUJOCO_GL=egl .venv/bin/python experiments/ur10e_cells.py --task swap2 --skip-benchmark   # chỉ demo
 ```
 
-## P3: cầu nối MuJoCo
+## Cầu nối MuJoCo
 
-Code: `src/drrt/mujoco_cell.py`, `ik.py`, `cell_tasks.py`, `execute.py`, `shortcut.py`.
+Code: `src/drrt/mujoco_cell.py`, `ik.py`, `cell_tasks.py`, `execute.py`.
 
 **Cell 2 tay:** hai UR10e trên bệ cao 0,6 m, đối diện nhau cách 1,5 m qua bàn gá; một cột Ø8 cm giữa bàn. Mỗi tay có dụng cụ
 hình trụ dài 15 cm. Khớp giới hạn ±π. Lề an toàn 2 cm với môi trường và giữa các tay; bước nội suy 0,05 rad.
@@ -31,7 +32,7 @@ Hai điều phát hiện khi làm:
 - **14 trường hợp lệch** đều là cặp hình trụ–capsule của cùng một tay ở sát biên: bộ va chạm trả khoảng cách khác nhau vài mm tuỳ margin.
   Phép tách báo va chạm trong khi model đầy đủ báo tự do, nên an toàn. Test kiểm tra rằng chiều ngược lại không bao giờ xảy ra.
 
-## P4: tác vụ đi chéo, 2 tay (12 chiều)
+## Hai tay đi chéo qua cột (12 chiều)
 
 Mỗi tay đưa dụng cụ từ một bên cột sang bên kia, ở nửa bàn phía tay đối diện (`cell_tasks.crossing_two_arms`).
 5 bộ roadmap cho mỗi n, ngân sách 60 s mỗi lần chạy.
@@ -52,38 +53,36 @@ Cost là tổng độ dài đường trong không gian khớp (rad).
   Heuristic gần như chính xác nên A\* chỉ mở rộng 7–9 đỉnh và có nghiệm tối ưu trong 1–2 s. dRRT\* có nghiệm đầu nhanh hơn
   400–2400 lần, nhưng ở n=3000 sau 60 s vẫn còn cao hơn tối ưu 3%.
 - **RRT\* trong không gian hợp không giải được lần nào trong 60 s**, phù hợp với nhận định của bài.
-- **Lợi thế thật của dRRT\* so với A\* chỉ thể hiện khi nhiều tay**: xem P5.
+- **Lợi thế thật của dRRT\* so với A\* chỉ thể hiện khi nhiều tay**: xem mục bốn tay.
 
 ### Demo và thực thi (n=1000, 60 s)
 
-Video: `results/p4/crossing2_demo.mp4`. Số liệu: `results/p4/demo.json`.
+Video: `results/ur10e_crossing/crossing2_demo.mp4`. Số liệu: `results/ur10e_crossing/demo.json`.
 
-| | Đường dRRT\* (dùng cho video) | Sau rút ngắn (tham khảo, ngoài bài) |
-| --- | --- | --- |
-| Cost (rad) | 8,59 (tối ưu trên Ĝ ≥ 7,55) | **4,77** |
-| Số cạnh | 2 | 19 |
-| Thời lượng (vmax 1 rad/s, amax 2 rad/s²) | 6,1 s | 6,9 s |
-| Sai số bám lớn nhất | 0,017 rad | 0,018 rad |
-| Bước có va chạm trong `mj_step` | 0 | 0 |
+| | Đường dRRT\* |
+| --- | --- |
+| Cost (rad) | 8,59 (tối ưu trên Ĝ ≥ 7,55) |
+| Số cạnh | 2 |
+| Thời lượng (vmax 1 rad/s, amax 2 rad/s²) | 6,1 s |
+| Sai số bám lớn nhất | 0,017 rad |
+| Bước có va chạm trong `mj_step` | 0 |
 
 Số liệu lấy từ lần chạy demo gần nhất. dRRT\* chạy theo ngân sách thời gian nên mỗi lần chạy có thể ra cost hơi khác.
 
 - **Đường thẳng trong không gian khớp** (cost 1,29) va chạm, nên tác vụ thật sự cần lập kế hoạch.
-- **Rút ngắn đường giảm cost 44%** vì roadmap 6 chiều thưa nên đường trên Ĝ đi vòng. Bước này ngoài bài và có thể xoá các đoạn
-  một tay đứng chờ, nên chỉ ghi lại để tham khảo, không dùng cho video.
 - **Feedforward vận tốc** (ctrl = q_ref + (kd/kp)·q̇_ref) giảm sai số bám từ 0,10 xuống 0,017 rad. Không có nó, robot trễ khoảng 0,1 s
   và đầu dụng cụ lệch tới cỡ 10 cm, lớn hơn lề an toàn 2 cm.
 - **Thực thi đúng như bài:** mỗi cạnh của đường trên Ĝ là một bước di chuyển đồng thời (đa thức bậc năm, dừng ở mỗi đỉnh);
-  tay nào không đổi đỉnh trên cạnh đó thì đứng yên chờ. Video dùng đường gốc này. Đã thử làm mượt bằng spline + TOPP-RA
-  (nhanh hơn 1,6–2,3 lần) rồi bỏ để giữ đúng hành vi của bài.
+  tay nào không đổi đỉnh trên cạnh đó thì đứng yên chờ. Không hậu xử lý đường đi (đã thử rút ngắn đường và làm mượt bằng
+  spline + TOPP-RA, rồi bỏ để giữ đúng hành vi của bài).
 
-## P5: bốn tay (24 chiều)
+## Bốn tay (24 chiều)
 
 Bốn UR10e quanh bàn vuông; mỗi tay chuyển dụng cụ giữa hai góc bàn phía mình, và mỗi góc là điểm đến của tay này đồng thời là
 điểm đi của tay bên cạnh (`cell_tasks.rotate_four_arms`). n = 1000 mỗi tay, 3 bộ roadmap, ngân sách 120 s.
 
 ```bash
-MUJOCO_GL=egl .venv/bin/python experiments/p4_two_arm.py --task rotate4 --sizes 1000 --seeds 3 --budget 120 --memory-gb 4 --out results/p5
+MUJOCO_GL=egl .venv/bin/python experiments/ur10e_cells.py --task rotate4 --sizes 1000 --seeds 3 --budget 120 --memory-gb 4
 ```
 
 | Thuật toán | Thành công | Nghiệm đầu | Cost đầu → cuối (rad) |
@@ -97,15 +96,15 @@ Mốc lạc quan là 2,94 rad (từng tay đi thẳng). Đường thẳng đó v
 Đây là chỗ thấy rõ ý tưởng chính của bài: mỗi đỉnh có khoảng 24⁴ ≈ 330.000 láng giềng trong Ĝ, nên A\* liệt kê láng giềng là không
 khả thi, còn dRRT\* chỉ đi một láng giềng mỗi vòng.
 
-Demo (`results/p5/rotate4_demo.mp4`, `results/p5/demo.json`): cost 6,68 rad, 4 cạnh, 7,7 s, sai số bám 0,016 rad, 0 bước va chạm
+Demo (`results/ur10e_four_arms/rotate4_demo.mp4`, `results/ur10e_four_arms/demo.json`): cost 6,68 rad, 4 cạnh, 7,7 s, sai số bám 0,016 rad, 0 bước va chạm
 trong `mj_step`. **11 lần một tay đứng yên chờ** trong khi các tay khác di chuyển (danh sách `waits` trong `demo.json`).
 
 Chưa làm: chi phí cuối vẫn gấp 2,3–3 lần mốc lạc quan, nên chưa biết còn cách tối ưu bao xa (không có A\* để so).
 
-## Tác vụ 2 tay khó hơn
+## Tác vụ hai tay khó hơn
 
-Mục tiêu: tìm tác vụ 2 tay mà A\* không còn giải nhanh, để so với dRRT\* có ý nghĩa. Script: `experiments/task_difficulty.py`,
-số liệu đầy đủ: `results/difficulty/two_arm_variants.txt` (3 bộ roadmap, n = 1000 và 3000, ngân sách 60 s).
+Mục tiêu: tìm tác vụ 2 tay mà A\* không còn giải nhanh, để so với dRRT\* có ý nghĩa. Script: `experiments/ur10e_task_difficulty.py`,
+số liệu đầy đủ: `results/ur10e_task_difficulty/two_arm_variants.txt` (3 bộ roadmap, n = 1000 và 3000, ngân sách 60 s).
 
 Biến thể mới `swap2` (`cell_tasks.swap_two_arms`): hai dụng cụ đổi chỗ cho nhau ở giữa bàn, gần như trên cùng một đường, với một
 thanh ngang ở độ cao 1,30 m hạn chế cách vượt qua bằng nhấc cao.
@@ -122,15 +121,15 @@ va nhau, đường tối ưu dài gấp 3–7 lần mốc), nhưng A\* vẫn gi�
 nghiệm đầu nhanh hơn 10–1000 lần và trong 60 s đạt đúng tối ưu ở cả 12/12 lần chạy của hai biến thể đổi chỗ trong bảng, nhưng
 nghiệm đầu có thể tệ (gấp tới gần 8 lần tối ưu).
 
-Demo (`results/swap2/swap2_demo.mp4`): cost 4,61 rad, 3 cạnh, 5,8 s, 0 va chạm. Ở **mỗi** cạnh có một tay đứng yên nhường tay
+Demo (`results/ur10e_swap/swap2_demo.mp4`): cost 4,61 rad, 3 cạnh, 5,8 s, 0 va chạm. Ở **mỗi** cạnh có một tay đứng yên nhường tay
 kia: đúng kiểu phối hợp chờ mà Adj(v) chứa chính v cho phép.
 
 Hệ quả thực tế:
 
 - **2 tay, có vài giây để lập kế hoạch:** dùng A\* trên Ĝ để có nghiệm tối ưu.
-- **Cần phản hồi tức thì, hoặc từ 3–4 tay trở lên:** dùng dRRT\*. Ở 4 tay A\* không xong nổi một lần mở rộng (mục P5).
+- **Cần phản hồi tức thì, hoặc 4 tay:** dùng dRRT\*. Ở 4 tay A\* không xong nổi một lần mở rộng (mục bốn tay).
 - Chưa đo điểm chuyển ở 3 tay.
 
 Trong lúc làm phát hiện một lỗi: cache roadmap chỉ dựa trên tên tác vụ nên một biến thể đã dùng nhầm roadmap của cell khác.
-Đã sửa (khoá cache gồm mô tả cell và start/goal) và thêm test. Kết quả P4 và P5 ở trên không bị ảnh hưởng vì cell của chúng không
+Đã sửa (khoá cache gồm mô tả cell và start/goal) và thêm test. Kết quả hai tay đi chéo và bốn tay ở trên không bị ảnh hưởng vì cell của chúng không
 đổi giữa các lần chạy.

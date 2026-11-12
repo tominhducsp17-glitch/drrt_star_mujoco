@@ -1,4 +1,4 @@
-"""Đọc kết quả P2, in bảng và vẽ hình tương ứng Hình 11 của bài."""
+"""Đọc kết quả thí nghiệm nhiều đĩa, in bảng và vẽ hình tương ứng Hình 11 của bài."""
 from __future__ import annotations
 
 import argparse
@@ -90,7 +90,7 @@ def plot(rows, robots, out: Path) -> None:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--dir", type=Path, default=Path("results/p2"))
+    ap.add_argument("--dir", type=Path, default=Path("results/disks_many_robots"))
     args = ap.parse_args()
     rows = load(args.dir / "summary.csv")
     robots = sorted({int(r["R"]) for r in rows})
