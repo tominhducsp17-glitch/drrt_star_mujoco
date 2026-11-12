@@ -1,8 +1,7 @@
 # dRRT\* trên MuJoCo
 
 Implement lại dRRT, ao-dRRT và dRRT\* của Shome et al., *"dRRT\*: Scalable and Informed Asymptotically-Optimal Multi-Robot Motion
-Planning"* ([arXiv:1903.00994](https://arxiv.org/abs/1903.00994)), rồi chạy cho nhiều tay UR10e trong MuJoCo. Planner viết từ đầu
-bằng Python, chỉ dùng NumPy và SciPy; không dùng thư viện planner có sẵn.
+Planning"* ([arXiv:1903.00994](https://arxiv.org/abs/1903.00994)), rồi chạy cho nhiều tay UR10e trong MuJoCo.
 
 ![Hai tay UR10e đổi chỗ dụng cụ; ở mỗi bước một tay đứng chờ tay kia](results/ur10e_swap/swap2_demo.gif)
 
