@@ -1,0 +1,358 @@
+{
+ "seed": 1029,
+ "n_cubes": 8,
+ "placed_correct": 8,
+ "placed_wrong": 0,
+ "not_in_tray": 0,
+ "picks": 8,
+ "pick_success": 8,
+ "rounds": 7,
+ "sim_time": 83.3319999999865,
+ "t_last_place": 74.28800000000757,
+ "planning_wall": 4.8670085560006555,
+ "plan_failures": 0,
+ "deferrals": 0,
+ "collision_steps": {},
+ "collision_pairs": {},
+ "max_tracking_error": 0.019623376514426916,
+ "deadlock": false,
+ "events": [
+  {
+   "t": 0.3,
+   "arm": 0,
+   "phase": "TRANSIT_TO_PICK",
+   "info": "kh\u1ed1i 5"
+  },
+  {
+   "t": 0.3,
+   "arm": 1,
+   "phase": "TRANSIT_TO_PICK",
+   "info": "kh\u1ed1i 3"
+  },
+  {
+   "t": 0.3,
+   "arm": 2,
+   "phase": "TRANSIT_TO_PICK",
+   "info": "kh\u1ed1i 0"
+  },
+  {
+   "t": 0.3,
+   "arm": 3,
+   "phase": "TRANSIT_TO_PICK",
+   "info": "kh\u1ed1i 7"
+  },
+  {
+   "t": 14.032,
+   "arm": 0,
+   "phase": "GRASP",
+   "info": "kh\u1ed1i 5"
+  },
+  {
+   "t": 14.032,
+   "arm": 1,
+   "phase": "GRASP",
+   "info": "kh\u1ed1i 3"
+  },
+  {
+   "t": 14.032,
+   "arm": 2,
+   "phase": "GRASP",
+   "info": "kh\u1ed1i 0"
+  },
+  {
+   "t": 14.032,
+   "arm": 3,
+   "phase": "GRASP",
+   "info": "kh\u1ed1i 7"
+  },
+  {
+   "t": 17.434,
+   "arm": 0,
+   "phase": "LIFT_CHECK",
+   "info": "kh\u1ed1i 5 l\u00ean 15.4 cm"
+  },
+  {
+   "t": 17.434,
+   "arm": 1,
+   "phase": "LIFT_CHECK",
+   "info": "kh\u1ed1i 3 l\u00ean 15.6 cm"
+  },
+  {
+   "t": 17.434,
+   "arm": 2,
+   "phase": "LIFT_CHECK",
+   "info": "kh\u1ed1i 0 l\u00ean 15.3 cm"
+  },
+  {
+   "t": 17.434,
+   "arm": 3,
+   "phase": "LIFT_CHECK",
+   "info": "kh\u1ed1i 7 l\u00ean 15.6 cm"
+  },
+  {
+   "t": 17.434,
+   "arm": 0,
+   "phase": "TRANSIT_TO_PLACE",
+   "info": "kh\u1ed1i 5"
+  },
+  {
+   "t": 17.434,
+   "arm": 1,
+   "phase": "TRANSIT_TO_PLACE",
+   "info": "kh\u1ed1i 3"
+  },
+  {
+   "t": 17.434,
+   "arm": 2,
+   "phase": "TRANSIT_TO_PLACE",
+   "info": "kh\u1ed1i 0"
+  },
+  {
+   "t": 17.434,
+   "arm": 3,
+   "phase": "TRANSIT_TO_PLACE",
+   "info": "kh\u1ed1i 7"
+  },
+  {
+   "t": 26.306,
+   "arm": 0,
+   "phase": "PLACE",
+   "info": "kh\u1ed1i 5"
+  },
+  {
+   "t": 26.306,
+   "arm": 1,
+   "phase": "PLACE",
+   "info": "kh\u1ed1i 3"
+  },
+  {
+   "t": 26.306,
+   "arm": 2,
+   "phase": "PLACE",
+   "info": "kh\u1ed1i 0"
+  },
+  {
+   "t": 26.306,
+   "arm": 3,
+   "phase": "PLACE",
+   "info": "kh\u1ed1i 7"
+  },
+  {
+   "t": 29.008,
+   "arm": 0,
+   "phase": "IDLE",
+   "info": "th\u1ea3 kh\u1ed1i 5"
+  },
+  {
+   "t": 29.008,
+   "arm": 1,
+   "phase": "IDLE",
+   "info": "th\u1ea3 kh\u1ed1i 3"
+  },
+  {
+   "t": 29.008,
+   "arm": 2,
+   "phase": "IDLE",
+   "info": "th\u1ea3 kh\u1ed1i 0"
+  },
+  {
+   "t": 29.008,
+   "arm": 3,
+   "phase": "IDLE",
+   "info": "th\u1ea3 kh\u1ed1i 7"
+  },
+  {
+   "t": 29.008,
+   "arm": 0,
+   "phase": "TRANSIT_TO_PICK",
+   "info": "kh\u1ed1i 1"
+  },
+  {
+   "t": 29.008,
+   "arm": 1,
+   "phase": "TRANSIT_TO_PICK",
+   "info": "kh\u1ed1i 4"
+  },
+  {
+   "t": 29.008,
+   "arm": 2,
+   "phase": "IDLE",
+   "info": "v\u1ec1 HOME"
+  },
+  {
+   "t": 29.008,
+   "arm": 3,
+   "phase": "TRANSIT_TO_PICK",
+   "info": "kh\u1ed1i 6"
+  },
+  {
+   "t": 36.546,
+   "arm": 0,
+   "phase": "GRASP",
+   "info": "kh\u1ed1i 1"
+  },
+  {
+   "t": 36.546,
+   "arm": 1,
+   "phase": "GRASP",
+   "info": "kh\u1ed1i 4"
+  },
+  {
+   "t": 36.546,
+   "arm": 3,
+   "phase": "GRASP",
+   "info": "kh\u1ed1i 6"
+  },
+  {
+   "t": 39.946,
+   "arm": 0,
+   "phase": "LIFT_CHECK",
+   "info": "kh\u1ed1i 1 l\u00ean 15.5 cm"
+  },
+  {
+   "t": 39.946,
+   "arm": 1,
+   "phase": "LIFT_CHECK",
+   "info": "kh\u1ed1i 4 l\u00ean 15.6 cm"
+  },
+  {
+   "t": 39.946,
+   "arm": 3,
+   "phase": "LIFT_CHECK",
+   "info": "kh\u1ed1i 6 l\u00ean 15.6 cm"
+  },
+  {
+   "t": 39.946,
+   "arm": 0,
+   "phase": "TRANSIT_TO_PLACE",
+   "info": "kh\u1ed1i 1"
+  },
+  {
+   "t": 39.946,
+   "arm": 1,
+   "phase": "TRANSIT_TO_PLACE",
+   "info": "kh\u1ed1i 4"
+  },
+  {
+   "t": 39.946,
+   "arm": 3,
+   "phase": "TRANSIT_TO_PLACE",
+   "info": "kh\u1ed1i 6"
+  },
+  {
+   "t": 47.72,
+   "arm": 0,
+   "phase": "PLACE",
+   "info": "kh\u1ed1i 1"
+  },
+  {
+   "t": 47.72,
+   "arm": 1,
+   "phase": "PLACE",
+   "info": "kh\u1ed1i 4"
+  },
+  {
+   "t": 47.72,
+   "arm": 3,
+   "phase": "PLACE",
+   "info": "kh\u1ed1i 6"
+  },
+  {
+   "t": 50.42,
+   "arm": 0,
+   "phase": "IDLE",
+   "info": "th\u1ea3 kh\u1ed1i 1"
+  },
+  {
+   "t": 50.42,
+   "arm": 1,
+   "phase": "IDLE",
+   "info": "th\u1ea3 kh\u1ed1i 4"
+  },
+  {
+   "t": 50.42,
+   "arm": 3,
+   "phase": "IDLE",
+   "info": "th\u1ea3 kh\u1ed1i 6"
+  },
+  {
+   "t": 50.42,
+   "arm": 0,
+   "phase": "TRANSIT_TO_PICK",
+   "info": "kh\u1ed1i 2"
+  },
+  {
+   "t": 50.42,
+   "arm": 1,
+   "phase": "IDLE",
+   "info": "v\u1ec1 HOME"
+  },
+  {
+   "t": 50.42,
+   "arm": 3,
+   "phase": "IDLE",
+   "info": "v\u1ec1 HOME"
+  },
+  {
+   "t": 59.142,
+   "arm": 0,
+   "phase": "GRASP",
+   "info": "kh\u1ed1i 2"
+  },
+  {
+   "t": 62.542,
+   "arm": 0,
+   "phase": "LIFT_CHECK",
+   "info": "kh\u1ed1i 2 l\u00ean 15.3 cm"
+  },
+  {
+   "t": 62.542,
+   "arm": 0,
+   "phase": "TRANSIT_TO_PLACE",
+   "info": "kh\u1ed1i 2"
+  },
+  {
+   "t": 71.886,
+   "arm": 0,
+   "phase": "PLACE",
+   "info": "kh\u1ed1i 2"
+  },
+  {
+   "t": 74.588,
+   "arm": 0,
+   "phase": "IDLE",
+   "info": "th\u1ea3 kh\u1ed1i 2"
+  },
+  {
+   "t": 74.588,
+   "arm": 0,
+   "phase": "IDLE",
+   "info": "v\u1ec1 HOME"
+  }
+ ],
+ "cube_status": [
+  "placed",
+  "placed",
+  "placed",
+  "placed",
+  "placed",
+  "placed",
+  "placed",
+  "placed"
+ ],
+ "plan_times": [
+  0.9502621050050948,
+  0.6976213899906725,
+  0.6798453879891895,
+  0.6293208290007897,
+  0.6965787230001297,
+  0.6214421210170258,
+  0.5919379999977536
+ ],
+ "track_worst": [
+  0.019623376514426916,
+  9,
+  50.422
+ ],
+ "wall_time": 17.947981931007234
+}

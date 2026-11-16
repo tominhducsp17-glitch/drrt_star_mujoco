@@ -1,0 +1,22 @@
+[project]
+name = "multiarm-sorting-cell"
+version = "0.0.1"
+description = "Cell phân loại vật với 4 tay UR10e + Robotiq 2F-85 trong MuJoCo; planner dRRT* từ drrt-star-mujoco"
+requires-python = ">=3.10"
+# drrt-star-mujoco là thư mục cha (gốc repo): uv pip install -e . -e sorting_cell (cần third_party/ ở gốc repo)
+dependencies = ["numpy>=1.24", "scipy>=1.11", "mujoco>=3.3,<4", "ortools>=9.10", "opencv-python-headless>=4.8",
+                "drrt-star-mujoco"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+video = ["imageio>=2.31", "imageio-ffmpeg>=0.5", "matplotlib>=3.8"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

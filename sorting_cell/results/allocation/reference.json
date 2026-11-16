@@ -1,0 +1,523 @@
+{
+ "summary": {
+  "n": 50,
+  "optimal": 50,
+  "cpsat_mean": 43.422,
+  "solve_s_mean": 0.5487848736600001,
+  "solve_s_max": 3.056848587,
+  "level0": {
+   "makespan_mean": 74.74714664762186,
+   "gap_mean_pct": 72.32399298626416,
+   "gap_median_pct": 70.88890651869093,
+   "gap_max_pct": 129.9581106161653
+  },
+  "level1": {
+   "makespan_mean": 65.47612801932283,
+   "gap_mean_pct": 50.68561042288812,
+   "gap_median_pct": 48.84378476995046,
+   "gap_max_pct": 145.01104000710083
+  }
+ },
+ "scenes": [
+  {
+   "seed": 1000,
+   "cpsat": 40.3,
+   "bound": 40.3,
+   "status": "OPTIMAL",
+   "solve_s": 0.294587005,
+   "level0": 74.00464589668123,
+   "level1": 64.88610542862938,
+   "conflict_pairs": 238
+  },
+  {
+   "seed": 1001,
+   "cpsat": 55.5,
+   "bound": 55.5,
+   "status": "OPTIMAL",
+   "solve_s": 2.867480774,
+   "level0": 73.87511103255488,
+   "level1": 68.94847778989796,
+   "conflict_pairs": 201
+  },
+  {
+   "seed": 1002,
+   "cpsat": 39.6,
+   "bound": 39.6,
+   "status": "OPTIMAL",
+   "solve_s": 0.133321654,
+   "level0": 75.91353760600806,
+   "level1": 55.93950788965098,
+   "conflict_pairs": 198
+  },
+  {
+   "seed": 1003,
+   "cpsat": 52.8,
+   "bound": 52.8,
+   "status": "OPTIMAL",
+   "solve_s": 1.131699062,
+   "level0": 103.49139430170005,
+   "level1": 84.21489759154744,
+   "conflict_pairs": 235
+  },
+  {
+   "seed": 1004,
+   "cpsat": 35.5,
+   "bound": 35.5,
+   "status": "OPTIMAL",
+   "solve_s": 0.07356332,
+   "level0": 56.8644109053443,
+   "level1": 51.04984927126707,
+   "conflict_pairs": 195
+  },
+  {
+   "seed": 1005,
+   "cpsat": 36.9,
+   "bound": 36.9,
+   "status": "OPTIMAL",
+   "solve_s": 0.07294848100000001,
+   "level0": 73.3948426470212,
+   "level1": 48.92855369459699,
+   "conflict_pairs": 187
+  },
+  {
+   "seed": 1006,
+   "cpsat": 48.1,
+   "bound": 48.1,
+   "status": "OPTIMAL",
+   "solve_s": 0.7883709440000001,
+   "level0": 88.7117100185242,
+   "level1": 51.107745046685174,
+   "conflict_pairs": 231
+  },
+  {
+   "seed": 1007,
+   "cpsat": 40.6,
+   "bound": 40.6,
+   "status": "OPTIMAL",
+   "solve_s": 0.230469909,
+   "level0": 61.83898599143619,
+   "level1": 67.26350788564667,
+   "conflict_pairs": 200
+  },
+  {
+   "seed": 1008,
+   "cpsat": 40.9,
+   "bound": 40.9,
+   "status": "OPTIMAL",
+   "solve_s": 0.18401814300000002,
+   "level0": 65.9737111525731,
+   "level1": 53.53049902998414,
+   "conflict_pairs": 201
+  },
+  {
+   "seed": 1009,
+   "cpsat": 48.8,
+   "bound": 48.8,
+   "status": "OPTIMAL",
+   "solve_s": 0.994151384,
+   "level0": 89.96201792023547,
+   "level1": 72.81233430328743,
+   "conflict_pairs": 214
+  },
+  {
+   "seed": 1010,
+   "cpsat": 44.9,
+   "bound": 44.9,
+   "status": "OPTIMAL",
+   "solve_s": 0.459897653,
+   "level0": 73.45839480576183,
+   "level1": 69.44338319724797,
+   "conflict_pairs": 198
+  },
+  {
+   "seed": 1011,
+   "cpsat": 41.5,
+   "bound": 41.5,
+   "status": "OPTIMAL",
+   "solve_s": 0.190506473,
+   "level0": 83.38789423536274,
+   "level1": 84.62849254465115,
+   "conflict_pairs": 212
+  },
+  {
+   "seed": 1012,
+   "cpsat": 39.5,
+   "bound": 39.5,
+   "status": "OPTIMAL",
+   "solve_s": 0.289861576,
+   "level0": 50.079592818835174,
+   "level1": 54.10739505610846,
+   "conflict_pairs": 213
+  },
+  {
+   "seed": 1013,
+   "cpsat": 43.5,
+   "bound": 43.5,
+   "status": "OPTIMAL",
+   "solve_s": 0.43338043800000003,
+   "level0": 97.07200896578617,
+   "level1": 56.90359774796373,
+   "conflict_pairs": 240
+  },
+  {
+   "seed": 1014,
+   "cpsat": 52.4,
+   "bound": 52.4,
+   "status": "OPTIMAL",
+   "solve_s": 2.0396365110000003,
+   "level0": 96.70785493618939,
+   "level1": 79.7621128843438,
+   "conflict_pairs": 260
+  },
+  {
+   "seed": 1015,
+   "cpsat": 41.1,
+   "bound": 41.1,
+   "status": "OPTIMAL",
+   "solve_s": 0.071471939,
+   "level0": 60.197325879550746,
+   "level1": 54.52182774472562,
+   "conflict_pairs": 205
+  },
+  {
+   "seed": 1016,
+   "cpsat": 53.1,
+   "bound": 53.1,
+   "status": "OPTIMAL",
+   "solve_s": 3.056848587,
+   "level0": 83.76769816608058,
+   "level1": 84.15192246485081,
+   "conflict_pairs": 234
+  },
+  {
+   "seed": 1017,
+   "cpsat": 42.5,
+   "bound": 42.5,
+   "status": "OPTIMAL",
+   "solve_s": 0.170049953,
+   "level0": 72.584408896507,
+   "level1": 60.22518067263616,
+   "conflict_pairs": 209
+  },
+  {
+   "seed": 1018,
+   "cpsat": 41.2,
+   "bound": 41.2,
+   "status": "OPTIMAL",
+   "solve_s": 0.17617728900000001,
+   "level0": 94.44164807763798,
+   "level1": 78.80326883703037,
+   "conflict_pairs": 222
+  },
+  {
+   "seed": 1019,
+   "cpsat": 46.4,
+   "bound": 46.4,
+   "status": "OPTIMAL",
+   "solve_s": 0.306227052,
+   "level0": 75.04505979340806,
+   "level1": 59.23980045763241,
+   "conflict_pairs": 224
+  },
+  {
+   "seed": 1020,
+   "cpsat": 40.9,
+   "bound": 40.9,
+   "status": "OPTIMAL",
+   "solve_s": 0.11597497100000001,
+   "level0": 83.44230036976164,
+   "level1": 74.99203617346197,
+   "conflict_pairs": 219
+  },
+  {
+   "seed": 1021,
+   "cpsat": 39.7,
+   "bound": 39.7,
+   "status": "OPTIMAL",
+   "solve_s": 0.202767981,
+   "level0": 61.57509314589663,
+   "level1": 39.70199059944291,
+   "conflict_pairs": 199
+  },
+  {
+   "seed": 1022,
+   "cpsat": 40.3,
+   "bound": 40.3,
+   "status": "OPTIMAL",
+   "solve_s": 0.171234299,
+   "level0": 75.54321896777816,
+   "level1": 64.86127023521088,
+   "conflict_pairs": 206
+  },
+  {
+   "seed": 1023,
+   "cpsat": 40.0,
+   "bound": 40.0,
+   "status": "OPTIMAL",
+   "solve_s": 0.06473192500000001,
+   "level0": 47.52599390371953,
+   "level1": 51.847718857482164,
+   "conflict_pairs": 186
+  },
+  {
+   "seed": 1024,
+   "cpsat": 41.0,
+   "bound": 41.0,
+   "status": "OPTIMAL",
+   "solve_s": 0.14444383,
+   "level0": 80.15186994557253,
+   "level1": 69.52590474090302,
+   "conflict_pairs": 224
+  },
+  {
+   "seed": 1025,
+   "cpsat": 40.3,
+   "bound": 40.3,
+   "status": "OPTIMAL",
+   "solve_s": 0.133811236,
+   "level0": 60.40804991146066,
+   "level1": 66.87604969851621,
+   "conflict_pairs": 196
+  },
+  {
+   "seed": 1026,
+   "cpsat": 45.2,
+   "bound": 45.2,
+   "status": "OPTIMAL",
+   "solve_s": 0.27446764,
+   "level0": 88.9093728911126,
+   "level1": 70.66498367858267,
+   "conflict_pairs": 226
+  },
+  {
+   "seed": 1027,
+   "cpsat": 38.3,
+   "bound": 38.3,
+   "status": "OPTIMAL",
+   "solve_s": 0.131686473,
+   "level0": 69.77081970483306,
+   "level1": 50.37746230436797,
+   "conflict_pairs": 197
+  },
+  {
+   "seed": 1028,
+   "cpsat": 52.1,
+   "bound": 52.1,
+   "status": "OPTIMAL",
+   "solve_s": 1.821779118,
+   "level0": 85.76445416534972,
+   "level1": 69.15587813802865,
+   "conflict_pairs": 233
+  },
+  {
+   "seed": 1029,
+   "cpsat": 38.6,
+   "bound": 38.6,
+   "status": "OPTIMAL",
+   "solve_s": 0.12555552,
+   "level0": 49.147859572994335,
+   "level1": 54.39468731558061,
+   "conflict_pairs": 194
+  },
+  {
+   "seed": 1030,
+   "cpsat": 40.4,
+   "bound": 40.4,
+   "status": "OPTIMAL",
+   "solve_s": 0.081329995,
+   "level0": 52.50615044675097,
+   "level1": 58.37728909265213,
+   "conflict_pairs": 203
+  },
+  {
+   "seed": 1031,
+   "cpsat": 39.4,
+   "bound": 39.4,
+   "status": "OPTIMAL",
+   "solve_s": 0.11696585400000001,
+   "level0": 44.69645519266601,
+   "level1": 58.50189478500119,
+   "conflict_pairs": 175
+  },
+  {
+   "seed": 1032,
+   "cpsat": 40.0,
+   "bound": 40.0,
+   "status": "OPTIMAL",
+   "solve_s": 0.070815823,
+   "level0": 84.24745122519064,
+   "level1": 70.6332433944846,
+   "conflict_pairs": 216
+  },
+  {
+   "seed": 1033,
+   "cpsat": 39.9,
+   "bound": 39.9,
+   "status": "OPTIMAL",
+   "solve_s": 0.158601335,
+   "level0": 59.562425902553755,
+   "level1": 66.06348329167706,
+   "conflict_pairs": 220
+  },
+  {
+   "seed": 1034,
+   "cpsat": 37.6,
+   "bound": 37.6,
+   "status": "OPTIMAL",
+   "solve_s": 0.141498901,
+   "level0": 86.46424959167815,
+   "level1": 54.451685986629215,
+   "conflict_pairs": 175
+  },
+  {
+   "seed": 1035,
+   "cpsat": 42.8,
+   "bound": 42.8,
+   "status": "OPTIMAL",
+   "solve_s": 0.48038621200000003,
+   "level0": 65.32997974718478,
+   "level1": 53.54949879866736,
+   "conflict_pairs": 202
+  },
+  {
+   "seed": 1036,
+   "cpsat": 40.3,
+   "bound": 40.3,
+   "status": "OPTIMAL",
+   "solve_s": 0.10764551,
+   "level0": 65.14775408689424,
+   "level1": 70.8458363474369,
+   "conflict_pairs": 205
+  },
+  {
+   "seed": 1037,
+   "cpsat": 43.5,
+   "bound": 43.5,
+   "status": "OPTIMAL",
+   "solve_s": 0.615672757,
+   "level0": 99.35965403651105,
+   "level1": 55.36982937362487,
+   "conflict_pairs": 221
+  },
+  {
+   "seed": 1038,
+   "cpsat": 41.5,
+   "bound": 41.5,
+   "status": "OPTIMAL",
+   "solve_s": 0.211995537,
+   "level0": 84.77842002541047,
+   "level1": 67.19703178341456,
+   "conflict_pairs": 220
+  },
+  {
+   "seed": 1039,
+   "cpsat": 43.5,
+   "bound": 43.5,
+   "status": "OPTIMAL",
+   "solve_s": 0.536276497,
+   "level0": 69.39262787802252,
+   "level1": 83.58984057030278,
+   "conflict_pairs": 234
+  },
+  {
+   "seed": 1040,
+   "cpsat": 44.4,
+   "bound": 44.4,
+   "status": "OPTIMAL",
+   "solve_s": 0.512549075,
+   "level0": 57.00679518369494,
+   "level1": 65.42197625644211,
+   "conflict_pairs": 215
+  },
+  {
+   "seed": 1041,
+   "cpsat": 56.3,
+   "bound": 56.3,
+   "status": "OPTIMAL",
+   "solve_s": 2.770605805,
+   "level0": 96.26791530773201,
+   "level1": 84.22832398213342,
+   "conflict_pairs": 255
+  },
+  {
+   "seed": 1042,
+   "cpsat": 43.2,
+   "bound": 43.2,
+   "status": "OPTIMAL",
+   "solve_s": 0.277303958,
+   "level0": 79.12768086911652,
+   "level1": 71.96944417711802,
+   "conflict_pairs": 217
+  },
+  {
+   "seed": 1043,
+   "cpsat": 49.0,
+   "bound": 49.0,
+   "status": "OPTIMAL",
+   "solve_s": 0.8836001200000001,
+   "level0": 73.33914032795447,
+   "level1": 79.50938444224552,
+   "conflict_pairs": 230
+  },
+  {
+   "seed": 1044,
+   "cpsat": 47.6,
+   "bound": 47.6,
+   "status": "OPTIMAL",
+   "solve_s": 0.45558385500000004,
+   "level0": 85.27445398008135,
+   "level1": 71.45946082431121,
+   "conflict_pairs": 214
+  },
+  {
+   "seed": 1045,
+   "cpsat": 44.5,
+   "bound": 44.5,
+   "status": "OPTIMAL",
+   "solve_s": 0.43197501800000004,
+   "level0": 61.96175197713859,
+   "level1": 57.08168847386188,
+   "conflict_pairs": 210
+  },
+  {
+   "seed": 1046,
+   "cpsat": 45.9,
+   "bound": 45.9,
+   "status": "OPTIMAL",
+   "solve_s": 0.7609708340000001,
+   "level0": 82.1064517971927,
+   "level1": 112.46006736325928,
+   "conflict_pairs": 230
+  },
+  {
+   "seed": 1047,
+   "cpsat": 40.9,
+   "bound": 40.9,
+   "status": "OPTIMAL",
+   "solve_s": 0.15073413600000002,
+   "level0": 80.80217861655719,
+   "level1": 55.53559573726845,
+   "conflict_pairs": 209
+  },
+  {
+   "seed": 1048,
+   "cpsat": 36.6,
+   "bound": 36.6,
+   "status": "OPTIMAL",
+   "solve_s": 0.100357337,
+   "level0": 69.13404752225958,
+   "level1": 40.05337621026282,
+   "conflict_pairs": 188
+  },
+  {
+   "seed": 1049,
+   "cpsat": 52.3,
+   "bound": 52.3,
+   "status": "OPTIMAL",
+   "solve_s": 1.423253984,
+   "level0": 87.84046204082605,
+   "level1": 84.64100879538682,
+   "conflict_pairs": 252
+  }
+ ]
+}

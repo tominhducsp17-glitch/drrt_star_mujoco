@@ -1,0 +1,48 @@
+{
+ "scenes": 50,
+ "scenes_fully_sorted": 50,
+ "cubes": 400,
+ "placed_correct": 400,
+ "placed_wrong": 0,
+ "not_in_tray": 0,
+ "scenes_with_collision": 0,
+ "collision_steps_by_type": {},
+ "picks": 400,
+ "pick_success": 400,
+ "pick_success_rate": 1.0,
+ "throughput_per_min_sim": {
+  "mean": 7.216961105936432,
+  "median": 7.096816872166601,
+  "min": 4.851719328039319,
+  "max": 11.990407673859913
+ },
+ "throughput_per_min_incl_planning": {
+  "mean": 6.590278150808087,
+  "median": 6.470564787005978
+ },
+ "makespan_s": {
+  "mean": 68.45300000001288,
+  "max": 98.93399999995013
+ },
+ "planning_wall_s_per_scene": {
+  "mean": 6.737768214447424,
+  "max": 19.768633573025
+ },
+ "rounds": {
+  "mean": 11.28,
+  "max": 21
+ },
+ "plan_failures": 41,
+ "deferrals": 0,
+ "deadlocks": 0,
+ "max_tracking_error_rad": 0.023226648961694796,
+ "replan_latency_ms": {
+  "median": 543.3115449995967,
+  "p95": 1234.7968798814693,
+  "p99": 1391.5002463618293,
+  "max": 1464.6511619794182,
+  "n": 564,
+  "failures": 41
+ },
+ "wait_local_s_per_scene": 1.5504000000002138
+}

@@ -1,0 +1,21 @@
+name: sorting_cell tests
+on:
+  push:
+    paths: ["sorting_cell/**", "src/**", ".github/workflows/sorting_cell.yml"]
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - name: Thư viện render offscreen
+        run: sudo apt-get update && sudo apt-get install -y libosmesa6
+      - name: Cài
+        run: |
+          uv venv -p 3.12 .venv
+          uv pip install --python .venv/bin/python -e . -e "sorting_cell[dev]"
+      - name: Test
+        working-directory: sorting_cell
+        env: {MUJOCO_GL: osmesa, PYOPENGL_PLATFORM: osmesa}
+        run: ../.venv/bin/python -m pytest -q

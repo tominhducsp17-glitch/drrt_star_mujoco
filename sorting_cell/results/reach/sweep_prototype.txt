@@ -1,0 +1,16 @@
+D=0.75 H=0.75 table_half=0.55: vùng ≥2 tay = ±0.50 m; ô ≥1 tay 100%, ≥2 tay 100%; khay đạt 12/12
+D=0.75 H=0.90 table_half=0.55: vùng ≥2 tay = ±0.50 m; ô ≥1 tay 100%, ≥2 tay 100%; khay đạt 12/12
+D=0.85 H=0.75 table_half=0.65: vùng ≥2 tay = ±0.60 m; ô ≥1 tay 100%, ≥2 tay 100%; khay đạt 12/12
+D=0.85 H=0.90 table_half=0.65: vùng ≥2 tay = ±0.50 m; ô ≥1 tay 100%, ≥2 tay 96%; khay đạt 12/12
+D=0.95 H=0.75 table_half=0.75: vùng ≥2 tay = ±0.65 m; ô ≥1 tay 100%, ≥2 tay 100%; khay đạt 12/12
+D=0.95 H=0.90 table_half=0.75: vùng ≥2 tay = ±0.50 m; ô ≥1 tay 100%, ≥2 tay 89%; khay đạt 12/12
+D=1.05 H=0.75 table_half=0.85: vùng ≥2 tay = ±0.55 m; ô ≥1 tay 100%, ≥2 tay 96%; khay đạt 12/12
+D=1.05 H=0.90 table_half=0.85: vùng ≥2 tay = ±0.55 m; ô ≥1 tay 100%, ≥2 tay 83%; khay đạt 12/12
+D=1.15 H=0.75 table_half=0.95: vùng ≥2 tay = ±0.00 m; ô ≥1 tay 98%, ≥2 tay 89%; khay đạt 12/12
+D=1.15 H=0.90 table_half=0.95: vùng ≥2 tay = ±0.00 m; ô ≥1 tay 95%, ≥2 tay 82%; khay đạt 12/12
+
+real	19m34.526s
+user	256m54.495s
+sys	0m47.151s
+
+[exited with code 0]
