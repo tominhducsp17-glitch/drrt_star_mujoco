@@ -71,14 +71,15 @@ def main():
     ap.add_argument("--penalty", type=float, default=None)
     ap.add_argument("--perception", action="store_true", help="pose từ camera trên cao (M3)")
     ap.add_argument("--max-total", type=float, default=1.0, help="tổng ngân sách một lần lập kế hoạch (s)")
-    ap.add_argument("--out", default="results/m2_level1")
+    ap.add_argument("--out", default=None, help="thư mục ghi kết quả; bỏ trống thì chỉ in ra, không ghi")
     ap.add_argument("--video", default=None)
     ap.add_argument("--view", type=float, nargs="?", const=1.0, default=None,
                     help="xem trực tiếp bằng cửa sổ MuJoCo; số = tốc độ so với thời gian thực (mặc định 1)")
     a = ap.parse_args()
     seeds = a.only if a.only else list(range(a.first_seed, a.first_seed + a.scenes))
-    out = Path(a.out)
-    out.mkdir(parents=True, exist_ok=True)
+    out = Path(a.out) if a.out else None
+    if out is not None:
+        out.mkdir(parents=True, exist_ok=True)
     if a.video or a.view or len(seeds) == 1:
         _init(a.alloc, a.budget, a.penalty, a.max_total, a.perception)
         results = []
@@ -106,6 +107,8 @@ def main():
         s["perception"] = perception_summary(results)
     for r in results:
         perc = r.pop("perception", None)
+        if out is None:
+            continue
         if perc is not None:  # khung hình đánh giá perception: lớn, lưu nén riêng
             with gzip.open(out / f"perception_{r['seed']}.json.gz", "wt") as f:
                 json.dump(perc, f)
@@ -115,7 +118,8 @@ def main():
                               "p99": float(np.percentile(rt, 99) * 1000), "max": float(rt.max() * 1000),
                               "n": int(rt.size), "failures": int(sum(r["plan_failures"] for r in results))}
     s["wait_local_s_per_scene"] = float(np.mean([r["wait_local_time"] for r in results]))
-    (out / "summary.json").write_text(json.dumps(s, indent=1))
+    if out is not None:
+        (out / "summary.json").write_text(json.dumps(s, indent=1))
     print(json.dumps(s, indent=1))
 
 

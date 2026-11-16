@@ -29,7 +29,7 @@ cd sorting_cell && ../.venv/bin/python -m pytest -q
 | `../.venv/bin/python -m sortcell.eval.run_cell --scenes 50` | M1: lập kế hoạch theo lượt, phân việc mức 0, `results/m1/` |
 | `../.venv/bin/python -m sortcell.eval.run_m2 --alloc level1 --out results/m2_level1_v2` | M2: lệch giờ, lập kế hoạch lại theo sự kiện (bản cuối) |
 | `MUJOCO_GL=egl ../.venv/bin/python -m sortcell.eval.run_m2 --alloc level1 --perception --out results/m3_perception` | M3: pose từ camera trên cao thay cho pose thật |
-| `../.venv/bin/python -m sortcell.eval.run_m2 --alloc level0` | M2 với phân việc mức 0 (so sánh) |
+| `../.venv/bin/python -m sortcell.eval.run_m2 --alloc level0 --out results/m2_level0` | M2 với phân việc mức 0 (so sánh) |
 | `experiments/allocation_reference.py` | CP-SAT (mô hình Oberthür et al.) so với mức 0 / mức 1, `results/allocation/` |
 | `experiments/hitbox_accuracy.py` | hitbox elip so với va chạm thật giữa hai việc, `results/allocation/hitbox_accuracy.json` |
 | `experiments/grasp_tolerance.py` | tỉ lệ gắp thành công của script theo sai số pose, `results/m3/grasp_tolerance.json` |

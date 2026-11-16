@@ -15,17 +15,18 @@ Tạo ngày 2026-11-16. Mô phỏng hoàn toàn trong MuJoCo, không có phần 
 | M0: cảnh và gripper | Xong (2026-11-16). Kẹp 20/20; bàn 1,30 × 1,30 m; mọi ô ≥ 2 tay |
 | M1: baseline với pose thật | Xong (2026-11-16). 50/50 cảnh, 0 va chạm, **thông lượng baseline 5,56 khối/phút** |
 | M2: lập kế hoạch lệch giờ và phân việc | Xong (2026-11-16). Bản cuối: 50/50 cảnh, 0 va chạm, **7,22 khối/phút** (+30% so với M1); độ trễ lập kế hoạch lại trung vị 543 ms, p99 1,39 s |
-| M3: perception và baseline không learning | Xong phần đo (2026-11-16). Sai số pose lúc quyết định gắp p99 1,25 mm và 3,4°; script gắp **400/400** với pose ước lượng, 7,07 khối/phút. **Điểm quyết định đã kích hoạt** (≥ 95%): chờ chọn cách tăng độ khó trước M4 |
-| M4: learning cho kỹ năng gắp | Chưa bắt đầu |
-| M5: ghép và đánh giá toàn hệ thống | Chưa bắt đầu |
-| M6: báo cáo | Chưa bắt đầu |
+| M3: perception và baseline không learning | Xong (2026-11-16). Sai số pose lúc quyết định gắp p99 1,25 mm và 3,4°; script gắp **400/400** với pose ước lượng, 7,07 khối/phút. Điểm quyết định đã kích hoạt (≥ 95%): learning **không** đưa vào bài phân loại (mục 12) |
+| M4: hoàn thiện cell phân loại (khối sát nhau, thả thêm khối giữa chừng, đóng gói) | Chưa bắt đầu (kế hoạch chờ duyệt) |
+| M5: chọn bài toán có learning | Chưa bắt đầu (sau M4) |
 
 Code: thư mục `sorting_cell/` trên branch `sorting_cell_plan` của repo `drrt_star_mujoco` (đưa lên sau M3, 2026-11-16); dùng chung `.venv` ở gốc repo; CI: `.github/workflows/sorting_cell.yml`.
 Số liệu chi tiết: `results/` của repo đó và mục 12.
 
-**Việc tiếp theo:** chọn cách tăng độ khó ở điểm quyết định M3 (mục 12; đề xuất: nhiễu perception có căn cứ, ở mức
-script còn khoảng 60–90%), rồi sang M4. Còn nợ: so sánh bốn tay song song với thay phiên (để M5); tìm thêm tài liệu về
-lập kế hoạch nhiều tay không đồng bộ trước khi nói mở rộng dRRT\* là mới (mục 6, "Đối chiếu sau M3").
+**Định hướng (2026-11-16):** bài phân loại được hoàn thiện thành một project riêng, thể hiện motion planning kết hợp
+perception, **không có learning** (M4). Sau đó mới chọn một bài toán mới, hẹp và rõ ràng, mà phải huấn luyện mới làm được,
+ưu tiên bài cần nhiều tay phối hợp thật (ví dụ 2 tay giữ vật lớn, 2 tay lắp chi tiết nhỏ vào) (M5).
+
+**Việc tiếp theo:** M4 việc 1 (khối sát nhau). Còn nợ: so sánh bốn tay song song với thay phiên (M4 việc 3, tuỳ chọn).
 
 ---
 
@@ -158,6 +159,9 @@ Trong các pha `HANDOFF`, `GRASP`, `LIFT_CHECK`, tay được coi là **đứng 
 
 ### 5.4 Learning: policy gắp cục bộ
 
+> **Hoãn (2026-11-16), không làm cho bài phân loại.** M3 cho thấy script gắp đạt 100% với pose từ camera, nên policy gắp
+> chỉ có lý do nếu tự đặt nhiễu cho script hỏng (mục 12). Phần dưới giữ lại làm tư liệu cho bài toán có learning ở M5.
+
 **Phạm vi:** chỉ pha `GRASP`, từ tư thế chuẩn bị gắp tới khi kẹp xong. Một policy dùng chung cho 4 tay.
 
 **Thiết kế,** dựa trên ManipGen (Dalal et al., arXiv 2410.22332) và OPTIMUS (Dalal et al., CoRL 2023):
@@ -228,8 +232,8 @@ Trong các pha `HANDOFF`, `GRASP`, `LIFT_CHECK`, tay được coi là **đứng 
   dành riêng = tập quét cục bộ, khối ảo cho vật đang mang; +30% thông lượng so với theo lượt, p99 độ trễ 1,4 s, 0 va chạm
   trên 400 khối. Chưa thể nói là mới: mới chỉ đọc 4 paper, trong khi có các hướng về lập kế hoạch nhiều tay không đồng bộ
   chưa được đọc. Cần tìm tài liệu trước khi viết điều này trong báo cáo.
-- **Phần learning (ManipGen, OPTIMUS, DART): chưa có gì**, đó là M4–M5. Kết quả M3 cho thấy cần làm bài toán khó hơn thì
-  learning mới có lý do (mục 12).
+- **Phần learning (ManipGen, OPTIMUS, DART): chưa có gì.** Đã quyết định không đưa learning vào bài phân loại; learning
+  chuyển sang bài toán mới ở M5 (mục 12).
 
 ## 7. Câu hỏi phỏng vấn thường gặp
 
@@ -387,27 +391,53 @@ Thời lượng là ước lượng thô. Không sang mốc sau khi chưa qua đ
 
 Ghi quyết định vào mục 12.
 
-### M4: learning cho kỹ năng gắp (tuần 6–8)
-- [ ] Môi trường một tay cho pha `GRASP`, có tay giả và vật gây nhiễu.
-- [ ] Expert dùng trạng thái thật, nhiễu kiểu DART, lọc episode; sinh 1 nghìn episode.
-- [ ] Dataset, model, script huấn luyện có checkpoint, chạy trên Colab hoặc Kaggle.
-- [ ] DAgger có replay buffer.
-- [ ] Đánh giá riêng kỹ năng: tỉ lệ thành công theo mức nhiễu pose, với d_h = 8 cm và 16 cm.
+### M4: hoàn thiện cell phân loại (không learning)
 
-**Nghiệm thu:** ≥ 95% gắp thành công trên vị trí chưa thấy, ở mức nhiễu đo được ở M3, và cao hơn script ở cùng điều kiện.
+Mục tiêu: bài phân loại thành một project trọn vẹn, chạy được các tình huống khó hơn bằng perception và motion planning
+cổ điển. Không thêm nhiễu ánh sáng, nhiễu depth hay sai số hiệu chuẩn (môi trường bất định để sau); không hiệu chuẩn camera
+(trong sim thông số camera lấy từ model); không làm vật rơi khi đang mang, không tay hỏng giữa chừng, không làm mượt quỹ đạo.
 
-### M5: ghép và đánh giá toàn hệ thống (tuần 9–10)
-- [ ] Đưa policy vào máy trạng thái; bật và tắt camera cổ tay theo pha.
-- [ ] Chạy 50 cảnh; đo theo spec mục 2.
-- [ ] Chạy các so sánh ở mục 11.
+**Việc 1: khối sát nhau**
+- [ ] Bộ cảnh mới (seed 2000–2049, giữ nguyên bộ 1000–1049): cụm 2–4 khối chạm nhau hoặc cách nhau dưới 2 cm, cùng và
+  khác màu, cùng và lệch góc, xen với khối rời.
+- [ ] Perception tách vùng dính nhau bằng hình học, dựa vào kích thước khối đã biết (không learning): số khối ≈ diện tích
+  vùng / diện tích một mặt; đặt từng hình vuông 50 mm theo cạnh và góc gãy của đường bao. Khác màu thì ngưỡng màu đã tách sẵn.
+- [ ] Đánh giá perception riêng trên cảnh tĩnh: tỉ lệ tách đúng số khối, sai số pose so với pose thật, các cấu hình tách sai.
+- [ ] Chọn hướng kẹp có tính khối hàng xóm: chỉ nhận hướng kẹp mà đoạn đi xuống của gripper không tới gần khối khác
+  (kiểm tra hiện có, dùng pose ước lượng). Khối bị vây ở cả hai phương thì chưa gắp được.
+- [ ] Phân việc có ràng buộc thứ tự: khối chưa gắp được thì không giao; tính lại mỗi khi một khối hàng xóm được lấy đi.
+- [ ] Chạy 50 cảnh mới với perception.
 
-**Nghiệm thu:** đạt spec mục 2.
+**Nghiệm thu việc 1:** 0 va chạm (tay chạm khối hàng xóm vẫn tính là va chạm `arm_cube`); ≥ 95% khối vào đúng khay (đề xuất);
+báo riêng tỉ lệ tách đúng của perception, số khối bị tay làm xê dịch và số khối không gắp được vì bị vây.
 
-### M6: báo cáo (tuần 11)
-- [ ] README, video cell chạy, bảng kết quả, các so sánh.
-- [ ] Cập nhật mục 7 bằng số liệu thật.
+**Việc 2: thả thêm khối giữa chừng**
+- [ ] Trong lúc cell đang chạy, thả thêm khối (ví dụ 4 khối, ở thời điểm ngẫu nhiên) vào chỗ trống trong vùng đặt vật, xa
+  vùng dành riêng của các tay đang gắp. Cách làm trong sim: dựng sẵn thân khối ở ngoài bàn, tới lúc thì đặt vào bàn.
+- [ ] Perception phát hiện khối mới (tracker tạo bản ghi), bộ điều phối phân việc lại và lập kế hoạch lại; không dùng
+  thông tin thật về thời điểm hay vị trí thả.
+- [ ] Chạy 50 cảnh có thả thêm.
 
-### Sau M5 (tuỳ chọn): vật giai đoạn 2
+**Nghiệm thu việc 2:** 0 va chạm; mọi khối (cả khối thả thêm) vào đúng khay; báo độ trễ từ lúc khối xuất hiện tới lúc được
+phát hiện, được giao việc và được gắp; thông lượng.
+
+**Việc 3: đóng gói**
+- [ ] Một lệnh chạy demo cho từng tình huống (cảnh thường, khối sát nhau, thả thêm khối), xem trực tiếp hoặc ghi video.
+- [ ] Video demo; README có bảng kết quả M1–M4; số liệu theo khối/phút và mức sử dụng của từng tay.
+- [ ] (Tuỳ chọn) so sánh bốn tay song song với thay phiên từng tay (mục 11, còn nợ từ M2).
+
+**Nghiệm thu việc 3:** người khác clone branch, cài theo README, chạy được demo và test.
+
+### M5: chọn bài toán có learning (sau M4)
+- [ ] Rà soát nhỏ: nhiều tay phối hợp thật (2 tay giữ vật lớn, 2 tay lắp chi tiết nhỏ vào; lắp ráp không đồ gá),
+  learning cho thao tác nhiều tiếp xúc, lập kế hoạch có ràng buộc khi hai tay cùng giữ một vật.
+- [ ] Chốt một use case cụ thể và hẹp. Điều kiện: phải chứng minh bằng số liệu rằng đối chứng cổ điển mạnh (ví dụ điều
+  khiển lực / impedance kèm chiến lược dò) không đủ, thì learning mới có lý do.
+- [ ] Viết kế hoạch mới cho bài toán đó (có thể là một project riêng dùng lại cell và planner).
+
+**Nghiệm thu:** đề xuất bài toán được duyệt, kèm bằng chứng là cần learning.
+
+### Ý tưởng để sau: vật giai đoạn 2
 Hình dạng, màu và texture đa dạng, vật nằm sát nhau. Cần bộ phát hiện học được cho camera trên cao.
 
 ## 11. Các so sánh để chứng minh quyết định
@@ -418,8 +448,9 @@ Hình dạng, màu và texture đa dạng, vật nằm sát nhau. Cần bộ ph�
 | Hitbox dự đoán tranh chấp so với lần dRRT\* phải bắt tay chờ | Độ chính xác thật của mô hình Oberthür et al. | M2 |
 | Bốn tay song song có dRRT\* so với thay phiên từng tay | Giá trị của motion planning nhiều robot | M2 |
 | Lập kế hoạch theo lượt so với lệch giờ | Giá trị của mở rộng dRRT\* | M2 |
-| Gắp bằng script theo pose ước lượng so với policy, cùng mức nhiễu | Lý do cần khâu learning | M4–M5 |
-| d_h = 8 cm so với 16 cm; có và không có DAgger | Cấu hình bàn giao và huấn luyện | M4 |
+| Có và không tách khối dính nhau; chọn hướng kẹp có và không tính khối hàng xóm | Giá trị của perception và kiểm tra hình học khi khối sát nhau | M4 |
+| Thả thêm khối giữa chừng: độ trễ phát hiện → giao việc → gắp | Hệ phản ứng được với thay đổi của môi trường | M4 |
+| ~~Gắp bằng script so với policy; d_h 8 / 16 cm; có và không có DAgger~~ | Hoãn cùng mục 5.4 | — |
 
 ---
 
@@ -468,6 +499,10 @@ Hình dạng, màu và texture đa dạng, vật nằm sát nhau. Cần bộ ph�
 | 2026-11-16 | **Kết quả M3** (50 cảnh, mức 1, pose từ camera) | 50/50, 400/400 đúng khay, **0 va chạm, gắp 400/400 (100%)**, 7,07 khối/phút (khác pose thật −0,14, khoảng tin cậy 95% [−0,13; +0,41]: không phân biệt được). Sai số pose lúc quyết định gắp (400): vị trí trung vị 0,12 mm, p95 0,78 mm, p99 1,25 mm, lớn nhất 4,6 mm; góc trung vị 0,02°, p95 1,7°, p99 3,4°, lớn nhất 5,8°; màu đúng 100%. Trên mọi khung hình (33.271 lần bản ghi–khối): p99 1,43 mm và 3,1°. Khi cell chạy, 20,4% lần khối xuất hiện trong ảnh bị che một phần (< 85% pixel), 6,4% bị che hẳn. Không bản ghi nào bị mất hay thừa; bộ điều khiển và pose thật không lần nào kết luận khác nhau về việc đang giữ vật |
 | 2026-11-16 | **Độ chịu sai số của script gắp** (`experiments/grasp_tolerance.py`: 40 lần mỗi ô, cùng seed cho mọi ô, pose lệch đúng e mm theo hướng ngẫu nhiên và đúng a độ) | Tỉ lệ thành công, hàng = e (mm), cột = a (0°/10°/20°/30°/45°): 0: 1,00/1,00/1,00/1,00/0,03; 5: 1,00/1,00/0,60/0,33/0; 10: 0,95/0,62/0,35/0,20/0; 15: 0,62/0,35/0,33/0,25/0; 20: 0,40/0,28/0,20/0,03/0; 25: 0,23/0,23/0,10/0/0; 30: 0,28/0,10/0/0/0. Lỗi kết hợp nặng hơn từng lỗi riêng: lệch góc làm khối "rộng" hơn theo phương kẹp (50(cos a + sin a) mm, 64 mm ở 20° so với khe 70 mm) nên chỉ còn vài mm cho lệch vị trí. Không lần nào va chạm |
 | 2026-11-16 | **Điểm quyết định M3: kích hoạt.** Script đạt 100% (≥ 95%) với perception trong sim, vì sai số perception (p99 1,25 mm / 3,4°) nằm sâu trong vùng 100% của bảng trên. Learning chưa có lý do ở độ khó hiện tại | **Chưa chọn cách tăng độ khó** (chờ quyết định). Đề xuất: nhiễu perception có căn cứ (sai số hiệu chuẩn camera, nhiễu depth, trễ) ở mức mà script còn khoảng 60–90%, theo bảng trên tương ứng sai số khoảng 10–15 mm hoặc 5 mm kèm 20°; đúng câu chuyện "policy dùng camera cổ tay sửa sai số vài cm cuối" của mục 7 |
+| 2026-11-16 | **Rà soát tài liệu có hệ thống** (khoảng 55 công trình, 2019–2026; báo cáo `docs/research/Cơ hội paper cell nhiều tay.md`) | Phần hệ thống (thực thi không đồng bộ, vùng dành riêng, vật đang mang, +30% so với đồng bộ) không mới: tài liệu báo 31–36%. Cửa paper hẹp nhất nhưng thật: chi phí *độ trễ* lấy từ planner cho phân việc online và bản đồ chế độ khi nào tính tranh chấp có ích (Oberthür et al. chưa từng thực thi lịch của họ). Đối thủ gần: MultiPnP (trang ẩn danh, 4 tay, 8 vật, MuJoCo, RL), Zhang & Pecora (RA-L 2021, T-ASE 2023). Policy gắp ở mức nhiễu đo được không thể hơn script đang 100% |
+| 2026-11-16 | **Bỏ learning khỏi bài phân loại**; M4 cũ (policy gắp, DART, DAgger) hoãn. M4 mới = hoàn thiện cell phân loại: khối sát nhau (tách bằng hình học, chọn hướng kẹp theo hàng xóm, ràng buộc thứ tự), thả thêm khối giữa chừng, đóng gói | Với vật cứng, hình dạng biết trước và pose chính xác, perception + IK + script là cách đúng; learning chỉ có lý do nếu tự ép script hỏng. Bài phân loại đứng riêng thành project thể hiện motion planning kết hợp perception |
+| 2026-11-16 | Không làm trong M4: nhiễu ánh sáng/depth, sai số hiệu chuẩn, hiệu chuẩn camera, kiểm tra thành công bằng VLM, vật rơi khi đang mang, tay hỏng giữa chừng, làm mượt quỹ đạo | Tập trung giải use case khó trước, môi trường bất định để sau. Trong sim thông số camera đã chính xác. Kiểm tra thành công bằng cảm biến gripper + camera trên cao là đủ cho bài này. Vật rơi khi đang mang dễ bị hỏi về độ tin cậy của khâu gắp; thả thêm khối giữa chừng đã đủ để thể hiện phân việc lại và lập kế hoạch lại |
+| 2026-11-16 | **Hướng bài toán có learning (M5):** bài cần nhiều tay phối hợp thật, ví dụ 2 tay giữ vật lớn, 2 tay lắp chi tiết nhỏ vào (lắp ráp không đồ gá) | 4 tay làm độc lập chưa khai thác hệ nhiều tay. Hai tay cùng giữ vật tạo chuỗi động học kín (cần lập kế hoạch có ràng buộc); lắp chi tiết vào vật đang được giữ có nhiều tiếp xúc và vị trí tương đối bất định, là chỗ learning có lý do. Đã thử: plugin SDF (đai ốc, bu lông có ren) của MuJoCo 3.17 chạy được. Chưa rà soát |
 
 ## 13. Rủi ro
 
@@ -476,6 +511,8 @@ Hình dạng, màu và texture đa dạng, vật nằm sát nhau. Cần bộ ph�
 | Gripper trượt, kẹp không chắc | M0 không đạt 20/20 | Đã qua ở M0 (20/20, mục 12). Còn lưu ý: phải đặt lại cone/impratio khi attach |
 | Lập kế hoạch lệch giờ quá phức tạp | M2 kéo dài quá 2 tuần | Dùng đồng bộ theo lượt (phương án dự phòng 5.3) |
 | Vật đang mang va vào tay khác | Có va chạm ở M2 | Kiểm tra lại phần gắn hình học vật vào gripper |
-| Script đã đủ tốt, learning không có lý do | M3 ≥ 95% | **Đã xảy ra** (M3: 100%). Tăng độ khó trước M4 (mục 12, điểm quyết định M3) |
-| Render ảnh chậm | Sinh 1 nghìn episode quá một đêm | Ảnh 84×84; chỉ render camera cổ tay ở pha gắp; chạy song song nhiều tiến trình |
-| Giới hạn phiên của Colab và Kaggle | Huấn luyện bị ngắt | Checkpoint định kỳ; chạy tiếp từ checkpoint |
+| Script đã đủ tốt, learning không có lý do | M3 ≥ 95% | **Đã xảy ra** (M3: 100%). Learning chuyển sang bài toán mới ở M5 (mục 12) |
+| Tách khối dính nhau bằng hình học sai ở một số cấu hình (3–4 khối dính, cạnh thẳng hàng) | Tỉ lệ tách đúng thấp ở đánh giá tĩnh của M4 | Báo đúng tỉ lệ và cấu hình sai; khối không chắc chắn thì chưa gắp, chờ khối hàng xóm được lấy đi |
+| Khối bị vây không gắp được, cell kẹt | Còn khối trên bàn mà không tay nào nhận | Ràng buộc thứ tự; báo riêng số khối không gắp được; không gạt hay đẩy khối trong M4 |
+| Render ảnh chậm | Sinh dữ liệu cho learning quá một đêm (M5) | Ảnh nhỏ; chỉ render khi cần; chạy song song nhiều tiến trình |
+| Giới hạn phiên của Colab và Kaggle | Huấn luyện bị ngắt (M5) | Checkpoint định kỳ; chạy tiếp từ checkpoint |
