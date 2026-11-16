@@ -7,6 +7,12 @@ là phương pháp cổ điển, có đo đạc. Thiết kế, nhật ký quyế
 
 Planner dRRT\* là package `drrt` ở thư mục cha (cùng repo, branch `sorting_cell_plan`).
 
+![Cảnh khối sát nhau, tốc độ 4×](docs/clusters_4x.gif)
+
+*Cảnh 2000 (khối sát nhau), pose từ camera, tốc độ 4×: 8/8 khối vào đúng khay, 0 va chạm. Tay chỉ kẹp theo phương còn đủ
+chỗ cho ngón, và khối bị vây chờ khối bên cạnh được lấy đi trước. Tạo lại bằng
+`MUJOCO_GL=egl ../.venv/bin/python -m sortcell.demo clusters --speed 2 --video clusters.mp4`.*
+
 ## Chạy thử
 
 ```bash
