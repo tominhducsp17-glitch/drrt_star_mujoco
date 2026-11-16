@@ -5,7 +5,7 @@ khối màu, bộ phân việc chia khối cho các tay, planner dRRT\* lập k�
 sự kiện, và mỗi tay gắp khối rồi bỏ vào khay đúng màu của mình. Không có học máy: perception, phân việc và lập kế hoạch đều
 là phương pháp cổ điển, có đo đạc. Thiết kế, nhật ký quyết định và mọi số liệu: `../docs/sorting_cell_plan.md`.
 
-Planner dRRT\* là package `drrt` ở thư mục cha (cùng repo, branch `sorting_cell_plan`).
+Planner dRRT\* là package `drrt` ở thư mục cha (cùng repo).
 
 ![Cảnh khối sát nhau, tốc độ 4×](docs/clusters_4x.gif)
 

@@ -19,7 +19,7 @@ Tạo ngày 2026-11-16. Mô phỏng hoàn toàn trong MuJoCo, không có phần 
 | M4: hoàn thiện cell phân loại (khối sát nhau, thả thêm khối giữa chừng, đóng gói) | Xong (2026-11-16). Pose từ camera, 0 va chạm ở cả ba bộ cảnh: cảnh thường 400/400 (7,05 khối/phút); khối sát nhau 374/400, tức 374/377 (99,2%) trên các khối gắp được về nguyên tắc (23 khối chỉ gắp được nếu đẩy); thả thêm khối 600/600 (7,49 khối/phút). Demo `python -m sortcell.demo`, README có bảng kết quả |
 | M5: chọn bài toán có learning | Chưa bắt đầu (sau M4) |
 
-Code: thư mục `sorting_cell/` trên branch `sorting_cell_plan` của repo `drrt_star_mujoco` (đưa lên sau M3, 2026-11-16); dùng chung `.venv` ở gốc repo; CI: `.github/workflows/sorting_cell.yml`.
+Code: thư mục `sorting_cell/` của repo `drrt_star_mujoco` (đưa lên branch `sorting_cell_plan` sau M3, merge vào `main` sau M4, 2026-11-17); dùng chung `.venv` ở gốc repo; CI: `.github/workflows/sorting_cell.yml`.
 Số liệu chi tiết: `results/` của repo đó và mục 12.
 
 **Định hướng (2026-11-16):** bài phân loại được hoàn thiện thành một project riêng, thể hiện motion planning kết hợp
