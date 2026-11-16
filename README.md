@@ -1,5 +1,15 @@
 # dRRT\* trên MuJoCo
 
+> **Branch `sorting_cell_plan`: cell phân loại 4 tay UR10e dùng planner này.** Bốn tay UR10e + Robotiq 2F-85 cùng phân
+> loại khối màu trên một bàn chung: camera RGB-D trên cao, phân việc theo chi phí, dRRT\* lập kế hoạch lại theo sự kiện.
+> 50 cảnh mỗi bộ, pose từ camera, 0 va chạm: cảnh thường 400/400 khối, khối sát nhau 374/400 (99,2% số khối gắp được về
+> nguyên tắc), thả thêm khối giữa chừng 600/600. Chi tiết, cách chạy, demo: [sorting_cell/](sorting_cell/); thiết kế và
+> nhật ký quyết định: [docs/sorting_cell_plan.md](docs/sorting_cell_plan.md).
+>
+> ![Cell phân loại 4 tay, khối sát nhau, tốc độ 4×](sorting_cell/docs/clusters_4x.gif)
+
+Phần dưới là README của dRRT\* (giống nhánh `main`).
+
 Implement lại dRRT, ao-dRRT và dRRT\* của Shome et al., *"dRRT\*: Scalable and Informed Asymptotically-Optimal Multi-Robot Motion
 Planning"* ([arXiv:1903.00994](https://arxiv.org/abs/1903.00994)), rồi chạy cho nhiều tay UR10e trong MuJoCo.
 
