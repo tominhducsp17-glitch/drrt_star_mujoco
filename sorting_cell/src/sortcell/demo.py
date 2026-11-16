@@ -21,7 +21,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("case", choices=list(CASES))
     ap.add_argument("--seed", type=int, default=None, help="mặc định: 1000 / 2000 / 3000 theo tình huống")
-    ap.add_argument("--speed", type=float, default=1.0, help="tốc độ so với thời gian thực khi xem trực tiếp")
+    ap.add_argument("--speed", type=float, default=1.0, help="tốc độ so với thời gian thực (cửa sổ hoặc video)")
     ap.add_argument("--video", default=None, help="ghi video thay vì mở cửa sổ (cần MUJOCO_GL=egl)")
     ap.add_argument("--truth", action="store_true", help="dùng pose thật thay cho perception")
     a = ap.parse_args()
@@ -34,7 +34,7 @@ def main():
 
     cubes, arrivals = scene_for_seed(seed)
     cell = make_cell("level1", 0.3, perception=not a.truth)
-    rec = Recorder(a.video, size=(960, 720)) if a.video else LiveViewer(speed=a.speed)
+    rec = Recorder(a.video, size=(960, 720), speed=a.speed) if a.video else LiveViewer(speed=a.speed)
     try:
         r = cell.run(cubes, seed=seed, recorder=rec, arrivals=arrivals)
     except KeyboardInterrupt:

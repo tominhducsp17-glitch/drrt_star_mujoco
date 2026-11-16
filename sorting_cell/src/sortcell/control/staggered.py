@@ -130,16 +130,21 @@ class StaggeredResult:
     arrivals: list = field(default_factory=list)   # khối thả thêm: t_spawn, t_detect, t_assign, t_lift (s)
     busy_time: list = field(default_factory=list)  # mỗi tay: thời gian mô phỏng không rảnh (đang đi, chờ, gắp, thả, mang vật)
     picks_per_arm: list = field(default_factory=list)
+    collision_first: dict = field(default_factory=dict)   # loại → (thời điểm, geom1, geom2, độ lún)
+    collision_max_depth: dict = field(default_factory=dict)
+    held_drift_mm: float = 0.0         # đánh giá: góc thấp nhất của khối đang mang thấp hơn so với lúc vừa nhấc, lớn nhất (mm)
+    held_tilt_deg: float = 0.0         # đánh giá: góc nghiêng lớn nhất của khối đang mang so với lúc vừa nhấc
 
 
 class StaggeredCell:
     def __init__(self, L: Layout, planner: PlannerService, tools: list[ArmTools], tables: list[CostTable] | None = None,
                  alloc: str = "level1", budget: float = 0.3, penalty: float | None = None, perception: bool = False,
-                 split: bool = True, neighbor_check: bool = True):
+                 split: bool = True, neighbor_check: bool = True, eval_frames: bool = True):
         self.L, self.planner, self.tools, self.tables = L, planner, tools, tables
         self.alloc, self.budget = alloc, budget
         self.perception = perception
         self.split, self.neighbor_check = split, neighbor_check   # tắt để so sánh (mục 11, M4)
+        self.eval_frames = eval_frames   # ghi sai số và độ che khuất ở mỗi khung hình (tốn thêm 2 lần render)
         self.world = None
         self.penalty = penalty
         self._place_cache: dict = {}
@@ -226,8 +231,11 @@ class StaggeredCell:
         self.cubes = cubes
         sim = CellSim(L, cubes, recorder)
         sim.wait(0.3)
-        world = self.world = PerceivedWorld(sim, cubes, split=self.split) if self.perception else TruthWorld(sim, cubes)
+        world = self.world = (PerceivedWorld(sim, cubes, split=self.split, log_eval=self.eval_frames) if self.perception
+                              else TruthWorld(sim, cubes))
         self._handled: set[int] = set()   # đánh giá: khối thật đã từng được giao cho một tay
+        self._held_ref: dict = {}
+        self._held_drift, self._held_tilt = 0.0, 0.0
         pending = sorted(arrivals or [], key=lambda a_: a_.t)   # khối sẽ được thả thêm (M4 việc 2)
         self._arrivals: dict[int, dict] = {}                    # đánh giá: mốc thời gian của từng khối thả thêm
         spawn_rng = np.random.default_rng([seed, 11])
@@ -475,7 +483,9 @@ class StaggeredCell:
                                max_err, deadlock, events, [status[k] for k in sorted(status)], wait_local, tasks,
                                self._perception_summary(), lift_disagree,
                                sum(s_ == "blocked" for s_ in status.values()), disturbed,
-                               [self._arrivals[k] for k in sorted(self._arrivals)], busy.round(3).tolist(), picks_arm)
+                               [self._arrivals[k] for k in sorted(self._arrivals)], busy.round(3).tolist(), picks_arm,
+                               dict(sim.coll.first), dict(sim.coll.max_depth), round(self._held_drift, 2),
+                               round(self._held_tilt, 2))
 
     # ------------------------------------------------------------------ giao việc
     def _assign(self, sim: CellSim, a: Arm, arms: list[Arm], status: dict[int, str], log) -> bool:
@@ -568,6 +578,25 @@ class StaggeredCell:
                 a.state = "TRANSIT"
                 log(a.k, "PARK", "về HOME để dọn đường")
 
+    def _track_held(self, sim: CellSim, arms: list[Arm]) -> None:
+        """Đánh giá: khối đang mang có xoay hay tụt trong gripper không. So hướng và độ thấp nhất (theo trục dụng cụ) của
+        khối trong hệ TCP với lúc vừa nhấc lên."""
+        for a in arms:
+            j = a.truth_target
+            if not a.holding or j is None or j not in sim.carrying:
+                continue  # chỉ đo lúc đang mang (đã nhấc, chưa bắt đầu hạ xuống khay)
+            b = sim.cube_body[j]
+            Rt = sim.d.site_xmat[sim.tcp[a.k]].reshape(3, 3)
+            Rc = sim.d.xmat[b].reshape(3, 3)
+            rel_R = Rt.T @ Rc
+            rel_p = Rt.T @ (sim.d.xpos[b] - sim.d.site_xpos[sim.tcp[a.k]])
+            corners = np.array([[sx, sy, sz] for sx in (-1, 1) for sy in (-1, 1) for sz in (-1, 1)]) * CUBE / 2
+            low = float((rel_p + corners @ rel_R.T)[:, 2].max())  # trục z của TCP hướng xuống: lớn = thấp hơn
+            ref = self._held_ref.setdefault((a.k, j), (rel_R, low))
+            ang = math.degrees(math.acos(max(-1.0, min(1.0, (np.trace(ref[0].T @ rel_R) - 1) / 2))))
+            self._held_drift = max(self._held_drift, (low - ref[1]) * 1000)
+            self._held_tilt = max(self._held_tilt, ang)
+
     def _spawn_spot(self, sim: CellSim, arms: list[Arm], arr, rng) -> tuple[float, float, float] | None:
         """Chỗ thả khối mới: chỗ mong muốn của cảnh, không được thì chỗ ngẫu nhiên trong vùng đặt vật. Điều kiện: tâm cách
         mọi khối trên bàn ≥ MIN_DIST, cách khối mà một tay đang nhắm tới ≥ 0,12 m, không tay nào tới gần hơn 3 cm."""
@@ -635,6 +664,8 @@ class StaggeredCell:
             sim.step()
             if self.world is not None and self.world.perceived:
                 self.world.update()
+            if step % 20 == 0:
+                self._track_held(sim, arms)
             if moving and step % 10 == 0:
                 s = min((sim.time - t0) / T, 1.0)
                 sp = s * s * s * (10 - 15 * s + 6 * s * s)

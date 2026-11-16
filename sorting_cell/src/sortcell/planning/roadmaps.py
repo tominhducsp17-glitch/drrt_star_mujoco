@@ -24,7 +24,7 @@ from .models import CLEARANCE, ArmSpace
 
 ROOT = Path(__file__).resolve().parents[3]
 CACHE = ROOT / "cache"
-VERSION = 1  # tăng khi đổi cách dựng để cache cũ không còn dùng
+VERSION = 2  # tăng khi đổi cách dựng để cache cũ không còn dùng (2: vùng cấm bay trên vùng đặt vật, M4)
 
 
 def task_samples(tools: ArmTools, n: int, rng: np.random.Generator, tray_frac: float = 0.25) -> list[np.ndarray]:

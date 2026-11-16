@@ -1,0 +1,132 @@
+{
+ "scenes": 50,
+ "scenes_fully_sorted": 34,
+ "cubes": 400,
+ "placed_correct": 373,
+ "placed_wrong": 6,
+ "not_in_tray": 21,
+ "scenes_with_collision": 44,
+ "collision_steps_by_type": {
+  "arm_cube": 152094,
+  "held_env": 92813
+ },
+ "picks": 457,
+ "pick_success": 385,
+ "pick_success_rate": 0.8424507658643327,
+ "throughput_per_min_sim": {
+  "mean": 5.71725449887997,
+  "median": 5.730971809075993,
+  "min": 3.1689025034353224,
+  "max": 8.401596303294063
+ },
+ "throughput_per_min_incl_planning": {
+  "mean": 5.216549057516302,
+  "median": 5.2277538816724025
+ },
+ "makespan_s": {
+  "mean": 82.08351999998416,
+  "max": 135.1839999999188
+ },
+ "planning_wall_s_per_scene": {
+  "mean": 8.15494566682144,
+  "max": 33.3192674080492
+ },
+ "rounds": {
+  "mean": 313.4,
+  "max": 7669
+ },
+ "plan_failures": 55,
+ "deferrals": 0,
+ "deadlocks": 2,
+ "max_tracking_error_rad": 0.02322664896169835,
+ "blocked": 0,
+ "disturbed_events": 152,
+ "disturbed_max_mm": 22.1,
+ "arrivals": null,
+ "per_arm": {
+  "utilization": [
+   0.819,
+   0.724,
+   0.706,
+   0.684
+  ],
+  "picks_per_scene": [
+   2.08,
+   1.94,
+   1.88,
+   1.8
+  ],
+  "picks_per_min_per_arm": [
+   1.52,
+   1.42,
+   1.37,
+   1.32
+  ]
+ },
+ "perception": {
+  "decision_err_xy_mm": {
+   "n": 449,
+   "p50": 0.5306226507182635,
+   "p95": 22.58344106320244,
+   "p99": 34.05849567247295,
+   "p100": 47.096280030419976,
+   "mean": 2.689969485858242
+  },
+  "decision_err_yaw_deg": {
+   "n": 449,
+   "p50": 0.38380950945817593,
+   "p95": 2.5023378210537137,
+   "p99": 30.242354479398394,
+   "p100": 39.40362803224511,
+   "mean": 1.2204410900462892
+  },
+  "decision_color_ok": 0.9955456570155902,
+  "frame_err_xy_mm": {
+   "n": 62377,
+   "p50": 0.5304046126078314,
+   "p95": 20.216872006629938,
+   "p99": 28.782058158262775,
+   "p100": 47.321408463899715,
+   "mean": 2.5419763723483153
+  },
+  "frame_err_yaw_deg": {
+   "n": 62377,
+   "p50": 0.42081693236673706,
+   "p95": 8.124122767183735,
+   "p99": 14.896337954797323,
+   "p100": 44.62941028807034,
+   "mean": 1.426091284560391
+  },
+  "frame_track_age_s": {
+   "n": 62377,
+   "p50": 0.0,
+   "p95": 304.2400000008691,
+   "p99": 366.6480000011624,
+   "p100": 387.60000000118237,
+   "mean": 48.171229780299235
+  },
+  "tracks_without_truth": 87,
+  "track_frames": 62377,
+  "frames": 26240,
+  "cube_frames": 92747,
+  "occluded_partly": 0.4410708702168264,
+  "occluded_fully": 0.23123119885279309,
+  "tracks_per_scene": {
+   "n": 50,
+   "p50": 8.0,
+   "p100": 10.0,
+   "mean": 8.4
+  },
+  "lost_tracks": 12,
+  "lift_disagree": 3
+ },
+ "replan_latency_ms": {
+  "median": 0.03537299926392734,
+  "p95": 0.08003860275493932,
+  "p99": 641.9601742050144,
+  "max": 1401.9469089980703,
+  "n": 15670,
+  "failures": 55
+ },
+ "wait_local_s_per_scene": 2.0042399999996205
+}

@@ -16,7 +16,7 @@ Tạo ngày 2026-11-16. Mô phỏng hoàn toàn trong MuJoCo, không có phần 
 | M1: baseline với pose thật | Xong (2026-11-16). 50/50 cảnh, 0 va chạm, **thông lượng baseline 5,56 khối/phút** |
 | M2: lập kế hoạch lệch giờ và phân việc | Xong (2026-11-16). Bản cuối: 50/50 cảnh, 0 va chạm, **7,22 khối/phút** (+30% so với M1); độ trễ lập kế hoạch lại trung vị 543 ms, p99 1,39 s |
 | M3: perception và baseline không learning | Xong (2026-11-16). Sai số pose lúc quyết định gắp p99 1,25 mm và 3,4°; script gắp **400/400** với pose ước lượng, 7,07 khối/phút. Điểm quyết định đã kích hoạt (≥ 95%): learning **không** đưa vào bài phân loại (mục 12) |
-| M4: hoàn thiện cell phân loại (khối sát nhau, thả thêm khối giữa chừng, đóng gói) | Đang làm. Việc 1 xong (2026-11-16): 50 cảnh khối sát nhau, 0 va chạm, 374/400 khối đúng khay; 374/377 (99,2%) trên các khối gắp được về nguyên tắc, 23 khối chỉ gắp được nếu đẩy |
+| M4: hoàn thiện cell phân loại (khối sát nhau, thả thêm khối giữa chừng, đóng gói) | Xong (2026-11-16). Pose từ camera, 0 va chạm ở cả ba bộ cảnh: cảnh thường 400/400 (7,05 khối/phút); khối sát nhau 374/400, tức 374/377 (99,2%) trên các khối gắp được về nguyên tắc (23 khối chỉ gắp được nếu đẩy); thả thêm khối 600/600 (7,49 khối/phút). Demo `python -m sortcell.demo`, README có bảng kết quả |
 | M5: chọn bài toán có learning | Chưa bắt đầu (sau M4) |
 
 Code: thư mục `sorting_cell/` trên branch `sorting_cell_plan` của repo `drrt_star_mujoco` (đưa lên sau M3, 2026-11-16); dùng chung `.venv` ở gốc repo; CI: `.github/workflows/sorting_cell.yml`.
@@ -26,8 +26,8 @@ Số liệu chi tiết: `results/` của repo đó và mục 12.
 perception, **không có learning** (M4). Sau đó mới chọn một bài toán mới, hẹp và rõ ràng, mà phải huấn luyện mới làm được,
 ưu tiên bài cần nhiều tay phối hợp thật (ví dụ 2 tay giữ vật lớn, 2 tay lắp chi tiết nhỏ vào) (M5).
 
-**Việc tiếp theo:** M4 việc 2 (thả thêm khối giữa chừng), rồi việc 3 (đóng gói). Còn nợ: so sánh bốn tay song song với
-thay phiên (M4 việc 3, tuỳ chọn).
+**Việc tiếp theo:** M5 (chọn bài toán có learning; ứng viên 1: đẩy rồi gắp trong cảnh lộn xộn). Còn nợ (tuỳ chọn): so
+sánh bốn tay song song với thay phiên từng tay.
 
 ---
 
@@ -413,18 +413,18 @@ cổ điển. Không thêm nhiễu ánh sáng, nhiễu depth hay sai số hiệu
 báo riêng tỉ lệ tách đúng của perception, số khối bị tay làm xê dịch và số khối không gắp được vì bị vây.
 
 **Việc 2: thả thêm khối giữa chừng**
-- [ ] Trong lúc cell đang chạy, thả thêm khối (ví dụ 4 khối, ở thời điểm ngẫu nhiên) vào chỗ trống trong vùng đặt vật, xa
+- [x] Trong lúc cell đang chạy, thả thêm khối (ví dụ 4 khối, ở thời điểm ngẫu nhiên) vào chỗ trống trong vùng đặt vật, xa
   vùng dành riêng của các tay đang gắp. Cách làm trong sim: dựng sẵn thân khối ở ngoài bàn, tới lúc thì đặt vào bàn.
-- [ ] Perception phát hiện khối mới (tracker tạo bản ghi), bộ điều phối phân việc lại và lập kế hoạch lại; không dùng
+- [x] Perception phát hiện khối mới (tracker tạo bản ghi), bộ điều phối phân việc lại và lập kế hoạch lại; không dùng
   thông tin thật về thời điểm hay vị trí thả.
-- [ ] Chạy 50 cảnh có thả thêm.
+- [x] Chạy 50 cảnh có thả thêm.
 
 **Nghiệm thu việc 2:** 0 va chạm; mọi khối (cả khối thả thêm) vào đúng khay; báo độ trễ từ lúc khối xuất hiện tới lúc được
 phát hiện, được giao việc và được gắp; thông lượng.
 
 **Việc 3: đóng gói**
-- [ ] Một lệnh chạy demo cho từng tình huống (cảnh thường, khối sát nhau, thả thêm khối), xem trực tiếp hoặc ghi video.
-- [ ] Video demo; README có bảng kết quả M1–M4; số liệu theo khối/phút và mức sử dụng của từng tay.
+- [x] Một lệnh chạy demo cho từng tình huống (cảnh thường, khối sát nhau, thả thêm khối), xem trực tiếp hoặc ghi video.
+- [x] Video demo; README có bảng kết quả M1–M4; số liệu theo khối/phút và mức sử dụng của từng tay.
 - [ ] (Tuỳ chọn) so sánh bốn tay song song với thay phiên từng tay (mục 11, còn nợ từ M2).
 
 **Nghiệm thu việc 3:** người khác clone branch, cài theo README, chạy được demo và test.
@@ -465,8 +465,8 @@ Hình dạng, màu và texture đa dạng, vật nằm sát nhau. Cần bộ ph�
 | Hitbox dự đoán tranh chấp so với lần dRRT\* phải bắt tay chờ | Độ chính xác thật của mô hình Oberthür et al. | M2 |
 | Bốn tay song song có dRRT\* so với thay phiên từng tay | Giá trị của motion planning nhiều robot | M2 |
 | Lập kế hoạch theo lượt so với lệch giờ | Giá trị của mở rộng dRRT\* | M2 |
-| Có và không tách khối dính nhau; chọn hướng kẹp có và không tính khối hàng xóm | Giá trị của perception và kiểm tra hình học khi khối sát nhau | M4 |
-| Thả thêm khối giữa chừng: độ trễ phát hiện → giao việc → gắp | Hệ phản ứng được với thay đổi của môi trường | M4 |
+| Có và không tách khối dính nhau; chọn hướng kẹp có và không tính khối hàng xóm | Giá trị của perception và kiểm tra hình học khi khối sát nhau | M4 (đã làm: tắt tách → 34.091 bước va chạm; tắt chọn hướng kẹp → 152.094 bước va chạm; bản đầy đủ 0) |
+| Thả thêm khối giữa chừng: độ trễ phát hiện → giao việc → gắp | Hệ phản ứng được với thay đổi của môi trường | M4 (đã làm: 200/200 khối thả thêm được gắp) |
 | ~~Gắp bằng script so với policy; d_h 8 / 16 cm; có và không có DAgger~~ | Hoãn cùng mục 5.4 | — |
 
 ---
@@ -523,6 +523,11 @@ Hình dạng, màu và texture đa dạng, vật nằm sát nhau. Cần bộ ph�
 | 2026-11-16 | **M4 – tách khối dính nhau bằng hình học** (không learning): vùng màu có diện tích > 1,5 mặt được chia thành k = round(diện tích) hình vuông 50 mm (k-means nhiều lần + gán điểm cho hình vuông chứa nó + minAreaRect), chấp nhận khi phủ ≥ 92% điểm, mỗi hình vuông ≥ 85% nằm trong vùng, không chồng nhau; rồi **khớp bình phương tối thiểu pose vào các điểm biên** (bỏ đường tiếp giáp giữa hai khối). Vùng 1,15–1,5 mặt không còn được coi là một khối thấy rõ | Đánh giá tĩnh 50 cảnh (tay ở HOME): **400/400 khối thấy rõ, 0 bỏ sót, 0 phát hiện thừa**; 69 khối đi qua bước tách. Khớp theo biên giảm sai số góc từ p99 2,8° / lớn nhất 4,6° (giới hạn do pixel: lệch 1 hàng pixel ≈ 3°) xuống p99 1,8° / lớn nhất 2,3°; vị trí p99 0,94 mm, lớn nhất 1,3 mm. Lỗi "vùng 1,2–1,5 mặt coi là một khối" làm một lượt chạy gắp hụt 3 lần vì tâm lệch 27–30 mm (đã sửa). Bước tinh chỉnh dò lưới thử rồi bỏ: không cải thiện, lại làm perception chậm |
 | 2026-11-16 | **Giới hạn vật lý của gripper khi khối sát nhau:** kẹp theo phương hướng về khối hàng xóm cần khe ≥ 40–50 mm (ngón 2F-85 dày, lề kiểm tra 5 mm); giảm độ mở từ 70 mm xuống khoảng 50 mm chỉ hạ ngưỡng từ khoảng 50 xuống khoảng 40 mm. Khối có hàng xóm gần hơn khoảng 4 cm ở cả hai phương thì chưa gắp được | Đo bằng `descent_touches` với khối hàng xóm đặt ở khe 5–50 mm. Hệ quả: cụm 2 × 2 hoặc cụm tam giác không gắp được theo bất kỳ thứ tự nào nếu không đẩy. `experiments/graspability.py` (pose thật, lặp "bỏ các khối gắp được rồi xét lại"): **23/400 khối ở 7 cảnh** chỉ gắp được nếu đẩy; 33 cảnh cần thứ tự (có khối phải chờ khối hàng xóm đi trước). Đây là ước lượng với lề 5 mm, không phải chặn trên tuyệt đối |
 | 2026-11-16 | **Kết quả M4 việc 1** (50 cảnh khối sát nhau, mức 1, pose từ camera) | **0 va chạm** (tay chạm khối hàng xóm tính là va chạm), gắp 374/374, 0 khối sai khay, 0 lần kẹt, 0 khối hàng xóm bị xê dịch quá 3 mm. **374/400 khối vào đúng khay (93,5%, dưới mốc đề xuất 95%)**; trên 377 khối gắp được về nguyên tắc: **374/377 (99,2%)**. 26 khối bị đánh dấu "bị vây": 23 khớp đúng phép kiểm tra offline; 3 khối (cảnh 2037) sát biên: theo pose thật vừa lọt lề 5 mm, góc ước lượng lệch 2,1° là đủ để bị chặn; hệ chọn không gắp là hành vi an toàn đúng thiết kế. Sai số pose lúc quyết định: vị trí p99 1,34 mm (lớn nhất 7,8 mm, một lần), góc p99 2,1°. Thông lượng 6,14 khối/phút (thấp hơn cảnh thường vì phải chờ thứ tự và cảnh có khối không gắp được); mỗi tay bận 69–75% thời gian, khoảng 1,5 khối/phút mỗi tay. Lượt chạy dùng bản perception còn bước dò lưới; bản đã bỏ bước đó cho cùng kết quả đánh giá tĩnh, chỉ nhanh hơn |
+| 2026-11-16 | **So sánh trên cảnh khối sát nhau** (50 cảnh, pose từ camera; chạy với roadmap trước khi có vùng cấm bay) | Tắt bước tách khối dính nhau: khối cùng màu dính nhau thành vật cản vô hình với kiểm tra đoạn đi xuống → 34.091 bước va chạm tay–khối, 9.064 bước khối đang mang chạm vật khác, gắp 356/391, 355/400 đúng khay, 44 lần làm xê dịch khối hàng xóm. Tắt chọn hướng kẹp theo khối hàng xóm → 152.094 và 92.813 bước va chạm, gắp 385/457, 373/400 đúng khay, 152 lần xê dịch (xa nhất 22 mm). Bản đầy đủ: 0 va chạm, gắp 374/374 |
+| 2026-11-16 | **Thả thêm khối giữa chừng** (`sample_arrival_scene`, seed 3000–3049): cảnh thường 8 khối + 4 khối thả vào lúc ngẫu nhiên 5–40 s, ở chỗ trống (cách khối khác ≥ 8 cm, cách khối mà một tay đang nhắm ≥ 12 cm, không tay nào trong 3 cm). Bộ điều phối chỉ biết qua camera | Lượt đầu (roadmap cũ): 600/600, nhưng **1 va chạm**: khối đang mang quẹt thành khay của chính tay đó (16 bước). Chạy lại riêng cảnh đó không lặp lại. Kiểm lại 3000 cạnh roadmap ở bước 0,005 rad: không cạnh nào vào sâu hơn lề 1 cm, nên không do bước kiểm tra thưa; khối trong gripper tụt tối đa 3,1 mm, nghiêng tối đa 1,3° khi đang mang. Nguyên nhân chưa xác định; sai số bám (tới 0,02 rad) là ứng viên còn lại. Một lượt chạy pose thật lộ thêm **va chạm thứ hai, có nguyên nhân rõ**: khối đang mang chạm khối khác trên bàn, vì planner không biết vị trí các khối trên bàn |
+| 2026-11-16 | **Vùng cấm bay trong model lập kế hoạch:** hộp vô hình phủ vùng đặt vật (rộng thêm 5 cm mỗi bên), từ mặt bàn tới mặt trên khối + 5 mm; thân tay và khối ảo phải cách nó ≥ CLEARANCE. Roadmap dựng lại (VERSION 2) | Gắp và thả là chuyển động cục bộ nên không ảnh hưởng: 64/64 tư thế gắp, 12/12 tư thế thả vẫn hợp lệ; roadmap vẫn khoảng 2.920 đỉnh và 46.000 cạnh mỗi tay. 24 cảnh thả thêm khối (pose thật): 288/288, 0 va chạm |
+| 2026-11-16 | **Kết quả M4 cuối** (roadmap có vùng cấm bay, pose từ camera, 50 cảnh mỗi bộ, không ghi khung hình đánh giá) | **0 va chạm ở cả ba bộ.** Cảnh thường: 400/400, 7,05 khối/phút, độ trễ lập kế hoạch lại trung vị 587 ms, p99 1,39 s. Khối sát nhau: 374/400 (bị vây 26: 23 khớp phép kiểm tra offline, 3 sát biên ở cảnh 2037), 6,31 khối/phút, 2 lần khối hàng xóm xê dịch > 3 mm. Thả thêm khối: 600/600, 7,49 khối/phút; camera tạo bản ghi cho khối mới sau trung vị 0,12 s (p95 2,2 s, lâu nhất 8,1 s khi bị tay che); bộ điều phối ghi nhận ở ranh giới đoạn kế tiếp (trung vị 1,4 s); từ lúc thả tới lúc được giao việc trung vị 18,4 s, tới lúc nhấc lên 32,9 s (các tay đang bận). Mỗi tay bận 71–87% thời gian, 1,5–1,9 khối/phút. Sai số pose lúc quyết định p99 1,0–1,5 mm, 1,9–2,0°; màu đúng 100%; không bản ghi nào bị mất |
+| 2026-11-16 | **Đóng gói:** `python -m sortcell.demo {basic, clusters, arrivals}` (cửa sổ MuJoCo hoặc `--video`, `--speed`); README của `sorting_cell` có bảng kết quả và giới hạn đã biết; `--no-eval-frames` tắt ghi khung hình đánh giá (nhanh hơn khoảng 3 lần); video ở `results/videos/` (không đưa lên git) | Perception chậm ở lượt khối sát nhau đầu tiên (khoảng 30 phút cho 50 cảnh) do bước tinh chỉnh dò lưới và ảnh phân đoạn; bỏ bước dò lưới, cache kết quả tách theo vùng, tắt ghi khung hình: còn khoảng 4 phút |
 | 2026-11-16 | **Ứng viên learning cho M5: đẩy rồi gắp trong cảnh lộn xộn** (khối vuông hiện tại, nhưng sát nhau tới mức phải đẩy, chồng lên nhau hoàn toàn hay một phần, bị kênh) | Người dùng đồng ý ghi nhận. Learning có lý do thật: M4 cho thấy cụm 2 × 2 hay tam giác không gắp được theo bất kỳ thứ tự nào với gripper hai ngón; luật đẩy cho mọi cấu hình lộn xộn khó viết. Gần nhất: Zeng et al. IROS 2018 (đẩy và gắp học bằng RL tự giám sát); cần rà soát thêm |
 | 2026-11-16 | **Hướng bài toán có learning (M5):** bài cần nhiều tay phối hợp thật, ví dụ 2 tay giữ vật lớn, 2 tay lắp chi tiết nhỏ vào (lắp ráp không đồ gá) | 4 tay làm độc lập chưa khai thác hệ nhiều tay. Hai tay cùng giữ vật tạo chuỗi động học kín (cần lập kế hoạch có ràng buộc); lắp chi tiết vào vật đang được giữ có nhiều tiếp xúc và vị trí tương đối bất định, là chỗ learning có lý do. Đã thử: plugin SDF (đai ốc, bu lông có ren) của MuJoCo 3.17 chạy được. Chưa rà soát |
 

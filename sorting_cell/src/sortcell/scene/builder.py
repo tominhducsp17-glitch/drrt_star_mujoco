@@ -157,6 +157,20 @@ def add_environment(spec: mj.MjSpec, L: Layout) -> None:
             _tray(w, f"tray{k}_{j}", L.tray_center(k, j), yaw, L, COLORS[COLOR_NAMES[j]])
 
 
+NO_FLY_MARGIN = 0.05   # vùng cấm rộng hơn vùng đặt vật mỗi bên (khối ở mép vùng, khối bị đẩy ra)
+NO_FLY_TOP = 0.005     # nóc vùng cấm cao hơn mặt trên khối
+
+
+def add_no_fly(spec: mj.MjSpec, L: Layout) -> None:
+    """Chỉ trong model lập kế hoạch: hộp vô hình phủ vùng đặt vật, từ mặt bàn tới mặt trên khối + NO_FLY_TOP. Planner không
+    biết vị trí từng khối trên bàn, nên cấm thân tay và vật đang mang đi thấp qua vùng này (cộng lề CLEARANCE của model
+    lập kế hoạch). Gắp và thả là chuyển động cục bộ, không qua planner, nên không bị ảnh hưởng."""
+    h = (CUBE + NO_FLY_TOP) / 2
+    spec.worldbody.add_geom(name="no_fly", type=mj.mjtGeom.mjGEOM_BOX,
+                            size=[L.zone_half + NO_FLY_MARGIN, L.zone_half + NO_FLY_MARGIN, h],
+                            pos=[0, 0, L.table_top + h], rgba=[1, 0, 0, 0], group=3)
+
+
 def _tray(w, name, c, yaw, L: Layout, rgba):
     hx = hy = L.tray_half
     t = 0.01
@@ -195,6 +209,8 @@ def build_spec(L: Layout, kind: str = "exec", cfg: GripperCfg | None = None, arm
     spec = base_spec(cfg)
     if environment:
         add_environment(spec, L)
+        if kind == "plan":
+            add_no_fly(spec, L)
     for k in (range(L.n_arms) if arms is None else arms):
         x, y, z, yaw = L.base(k)
         frame = spec.worldbody.add_frame(pos=[x, y, z], quat=[math.cos(yaw / 2), 0, 0, math.sin(yaw / 2)])

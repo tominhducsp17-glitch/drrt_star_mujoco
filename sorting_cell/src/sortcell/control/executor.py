@@ -199,7 +199,7 @@ class CellSim:
         self._check_contacts()
         if self.recorder is not None and self.d.time >= self._next_frame:
             self.recorder.capture(self.d)
-            self._next_frame += 1 / self.recorder.fps
+            self._next_frame += 1 / getattr(self.recorder, "sample_fps", self.recorder.fps)
 
     def _check_contacts(self) -> None:
         d = self.d

@@ -1,0 +1,1168 @@
+{
+ "seed": 2005,
+ "alloc": "level1",
+ "n_cubes": 8,
+ "placed_correct": 6,
+ "placed_wrong": 0,
+ "not_in_tray": 2,
+ "picks": 9,
+ "pick_success": 6,
+ "sim_time": 82.83399999998765,
+ "t_last_place": 75.08400000000572,
+ "planning_wall": 8.077315066970186,
+ "replans": 67,
+ "replan_times": [
+  0.572259923996171,
+  0.7680734560126439,
+  0.3601968259899877,
+  0.4580825110024307,
+  0.5389488440123387,
+  0.37734947001445107,
+  5.3324009058997035e-05,
+  5.0238013500347733e-05,
+  4.9677997594699264e-05,
+  5.264801438897848e-05,
+  5.2624003728851676e-05,
+  6.64810067974031e-05,
+  5.600199801847339e-05,
+  5.520298145711422e-05,
+  5.784700624644756e-05,
+  5.207597860135138e-05,
+  6.908999057486653e-05,
+  3.7829013308510184e-05,
+  5.516200326383114e-05,
+  5.082800635136664e-05,
+  4.875598824582994e-05,
+  3.066298086196184e-05,
+  3.063600161112845e-05,
+  3.0459981644526124e-05,
+  3.696599742397666e-05,
+  5.166599294170737e-05,
+  4.835199797526002e-05,
+  4.733097739517689e-05,
+  4.850002005696297e-05,
+  5.438100197352469e-05,
+  5.4545002058148384e-05,
+  5.1059003453701735e-05,
+  6.458599818870425e-05,
+  3.225900582037866e-05,
+  3.0376017093658447e-05,
+  3.0441005947068334e-05,
+  2.7831003535538912e-05,
+  2.985697938129306e-05,
+  2.7030997443944216e-05,
+  3.140300395898521e-05,
+  2.8901995392516255e-05,
+  2.993197995238006e-05,
+  3.066399949602783e-05,
+  4.229499609209597e-05,
+  3.318299422971904e-05,
+  3.093699342571199e-05,
+  2.4275010218843818e-05,
+  2.6730005629360676e-05,
+  3.134898724965751e-05,
+  3.2415002351626754e-05,
+  3.0602997867390513e-05,
+  3.2370007829740644e-05,
+  2.7937989216297865e-05,
+  3.249899600632489e-05,
+  2.990500070154667e-05,
+  4.2311003198847175e-05,
+  4.1359016904607415e-05,
+  3.069301601499319e-05,
+  2.931201015599072e-05,
+  3.3235992304980755e-05,
+  0.4778623190068174,
+  1.3424576809920836,
+  1.3480816549854353,
+  0.650986678985646,
+  0.3957490489992779,
+  0.394450494000921,
+  0.3906091219978407
+ ],
+ "plan_failures": 2,
+ "collision_steps": {
+  "arm_cube": 2207
+ },
+ "collision_pairs": {
+  "arm_cube|a1_g_right_pad1|cube3_geom": 2849,
+  "arm_cube|cube3_geom|a1_g_right_follower#176": 37
+ },
+ "max_tracking_error": 0.02207679815284358,
+ "deadlock": false,
+ "events": [
+  {
+   "t": 0.3,
+   "arm": 0,
+   "phase": "TRANSIT_TO_PICK",
+   "info": "kh\u1ed1i 5"
+  },
+  {
+   "t": 0.3,
+   "arm": 1,
+   "phase": "TRANSIT_TO_PICK",
+   "info": "kh\u1ed1i 0"
+  },
+  {
+   "t": 0.3,
+   "arm": 2,
+   "phase": "TRANSIT_TO_PICK",
+   "info": "kh\u1ed1i 3"
+  },
+  {
+   "t": 0.3,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [0, 1, 2], 5 \u0111\u1ec9nh, 572 ms"
+  },
+  {
+   "t": 4.758,
+   "arm": -1,
+   "phase": "NEW_OBJECT",
+   "info": "v\u1eadt 6"
+  },
+  {
+   "t": 6.244,
+   "arm": 0,
+   "phase": "ARRIVED",
+   "info": "pick kh\u1ed1i 5"
+  },
+  {
+   "t": 6.244,
+   "arm": 1,
+   "phase": "ARRIVED",
+   "info": "pick kh\u1ed1i 0"
+  },
+  {
+   "t": 6.244,
+   "arm": 2,
+   "phase": "ARRIVED",
+   "info": "pick kh\u1ed1i 3"
+  },
+  {
+   "t": 6.244,
+   "arm": 0,
+   "phase": "GRASP",
+   "info": "kh\u1ed1i 5"
+  },
+  {
+   "t": 6.244,
+   "arm": 1,
+   "phase": "GRASP",
+   "info": "kh\u1ed1i 0"
+  },
+  {
+   "t": 6.244,
+   "arm": 2,
+   "phase": "GRASP",
+   "info": "kh\u1ed1i 3"
+  },
+  {
+   "t": 9.644,
+   "arm": 0,
+   "phase": "LIFT_CHECK",
+   "info": "v\u1eadt 5 (kh\u1ed1i th\u1eadt 6)"
+  },
+  {
+   "t": 9.644,
+   "arm": 1,
+   "phase": "LIFT_CHECK",
+   "info": "v\u1eadt 0 (kh\u1ed1i th\u1eadt 5)"
+  },
+  {
+   "t": 9.644,
+   "arm": 2,
+   "phase": "LIFT_CHECK",
+   "info": "v\u1eadt 3 (kh\u1ed1i th\u1eadt 2)"
+  },
+  {
+   "t": 9.644,
+   "arm": 0,
+   "phase": "TRANSIT_TO_PLACE",
+   "info": "kh\u1ed1i 5 \u2192 khay 2"
+  },
+  {
+   "t": 9.644,
+   "arm": 1,
+   "phase": "TRANSIT_TO_PLACE",
+   "info": "kh\u1ed1i 0 \u2192 khay 0"
+  },
+  {
+   "t": 9.644,
+   "arm": 2,
+   "phase": "TRANSIT_TO_PLACE",
+   "info": "kh\u1ed1i 3 \u2192 khay 2"
+  },
+  {
+   "t": 9.644,
+   "arm": 3,
+   "phase": "TRANSIT_TO_PICK",
+   "info": "kh\u1ed1i 4"
+  },
+  {
+   "t": 9.644,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [0, 1, 2, 3], 10 \u0111\u1ec9nh, 768 ms"
+  },
+  {
+   "t": 21.982,
+   "arm": 0,
+   "phase": "ARRIVED",
+   "info": "place kh\u1ed1i 5"
+  },
+  {
+   "t": 21.982,
+   "arm": 1,
+   "phase": "ARRIVED",
+   "info": "place kh\u1ed1i 0"
+  },
+  {
+   "t": 21.982,
+   "arm": 2,
+   "phase": "ARRIVED",
+   "info": "place kh\u1ed1i 3"
+  },
+  {
+   "t": 21.982,
+   "arm": 3,
+   "phase": "ARRIVED",
+   "info": "pick kh\u1ed1i 4"
+  },
+  {
+   "t": 21.982,
+   "arm": 0,
+   "phase": "PLACE",
+   "info": "kh\u1ed1i 5"
+  },
+  {
+   "t": 21.982,
+   "arm": 1,
+   "phase": "PLACE",
+   "info": "kh\u1ed1i 0"
+  },
+  {
+   "t": 21.982,
+   "arm": 2,
+   "phase": "PLACE",
+   "info": "kh\u1ed1i 3"
+  },
+  {
+   "t": 21.982,
+   "arm": 3,
+   "phase": "GRASP",
+   "info": "kh\u1ed1i 4"
+  },
+  {
+   "t": 24.682,
+   "arm": 0,
+   "phase": "PLACED",
+   "info": "kh\u1ed1i 5"
+  },
+  {
+   "t": 24.682,
+   "arm": 1,
+   "phase": "PLACED",
+   "info": "kh\u1ed1i 0"
+  },
+  {
+   "t": 24.682,
+   "arm": 2,
+   "phase": "PLACED",
+   "info": "kh\u1ed1i 3"
+  },
+  {
+   "t": 24.682,
+   "arm": 0,
+   "phase": "TRANSIT_TO_PICK",
+   "info": "kh\u1ed1i 2"
+  },
+  {
+   "t": 24.682,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [0], 4 \u0111\u1ec9nh, 360 ms"
+  },
+  {
+   "t": 25.954,
+   "arm": 3,
+   "phase": "LIFT_CHECK",
+   "info": "v\u1eadt 4 (kh\u1ed1i th\u1eadt 1)"
+  },
+  {
+   "t": 25.954,
+   "arm": 3,
+   "phase": "TRANSIT_TO_PLACE",
+   "info": "kh\u1ed1i 4 \u2192 khay 2"
+  },
+  {
+   "t": 25.954,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [0, 3], 4 \u0111\u1ec9nh, 458 ms"
+  },
+  {
+   "t": 27.356,
+   "arm": 1,
+   "phase": "TRANSIT_TO_PICK",
+   "info": "kh\u1ed1i 6"
+  },
+  {
+   "t": 27.356,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [0, 1, 3], 7 \u0111\u1ec9nh, 539 ms"
+  },
+  {
+   "t": 36.08,
+   "arm": 0,
+   "phase": "ARRIVED",
+   "info": "pick kh\u1ed1i 2"
+  },
+  {
+   "t": 36.08,
+   "arm": 1,
+   "phase": "ARRIVED",
+   "info": "pick kh\u1ed1i 6"
+  },
+  {
+   "t": 36.08,
+   "arm": 3,
+   "phase": "ARRIVED",
+   "info": "place kh\u1ed1i 4"
+  },
+  {
+   "t": 36.08,
+   "arm": 0,
+   "phase": "GRASP",
+   "info": "kh\u1ed1i 2"
+  },
+  {
+   "t": 36.08,
+   "arm": 1,
+   "phase": "GRASP",
+   "info": "kh\u1ed1i 6"
+  },
+  {
+   "t": 36.08,
+   "arm": 3,
+   "phase": "PLACE",
+   "info": "kh\u1ed1i 4"
+  },
+  {
+   "t": 38.78,
+   "arm": 3,
+   "phase": "PLACED",
+   "info": "kh\u1ed1i 4"
+  },
+  {
+   "t": 39.48,
+   "arm": 0,
+   "phase": "LIFT_CHECK",
+   "info": "v\u1eadt 2 (kh\u1ed1i th\u1eadt 7)"
+  },
+  {
+   "t": 39.48,
+   "arm": 1,
+   "phase": "ABORT",
+   "info": "v\u1eadt 6 kh\u00f4ng l\u00ean, l\u1ea7n 1"
+  },
+  {
+   "t": 39.48,
+   "arm": 0,
+   "phase": "TRANSIT_TO_PLACE",
+   "info": "kh\u1ed1i 2 \u2192 khay 1"
+  },
+  {
+   "t": 39.48,
+   "arm": 1,
+   "phase": "TRANSIT_TO_PICK",
+   "info": "kh\u1ed1i 6"
+  },
+  {
+   "t": 39.48,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [0], 5 \u0111\u1ec9nh, 377 ms"
+  },
+  {
+   "t": 40.906,
+   "arm": 1,
+   "phase": "ARRIVED",
+   "info": "pick kh\u1ed1i 6"
+  },
+  {
+   "t": 40.906,
+   "arm": 1,
+   "phase": "GRASP",
+   "info": "kh\u1ed1i 6"
+  },
+  {
+   "t": 45.184,
+   "arm": 0,
+   "phase": "ARRIVED",
+   "info": "place kh\u1ed1i 2"
+  },
+  {
+   "t": 45.184,
+   "arm": 1,
+   "phase": "ABORT",
+   "info": "v\u1eadt 6 kh\u00f4ng l\u00ean, l\u1ea7n 2"
+  },
+  {
+   "t": 45.184,
+   "arm": 0,
+   "phase": "PLACE",
+   "info": "kh\u1ed1i 2"
+  },
+  {
+   "t": 45.184,
+   "arm": 1,
+   "phase": "TRANSIT_TO_PICK",
+   "info": "kh\u1ed1i 6"
+  },
+  {
+   "t": 45.184,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 45.234,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 45.284,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 45.334,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 45.384,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 45.434,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 45.484,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 45.534,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 45.584,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 45.634,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 45.684,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 45.734,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 45.784,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 45.834,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 45.884,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 45.934,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 45.984,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 46.034,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 46.084,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 46.134,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 46.184,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 46.234,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 46.284,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 46.334,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 46.384,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 46.434,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 46.484,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 46.534,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 46.584,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 46.634,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 46.684,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 46.734,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 46.784,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 46.834,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 46.884,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 46.934,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 46.984,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 47.034,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 47.084,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 47.134,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 47.184,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 47.234,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 47.284,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 47.334,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 47.384,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 47.434,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 47.484,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 47.534,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 47.584,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 47.634,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 47.684,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 47.734,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 47.784,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 47.834,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [], 1 \u0111\u1ec9nh, 0 ms"
+  },
+  {
+   "t": 47.884,
+   "arm": 0,
+   "phase": "PLACED",
+   "info": "kh\u1ed1i 2"
+  },
+  {
+   "t": 47.884,
+   "arm": 0,
+   "phase": "TRANSIT_TO_PICK",
+   "info": "kh\u1ed1i 1"
+  },
+  {
+   "t": 47.884,
+   "arm": 2,
+   "phase": "TRANSIT_HOME",
+   "info": ""
+  },
+  {
+   "t": 47.884,
+   "arm": 3,
+   "phase": "TRANSIT_HOME",
+   "info": ""
+  },
+  {
+   "t": 47.884,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [0, 2, 3], 8 \u0111\u1ec9nh, 478 ms"
+  },
+  {
+   "t": 49.26,
+   "arm": 1,
+   "phase": "ARRIVED",
+   "info": "pick kh\u1ed1i 6"
+  },
+  {
+   "t": 49.26,
+   "arm": 1,
+   "phase": "GRASP",
+   "info": "kh\u1ed1i 6"
+  },
+  {
+   "t": 53.388,
+   "arm": 1,
+   "phase": "ABORT",
+   "info": "v\u1eadt 6 kh\u00f4ng l\u00ean, l\u1ea7n 3"
+  },
+  {
+   "t": 53.388,
+   "arm": 1,
+   "phase": "TRANSIT_HOME",
+   "info": ""
+  },
+  {
+   "t": 53.388,
+   "arm": -1,
+   "phase": "PLAN_FAIL",
+   "info": "giao vi\u1ec7c: dRRT* kh\u00f4ng ra l\u1eddi gi\u1ea3i trong 1.0 s"
+  },
+  {
+   "t": 54.388,
+   "arm": 0,
+   "phase": "TRANSIT_TO_PICK",
+   "info": "kh\u1ed1i 1"
+  },
+  {
+   "t": 54.388,
+   "arm": -1,
+   "phase": "PLAN_FAIL",
+   "info": "giao vi\u1ec7c: dRRT* kh\u00f4ng ra l\u1eddi gi\u1ea3i trong 1.0 s"
+  },
+  {
+   "t": 55.388,
+   "arm": 0,
+   "phase": "TRANSIT_TO_PICK",
+   "info": "kh\u1ed1i 1"
+  },
+  {
+   "t": 55.388,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [0, 1, 2, 3], 6 \u0111\u1ec9nh, 651 ms"
+  },
+  {
+   "t": 60.7,
+   "arm": 0,
+   "phase": "ARRIVED",
+   "info": "pick kh\u1ed1i 1"
+  },
+  {
+   "t": 60.7,
+   "arm": 2,
+   "phase": "HOME",
+   "info": ""
+  },
+  {
+   "t": 60.7,
+   "arm": 3,
+   "phase": "HOME",
+   "info": ""
+  },
+  {
+   "t": 60.7,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "tay 0 c\u1ea7n v\u00f9ng d\u00e0nh ri\u00eang: tay [1], 2 \u0111\u1ec9nh, 396 ms"
+  },
+  {
+   "t": 61.968,
+   "arm": 1,
+   "phase": "HOME",
+   "info": ""
+  },
+  {
+   "t": 61.968,
+   "arm": 0,
+   "phase": "GRASP",
+   "info": "kh\u1ed1i 1"
+  },
+  {
+   "t": 65.368,
+   "arm": 0,
+   "phase": "LIFT_CHECK",
+   "info": "v\u1eadt 1 (kh\u1ed1i th\u1eadt 0)"
+  },
+  {
+   "t": 65.368,
+   "arm": 0,
+   "phase": "TRANSIT_TO_PLACE",
+   "info": "kh\u1ed1i 1 \u2192 khay 1"
+  },
+  {
+   "t": 65.368,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [0], 6 \u0111\u1ec9nh, 394 ms"
+  },
+  {
+   "t": 72.684,
+   "arm": 0,
+   "phase": "ARRIVED",
+   "info": "place kh\u1ed1i 1"
+  },
+  {
+   "t": 72.684,
+   "arm": 0,
+   "phase": "PLACE",
+   "info": "kh\u1ed1i 1"
+  },
+  {
+   "t": 75.384,
+   "arm": 0,
+   "phase": "PLACED",
+   "info": "kh\u1ed1i 1"
+  },
+  {
+   "t": 75.384,
+   "arm": 0,
+   "phase": "TRANSIT_HOME",
+   "info": ""
+  },
+  {
+   "t": 75.384,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [0], 6 \u0111\u1ec9nh, 391 ms"
+  },
+  {
+   "t": 82.634,
+   "arm": 0,
+   "phase": "HOME",
+   "info": ""
+  }
+ ],
+ "cube_status": [
+  "placed",
+  "placed",
+  "placed",
+  "placed",
+  "placed",
+  "placed",
+  "failed"
+ ],
+ "wait_local_time": 1.2680000000015497,
+ "tasks": [
+  {
+   "arm": 0,
+   "cube": 5,
+   "t_assign": 0.3000000000000002,
+   "active": [],
+   "hitbox": [],
+   "path_waits": 0,
+   "plans": 1,
+   "wait_local": 0.0,
+   "truth": 6,
+   "err_xy": 0.0005547907728484807,
+   "err_yaw": 0.009431621261486,
+   "color_ok": true
+  },
+  {
+   "arm": 1,
+   "cube": 0,
+   "t_assign": 0.3000000000000002,
+   "active": [
+    0
+   ],
+   "hitbox": [],
+   "path_waits": 0,
+   "plans": 1,
+   "wait_local": 0.0,
+   "truth": 5,
+   "err_xy": 0.000539936638573465,
+   "err_yaw": 0.005401293625674208,
+   "color_ok": true
+  },
+  {
+   "arm": 2,
+   "cube": 3,
+   "t_assign": 0.3000000000000002,
+   "active": [
+    0,
+    1
+   ],
+   "hitbox": [
+    1
+   ],
+   "path_waits": 0,
+   "plans": 1,
+   "wait_local": 0.0,
+   "truth": 2,
+   "err_xy": 0.0004293031398796402,
+   "err_yaw": 0.009803465446961201,
+   "color_ok": true
+  },
+  {
+   "arm": 3,
+   "cube": 4,
+   "t_assign": 9.64399999999989,
+   "active": [],
+   "hitbox": [],
+   "path_waits": 1,
+   "plans": 1,
+   "wait_local": 0.0,
+   "truth": 1,
+   "err_xy": 0.0002869526537031445,
+   "err_yaw": 0.0004939831360761815,
+   "color_ok": true
+  },
+  {
+   "arm": 0,
+   "cube": 2,
+   "t_assign": 24.6819999999972,
+   "active": [
+    3
+   ],
+   "hitbox": [],
+   "path_waits": 0,
+   "plans": 3,
+   "wait_local": 0.0,
+   "truth": 7,
+   "err_xy": 0.00037114270101436605,
+   "err_yaw": 0.012624173477025824,
+   "color_ok": true
+  },
+  {
+   "arm": 1,
+   "cube": 6,
+   "t_assign": 27.355999999995717,
+   "active": [
+    0
+   ],
+   "hitbox": [
+    0
+   ],
+   "path_waits": 0,
+   "plans": 1,
+   "wait_local": 0.0,
+   "truth": 4,
+   "err_xy": 0.025637063035337814,
+   "err_yaw": 0.21216878055273325,
+   "color_ok": true
+  },
+  {
+   "arm": 1,
+   "cube": 6,
+   "t_assign": 39.480000000002285,
+   "active": [],
+   "hitbox": [],
+   "path_waits": 0,
+   "plans": 0,
+   "wait_local": 0.0,
+   "truth": 4,
+   "err_xy": 0.024642940844882937,
+   "err_yaw": 0.22465505413519515,
+   "color_ok": true
+  },
+  {
+   "arm": 1,
+   "cube": 6,
+   "t_assign": 45.184000000009256,
+   "active": [],
+   "hitbox": [],
+   "path_waits": 0,
+   "plans": 0,
+   "wait_local": 0.0,
+   "truth": 4,
+   "err_xy": 0.02350901359574652,
+   "err_yaw": 0.22907904149548974,
+   "color_ok": true
+  },
+  {
+   "arm": 0,
+   "cube": 1,
+   "t_assign": 55.38800000002173,
+   "active": [],
+   "hitbox": [],
+   "path_waits": 0,
+   "plans": 1,
+   "wait_local": 1.2680000000015497,
+   "truth": 0,
+   "err_xy": 0.0002193878050571075,
+   "err_yaw": 0.00657603959484554,
+   "color_ok": true
+  }
+ ],
+ "lift_disagree": 0,
+ "blocked": 0,
+ "disturbed": [
+  {
+   "t": 53.388,
+   "arm": 1,
+   "cube": 3,
+   "mm": 3.4
+  }
+ ],
+ "arrivals": [],
+ "busy_time": [
+  80.334,
+  58.994,
+  37.198,
+  41.952
+ ],
+ "picks_per_arm": [
+  3,
+  1,
+  1,
+  1
+ ],
+ "wall_time": 177.002470403997,
+ "rounds": 67,
+ "plan_times": [
+  0.572259923996171,
+  0.7680734560126439,
+  0.3601968259899877,
+  0.4580825110024307,
+  0.5389488440123387,
+  0.37734947001445107,
+  5.3324009058997035e-05,
+  5.0238013500347733e-05,
+  4.9677997594699264e-05,
+  5.264801438897848e-05,
+  5.2624003728851676e-05,
+  6.64810067974031e-05,
+  5.600199801847339e-05,
+  5.520298145711422e-05,
+  5.784700624644756e-05,
+  5.207597860135138e-05,
+  6.908999057486653e-05,
+  3.7829013308510184e-05,
+  5.516200326383114e-05,
+  5.082800635136664e-05,
+  4.875598824582994e-05,
+  3.066298086196184e-05,
+  3.063600161112845e-05,
+  3.0459981644526124e-05,
+  3.696599742397666e-05,
+  5.166599294170737e-05,
+  4.835199797526002e-05,
+  4.733097739517689e-05,
+  4.850002005696297e-05,
+  5.438100197352469e-05,
+  5.4545002058148384e-05,
+  5.1059003453701735e-05,
+  6.458599818870425e-05,
+  3.225900582037866e-05,
+  3.0376017093658447e-05,
+  3.0441005947068334e-05,
+  2.7831003535538912e-05,
+  2.985697938129306e-05,
+  2.7030997443944216e-05,
+  3.140300395898521e-05,
+  2.8901995392516255e-05,
+  2.993197995238006e-05,
+  3.066399949602783e-05,
+  4.229499609209597e-05,
+  3.318299422971904e-05,
+  3.093699342571199e-05,
+  2.4275010218843818e-05,
+  2.6730005629360676e-05,
+  3.134898724965751e-05,
+  3.2415002351626754e-05,
+  3.0602997867390513e-05,
+  3.2370007829740644e-05,
+  2.7937989216297865e-05,
+  3.249899600632489e-05,
+  2.990500070154667e-05,
+  4.2311003198847175e-05,
+  4.1359016904607415e-05,
+  3.069301601499319e-05,
+  2.931201015599072e-05,
+  3.3235992304980755e-05,
+  0.4778623190068174,
+  1.3424576809920836,
+  1.3480816549854353,
+  0.650986678985646,
+  0.3957490489992779,
+  0.394450494000921,
+  0.3906091219978407
+ ]
+}

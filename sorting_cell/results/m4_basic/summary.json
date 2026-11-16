@@ -1,0 +1,114 @@
+{
+ "scenes": 50,
+ "scenes_fully_sorted": 50,
+ "cubes": 400,
+ "placed_correct": 400,
+ "placed_wrong": 0,
+ "not_in_tray": 0,
+ "scenes_with_collision": 0,
+ "collision_steps_by_type": {},
+ "picks": 400,
+ "pick_success": 400,
+ "pick_success_rate": 1.0,
+ "throughput_per_min_sim": {
+  "mean": 7.047636271398705,
+  "median": 6.921420582332939,
+  "min": 5.173082726216578,
+  "max": 11.778563015310915
+ },
+ "throughput_per_min_incl_planning": {
+  "mean": 6.4083947443965705,
+  "median": 6.321721586918084
+ },
+ "makespan_s": {
+  "mean": 69.63396000001303,
+  "max": 92.78799999996446
+ },
+ "planning_wall_s_per_scene": {
+  "mean": 6.967180170656065,
+  "max": 13.464391839079326
+ },
+ "rounds": {
+  "mean": 11.16,
+  "max": 18
+ },
+ "plan_failures": 33,
+ "deferrals": 0,
+ "deadlocks": 0,
+ "max_tracking_error_rad": 0.02322664896176807,
+ "blocked": 0,
+ "disturbed_events": 0,
+ "disturbed_max_mm": 0.0,
+ "arrivals": null,
+ "per_arm": {
+  "utilization": [
+   0.824,
+   0.813,
+   0.79,
+   0.792
+  ],
+  "picks_per_scene": [
+   2.12,
+   2.02,
+   1.94,
+   1.92
+  ],
+  "picks_per_min_per_arm": [
+   1.83,
+   1.74,
+   1.67,
+   1.65
+  ]
+ },
+ "perception": {
+  "decision_err_xy_mm": {
+   "n": 400,
+   "p50": 0.4615795954988736,
+   "p95": 0.7779307492330759,
+   "p99": 1.0102089497971256,
+   "p100": 4.596998759624404,
+   "mean": 0.49122948607811023
+  },
+  "decision_err_yaw_deg": {
+   "n": 400,
+   "p50": 0.39993393138585287,
+   "p95": 1.144725384745765,
+   "p99": 2.0211033325669896,
+   "p100": 3.2908403355270055,
+   "mean": 0.4898551205367094
+  },
+  "decision_color_ok": 1.0,
+  "frame_err_xy_mm": {
+   "n": 0
+  },
+  "frame_err_yaw_deg": {
+   "n": 0
+  },
+  "frame_track_age_s": {
+   "n": 0
+  },
+  "tracks_without_truth": 0,
+  "track_frames": 0,
+  "frames": 0,
+  "cube_frames": 0,
+  "occluded_partly": null,
+  "occluded_fully": null,
+  "tracks_per_scene": {
+   "n": 50,
+   "p50": 8.0,
+   "p100": 8.0,
+   "mean": 8.0
+  },
+  "lost_tracks": 0,
+  "lift_disagree": 0
+ },
+ "replan_latency_ms": {
+  "median": 587.4296030087862,
+  "p95": 1254.1408836128537,
+  "p99": 1394.0357456792842,
+  "max": 1628.329235012643,
+  "n": 558,
+  "failures": 33
+ },
+ "wait_local_s_per_scene": 1.636320000000426
+}

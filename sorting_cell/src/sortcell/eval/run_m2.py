@@ -26,18 +26,19 @@ _cell: StaggeredCell | None = None
 
 
 def make_cell(alloc: str, budget: float, penalty: float | None = None, max_total: float = 1.0,
-              perception: bool = False, split: bool = True, neighbor_check: bool = True) -> StaggeredCell:
+              perception: bool = False, split: bool = True, neighbor_check: bool = True,
+              eval_frames: bool = True) -> StaggeredCell:
     L = Layout()
     planner = PlannerService(L, max_total=max_total)
     tools = [ArmTools(L, k, planner.spaces[k]) for k in range(L.n_arms)]
     tables = [build_cost_table(L, k, planner.rms[k], tools[k]) for k in range(L.n_arms)]
     return StaggeredCell(L, planner, tools, tables, alloc=alloc, budget=budget, penalty=penalty, perception=perception,
-                         split=split, neighbor_check=neighbor_check)
+                         split=split, neighbor_check=neighbor_check, eval_frames=eval_frames)
 
 
-def _init(alloc, budget, penalty, max_total=1.0, perception=False, split=True, neighbor_check=True):
+def _init(alloc, budget, penalty, max_total=1.0, perception=False, split=True, neighbor_check=True, eval_frames=True):
     global _cell
-    _cell = make_cell(alloc, budget, penalty, max_total, perception, split, neighbor_check)
+    _cell = make_cell(alloc, budget, penalty, max_total, perception, split, neighbor_check, eval_frames)
 
 
 def _run(seed: int, video: str | None = None, view: float | None = None) -> dict:
@@ -72,6 +73,8 @@ def main():
     ap.add_argument("--budget", type=float, default=0.3)
     ap.add_argument("--penalty", type=float, default=None)
     ap.add_argument("--perception", action="store_true", help="pose từ camera trên cao (M3)")
+    ap.add_argument("--no-eval-frames", action="store_true",
+                    help="không ghi sai số/độ che khuất ở mỗi khung hình (nhanh hơn; perception vẫn chạy)")
     ap.add_argument("--no-split", action="store_true", help="so sánh: không tách khối cùng màu dính nhau")
     ap.add_argument("--no-neighbor-check", action="store_true",
                     help="so sánh: chọn hướng kẹp không tính khối hàng xóm")
@@ -86,7 +89,8 @@ def main():
     if out is not None:
         out.mkdir(parents=True, exist_ok=True)
     if a.video or a.view or len(seeds) == 1:
-        _init(a.alloc, a.budget, a.penalty, a.max_total, a.perception, not a.no_split, not a.no_neighbor_check)
+        _init(a.alloc, a.budget, a.penalty, a.max_total, a.perception, not a.no_split, not a.no_neighbor_check,
+              not a.no_eval_frames)
         results = []
         for s in seeds:
             try:
@@ -98,10 +102,11 @@ def main():
             print(f"seed {r['seed']}: đúng {r['placed_correct']}/{r['n_cubes']}, va chạm {r['collision_steps']}, "
                   f"gắp {r['pick_success']}/{r['picks']}, makespan {r['t_last_place']:.1f} s", flush=True)
     else:
-        _init(a.alloc, a.budget, a.penalty, a.max_total, a.perception, not a.no_split, not a.no_neighbor_check)  # dựng cache (bảng chi phí) trước khi chia tiến trình
+        _init(a.alloc, a.budget, a.penalty, a.max_total, a.perception, not a.no_split, not a.no_neighbor_check,
+              not a.no_eval_frames)  # dựng cache (bảng chi phí) trước khi chia tiến trình
         results = []
         with ProcessPoolExecutor(a.workers, initializer=_init, initargs=(a.alloc, a.budget, a.penalty, a.max_total, a.perception, not a.no_split,
-                                                    not a.no_neighbor_check)) as ex:
+                                                    not a.no_neighbor_check, not a.no_eval_frames)) as ex:
             for r in ex.map(_run, seeds):
                 results.append(r)
                 print(f"seed {r['seed']}: đúng {r['placed_correct']}/{r['n_cubes']}, va chạm {r['collision_steps']}, "

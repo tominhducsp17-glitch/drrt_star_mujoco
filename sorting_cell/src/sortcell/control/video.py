@@ -5,8 +5,9 @@ import mujoco as mj
 
 class Recorder:
     def __init__(self, path, model=None, camera=None, size=(640, 480), fps=30, lookat=(0.0, 0.0, 0.75),
-                 distance=3.3, azimuth=135.0, elevation=-42.0):
+                 distance=3.3, azimuth=135.0, elevation=-42.0, speed: float = 1.0):
         self.path, self.camera, self.size, self.fps = path, camera, size, fps
+        self.sample_fps = fps / speed   # lấy khung hình theo thời gian mô phỏng; phát ở fps → nhanh gấp `speed` lần
         self.view = (lookat, distance, azimuth, elevation)
         self.renderer = None
         self.writer = imageio.get_writer(path, fps=fps)

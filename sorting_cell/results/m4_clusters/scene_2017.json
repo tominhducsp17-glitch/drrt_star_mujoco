@@ -7,28 +7,28 @@
  "not_in_tray": 0,
  "picks": 8,
  "pick_success": 8,
- "sim_time": 76.18600000000315,
- "t_last_place": 66.75800000002512,
- "planning_wall": 7.2214623249310534,
+ "sim_time": 71.83400000001329,
+ "t_last_place": 66.78600000002506,
+ "planning_wall": 7.060855120973429,
  "replans": 12,
  "replan_times": [
-  1.2881406679807696,
-  0.5931619749753736,
-  0.5778022980084643,
-  0.36230860400246456,
-  0.5364878599939402,
-  0.36551234798389487,
-  0.43013724699267186,
-  0.40670328598935157,
-  0.5072482950054109,
-  1.1460887260036543,
-  0.5625196849869099,
-  0.4453513330081478
+  0.6557795440021437,
+  0.4923301730013918,
+  0.4276315799797885,
+  0.7682990510074887,
+  0.6142654819996096,
+  0.4005611689935904,
+  0.6333067270170432,
+  0.6562598769960459,
+  0.6939846079912968,
+  0.622480263991747,
+  0.7052724880049936,
+  0.39068415798828937
  ],
- "plan_failures": 2,
+ "plan_failures": 0,
  "collision_steps": {},
  "collision_pairs": {},
- "max_tracking_error": 0.019623379503764582,
+ "max_tracking_error": 0.02322664896168547,
  "deadlock": false,
  "events": [
   {
@@ -52,504 +52,486 @@
   {
    "t": 0.3,
    "arm": -1,
-   "phase": "PLAN_FAIL",
-   "info": "giao vi\u1ec7c: dRRT* kh\u00f4ng ra l\u1eddi gi\u1ea3i trong 1.0 s"
-  },
-  {
-   "t": 0.35,
-   "arm": 2,
-   "phase": "TRANSIT_TO_PICK",
-   "info": "kh\u1ed1i 5"
-  },
-  {
-   "t": 1.3,
-   "arm": 0,
-   "phase": "TRANSIT_TO_PICK",
-   "info": "kh\u1ed1i 4"
-  },
-  {
-   "t": 1.3,
-   "arm": 1,
-   "phase": "TRANSIT_TO_PICK",
-   "info": "kh\u1ed1i 7"
-  },
-  {
-   "t": 1.3,
-   "arm": 3,
-   "phase": "TRANSIT_TO_PICK",
-   "info": "kh\u1ed1i 3"
-  },
-  {
-   "t": 1.3,
-   "arm": -1,
    "phase": "PLAN",
-   "info": "giao vi\u1ec7c: tay [0, 1, 2, 3], 11 \u0111\u1ec9nh, 593 ms"
+   "info": "giao vi\u1ec7c: tay [0, 1, 3], 9 \u0111\u1ec9nh, 656 ms"
   },
   {
-   "t": 9.976,
-   "arm": 3,
-   "phase": "ARRIVED",
-   "info": "pick kh\u1ed1i 3"
-  },
-  {
-   "t": 9.976,
-   "arm": -1,
-   "phase": "PLAN",
-   "info": "tay 3 c\u1ea7n v\u00f9ng d\u00e0nh ri\u00eang: tay [0, 1, 2], 5 \u0111\u1ec9nh, 578 ms"
-  },
-  {
-   "t": 11.328,
-   "arm": 3,
-   "phase": "GRASP",
-   "info": "kh\u1ed1i 3"
-  },
-  {
-   "t": 15.384,
+   "t": 6.324,
    "arm": 0,
    "phase": "ARRIVED",
    "info": "pick kh\u1ed1i 4"
   },
   {
-   "t": 15.384,
-   "arm": 1,
-   "phase": "ARRIVED",
-   "info": "pick kh\u1ed1i 7"
+   "t": 6.324,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "tay 0 c\u1ea7n v\u00f9ng d\u00e0nh ri\u00eang: tay [1, 3], 5 \u0111\u1ec9nh, 492 ms"
   },
   {
-   "t": 15.384,
-   "arm": 2,
-   "phase": "ARRIVED",
-   "info": "pick kh\u1ed1i 5"
-  },
-  {
-   "t": 15.384,
-   "arm": 3,
-   "phase": "LIFT_CHECK",
-   "info": "v\u1eadt 3 (kh\u1ed1i th\u1eadt 1)"
-  },
-  {
-   "t": 15.384,
+   "t": 7.708,
    "arm": 0,
    "phase": "GRASP",
    "info": "kh\u1ed1i 4"
   },
   {
-   "t": 15.384,
+   "t": 11.86,
    "arm": 1,
-   "phase": "GRASP",
-   "info": "kh\u1ed1i 7"
+   "phase": "ARRIVED",
+   "info": "pick kh\u1ed1i 5"
   },
   {
-   "t": 15.384,
-   "arm": 2,
-   "phase": "GRASP",
-   "info": "kh\u1ed1i 5"
-  },
-  {
-   "t": 15.384,
+   "t": 11.86,
    "arm": 3,
-   "phase": "TRANSIT_TO_PLACE",
-   "info": "kh\u1ed1i 3 \u2192 khay 1"
+   "phase": "ARRIVED",
+   "info": "pick kh\u1ed1i 3"
   },
   {
-   "t": 15.384,
-   "arm": -1,
-   "phase": "PLAN",
-   "info": "giao vi\u1ec7c: tay [3], 6 \u0111\u1ec9nh, 362 ms"
-  },
-  {
-   "t": 19.518,
+   "t": 11.86,
    "arm": 0,
    "phase": "LIFT_CHECK",
    "info": "v\u1eadt 4 (kh\u1ed1i th\u1eadt 5)"
   },
   {
-   "t": 19.518,
+   "t": 11.86,
    "arm": 1,
-   "phase": "LIFT_CHECK",
-   "info": "v\u1eadt 7 (kh\u1ed1i th\u1eadt 2)"
+   "phase": "GRASP",
+   "info": "kh\u1ed1i 5"
   },
   {
-   "t": 19.518,
-   "arm": 2,
-   "phase": "LIFT_CHECK",
-   "info": "v\u1eadt 5 (kh\u1ed1i th\u1eadt 4)"
+   "t": 11.86,
+   "arm": 3,
+   "phase": "GRASP",
+   "info": "kh\u1ed1i 3"
   },
   {
-   "t": 19.518,
+   "t": 11.86,
    "arm": 0,
    "phase": "TRANSIT_TO_PLACE",
    "info": "kh\u1ed1i 4 \u2192 khay 1"
   },
   {
-   "t": 19.518,
-   "arm": 1,
-   "phase": "TRANSIT_TO_PLACE",
-   "info": "kh\u1ed1i 7 \u2192 khay 2"
+   "t": 11.86,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [0], 6 \u0111\u1ec9nh, 428 ms"
   },
   {
-   "t": 19.518,
-   "arm": 2,
+   "t": 15.988,
+   "arm": 1,
+   "phase": "LIFT_CHECK",
+   "info": "v\u1eadt 5 (kh\u1ed1i th\u1eadt 4)"
+  },
+  {
+   "t": 15.988,
+   "arm": 3,
+   "phase": "LIFT_CHECK",
+   "info": "v\u1eadt 3 (kh\u1ed1i th\u1eadt 1)"
+  },
+  {
+   "t": 15.988,
+   "arm": 1,
    "phase": "TRANSIT_TO_PLACE",
    "info": "kh\u1ed1i 5 \u2192 khay 2"
   },
   {
-   "t": 19.518,
-   "arm": -1,
-   "phase": "PLAN",
-   "info": "giao vi\u1ec7c: tay [0, 1, 2, 3], 9 \u0111\u1ec9nh, 536 ms"
+   "t": 15.988,
+   "arm": 2,
+   "phase": "TRANSIT_TO_PICK",
+   "info": "kh\u1ed1i 7"
   },
   {
-   "t": 28.506,
+   "t": 15.988,
+   "arm": 3,
+   "phase": "TRANSIT_TO_PLACE",
+   "info": "kh\u1ed1i 3 \u2192 khay 1"
+  },
+  {
+   "t": 15.988,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [0, 1, 2, 3], 9 \u0111\u1ec9nh, 768 ms"
+  },
+  {
+   "t": 22.922,
    "arm": 0,
    "phase": "ARRIVED",
    "info": "place kh\u1ed1i 4"
   },
   {
-   "t": 28.506,
-   "arm": 2,
+   "t": 22.922,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "tay 0 c\u1ea7n v\u00f9ng d\u00e0nh ri\u00eang: tay [1, 2, 3], 4 \u0111\u1ec9nh, 614 ms"
+  },
+  {
+   "t": 24.39,
+   "arm": 0,
+   "phase": "PLACE",
+   "info": "kh\u1ed1i 4"
+  },
+  {
+   "t": 27.326,
+   "arm": 1,
    "phase": "ARRIVED",
    "info": "place kh\u1ed1i 5"
   },
   {
-   "t": 28.506,
+   "t": 27.326,
+   "arm": 2,
+   "phase": "ARRIVED",
+   "info": "pick kh\u1ed1i 7"
+  },
+  {
+   "t": 27.326,
    "arm": 3,
    "phase": "ARRIVED",
    "info": "place kh\u1ed1i 3"
   },
   {
-   "t": 28.506,
-   "arm": -1,
-   "phase": "PLAN",
-   "info": "tay 0 c\u1ea7n v\u00f9ng d\u00e0nh ri\u00eang: tay [1], 3 \u0111\u1ec9nh, 366 ms"
-  },
-  {
-   "t": 28.506,
-   "arm": 2,
-   "phase": "PLACE",
-   "info": "kh\u1ed1i 5"
-  },
-  {
-   "t": 28.506,
-   "arm": 3,
-   "phase": "PLACE",
-   "info": "kh\u1ed1i 3"
-  },
-  {
-   "t": 29.624,
-   "arm": 0,
-   "phase": "PLACE",
-   "info": "kh\u1ed1i 4"
-  },
-  {
-   "t": 30.742,
-   "arm": 1,
-   "phase": "ARRIVED",
-   "info": "place kh\u1ed1i 7"
-  },
-  {
-   "t": 30.742,
-   "arm": 1,
-   "phase": "PLACE",
-   "info": "kh\u1ed1i 7"
-  },
-  {
-   "t": 31.242,
-   "arm": 2,
-   "phase": "PLACED",
-   "info": "kh\u1ed1i 5"
-  },
-  {
-   "t": 31.242,
-   "arm": 3,
-   "phase": "PLACED",
-   "info": "kh\u1ed1i 3"
-  },
-  {
-   "t": 31.242,
-   "arm": 2,
-   "phase": "TRANSIT_TO_PICK",
-   "info": "kh\u1ed1i 6"
-  },
-  {
-   "t": 31.242,
-   "arm": 3,
-   "phase": "TRANSIT_TO_PICK",
-   "info": "kh\u1ed1i 2"
-  },
-  {
-   "t": 31.242,
-   "arm": -1,
-   "phase": "PLAN",
-   "info": "giao vi\u1ec7c: tay [2, 3], 7 \u0111\u1ec9nh, 430 ms"
-  },
-  {
-   "t": 32.692,
+   "t": 27.326,
    "arm": 0,
    "phase": "PLACED",
    "info": "kh\u1ed1i 4"
   },
   {
-   "t": 34.142,
+   "t": 27.326,
    "arm": 1,
-   "phase": "PLACED",
+   "phase": "PLACE",
+   "info": "kh\u1ed1i 5"
+  },
+  {
+   "t": 27.326,
+   "arm": 2,
+   "phase": "GRASP",
    "info": "kh\u1ed1i 7"
   },
   {
-   "t": 39.942,
-   "arm": 2,
-   "phase": "ARRIVED",
-   "info": "pick kh\u1ed1i 6"
-  },
-  {
-   "t": 39.942,
+   "t": 27.326,
    "arm": 3,
-   "phase": "ARRIVED",
-   "info": "pick kh\u1ed1i 2"
+   "phase": "PLACE",
+   "info": "kh\u1ed1i 3"
   },
   {
-   "t": 39.942,
-   "arm": 2,
-   "phase": "GRASP",
-   "info": "kh\u1ed1i 6"
-  },
-  {
-   "t": 39.942,
-   "arm": 3,
-   "phase": "GRASP",
+   "t": 27.326,
+   "arm": 0,
+   "phase": "TRANSIT_TO_PICK",
    "info": "kh\u1ed1i 2"
   },
   {
-   "t": 43.342,
-   "arm": 2,
-   "phase": "LIFT_CHECK",
-   "info": "v\u1eadt 6 (kh\u1ed1i th\u1eadt 3)"
-  },
-  {
-   "t": 43.342,
-   "arm": 3,
-   "phase": "LIFT_CHECK",
-   "info": "v\u1eadt 2 (kh\u1ed1i th\u1eadt 7)"
-  },
-  {
-   "t": 43.342,
-   "arm": 2,
-   "phase": "TRANSIT_TO_PLACE",
-   "info": "kh\u1ed1i 6 \u2192 khay 2"
-  },
-  {
-   "t": 43.342,
-   "arm": 3,
-   "phase": "TRANSIT_TO_PLACE",
-   "info": "kh\u1ed1i 2 \u2192 khay 0"
-  },
-  {
-   "t": 43.342,
+   "t": 27.326,
    "arm": -1,
    "phase": "PLAN",
-   "info": "giao vi\u1ec7c: tay [2, 3], 7 \u0111\u1ec9nh, 407 ms"
+   "info": "giao vi\u1ec7c: tay [0], 7 \u0111\u1ec9nh, 401 ms"
   },
   {
-   "t": 44.74,
-   "arm": 0,
+   "t": 30.294,
+   "arm": 1,
+   "phase": "PLACED",
+   "info": "kh\u1ed1i 5"
+  },
+  {
+   "t": 30.294,
+   "arm": 3,
+   "phase": "PLACED",
+   "info": "kh\u1ed1i 3"
+  },
+  {
+   "t": 31.778,
+   "arm": 2,
+   "phase": "LIFT_CHECK",
+   "info": "v\u1eadt 7 (kh\u1ed1i th\u1eadt 2)"
+  },
+  {
+   "t": 31.778,
+   "arm": 2,
+   "phase": "TRANSIT_TO_PLACE",
+   "info": "kh\u1ed1i 7 \u2192 khay 2"
+  },
+  {
+   "t": 31.778,
+   "arm": 3,
    "phase": "TRANSIT_TO_PICK",
    "info": "kh\u1ed1i 0"
   },
   {
-   "t": 44.74,
+   "t": 31.778,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [0, 2, 3], 7 \u0111\u1ec9nh, 633 ms"
+  },
+  {
+   "t": 33.224,
    "arm": 1,
    "phase": "TRANSIT_TO_PICK",
    "info": "kh\u1ed1i 1"
   },
   {
-   "t": 44.74,
+   "t": 33.224,
    "arm": -1,
    "phase": "PLAN",
-   "info": "giao vi\u1ec7c: tay [0, 1, 2, 3], 6 \u0111\u1ec9nh, 507 ms"
+   "info": "giao vi\u1ec7c: tay [0, 1, 2, 3], 6 \u0111\u1ec9nh, 656 ms"
   },
   {
-   "t": 51.73,
+   "t": 40.454,
    "arm": 0,
    "phase": "ARRIVED",
-   "info": "pick kh\u1ed1i 0"
+   "info": "pick kh\u1ed1i 2"
   },
   {
-   "t": 51.73,
+   "t": 40.454,
    "arm": 1,
    "phase": "ARRIVED",
    "info": "pick kh\u1ed1i 1"
   },
   {
-   "t": 51.73,
+   "t": 40.454,
    "arm": 2,
    "phase": "ARRIVED",
-   "info": "place kh\u1ed1i 6"
+   "info": "place kh\u1ed1i 7"
   },
   {
-   "t": 51.73,
+   "t": 40.454,
    "arm": 3,
    "phase": "ARRIVED",
-   "info": "place kh\u1ed1i 2"
+   "info": "pick kh\u1ed1i 0"
   },
   {
-   "t": 51.73,
+   "t": 40.454,
    "arm": 0,
    "phase": "GRASP",
-   "info": "kh\u1ed1i 0"
+   "info": "kh\u1ed1i 2"
   },
   {
-   "t": 51.73,
+   "t": 40.454,
    "arm": 1,
    "phase": "GRASP",
    "info": "kh\u1ed1i 1"
   },
   {
-   "t": 51.73,
+   "t": 40.454,
    "arm": 2,
    "phase": "PLACE",
-   "info": "kh\u1ed1i 6"
+   "info": "kh\u1ed1i 7"
   },
   {
-   "t": 51.73,
+   "t": 40.454,
    "arm": 3,
-   "phase": "PLACE",
-   "info": "kh\u1ed1i 2"
+   "phase": "GRASP",
+   "info": "kh\u1ed1i 0"
   },
   {
-   "t": 54.43,
+   "t": 43.154,
    "arm": 2,
    "phase": "PLACED",
-   "info": "kh\u1ed1i 6"
+   "info": "kh\u1ed1i 7"
   },
   {
-   "t": 54.43,
-   "arm": 3,
-   "phase": "PLACED",
-   "info": "kh\u1ed1i 2"
-  },
-  {
-   "t": 54.43,
-   "arm": 2,
-   "phase": "TRANSIT_HOME",
-   "info": ""
-  },
-  {
-   "t": 54.43,
-   "arm": 3,
-   "phase": "TRANSIT_HOME",
-   "info": ""
-  },
-  {
-   "t": 54.43,
-   "arm": -1,
-   "phase": "PLAN_FAIL",
-   "info": "giao vi\u1ec7c: dRRT* kh\u00f4ng ra l\u1eddi gi\u1ea3i trong 1.0 s"
-  },
-  {
-   "t": 55.13,
+   "t": 43.854,
    "arm": 0,
    "phase": "LIFT_CHECK",
-   "info": "v\u1eadt 0 (kh\u1ed1i th\u1eadt 0)"
+   "info": "v\u1eadt 2 (kh\u1ed1i th\u1eadt 7)"
   },
   {
-   "t": 55.13,
+   "t": 43.854,
    "arm": 1,
    "phase": "LIFT_CHECK",
    "info": "v\u1eadt 1 (kh\u1ed1i th\u1eadt 6)"
   },
   {
-   "t": 55.13,
-   "arm": 0,
-   "phase": "TRANSIT_TO_PLACE",
-   "info": "kh\u1ed1i 0 \u2192 khay 0"
+   "t": 43.854,
+   "arm": 3,
+   "phase": "LIFT_CHECK",
+   "info": "v\u1eadt 0 (kh\u1ed1i th\u1eadt 0)"
   },
   {
-   "t": 55.13,
+   "t": 43.854,
+   "arm": 0,
+   "phase": "TRANSIT_TO_PLACE",
+   "info": "kh\u1ed1i 2 \u2192 khay 0"
+  },
+  {
+   "t": 43.854,
    "arm": 1,
    "phase": "TRANSIT_TO_PLACE",
    "info": "kh\u1ed1i 1 \u2192 khay 0"
   },
   {
-   "t": 55.43,
+   "t": 43.854,
+   "arm": 2,
+   "phase": "TRANSIT_TO_PICK",
+   "info": "kh\u1ed1i 6"
+  },
+  {
+   "t": 43.854,
+   "arm": 3,
+   "phase": "TRANSIT_TO_PLACE",
+   "info": "kh\u1ed1i 0 \u2192 khay 0"
+  },
+  {
+   "t": 43.854,
    "arm": -1,
    "phase": "PLAN",
-   "info": "giao vi\u1ec7c: tay [0, 1, 2, 3], 7 \u0111\u1ec9nh, 563 ms"
+   "info": "giao vi\u1ec7c: tay [0, 1, 2, 3], 7 \u0111\u1ec9nh, 694 ms"
   },
   {
-   "t": 64.358,
+   "t": 52.758,
    "arm": 0,
    "phase": "ARRIVED",
-   "info": "place kh\u1ed1i 0"
+   "info": "place kh\u1ed1i 2"
   },
   {
-   "t": 64.358,
+   "t": 52.758,
    "arm": 1,
    "phase": "ARRIVED",
    "info": "place kh\u1ed1i 1"
   },
   {
-   "t": 64.358,
+   "t": 52.758,
    "arm": 2,
+   "phase": "ARRIVED",
+   "info": "pick kh\u1ed1i 6"
+  },
+  {
+   "t": 52.758,
+   "arm": 3,
+   "phase": "ARRIVED",
+   "info": "place kh\u1ed1i 0"
+  },
+  {
+   "t": 52.758,
+   "arm": 0,
+   "phase": "PLACE",
+   "info": "kh\u1ed1i 2"
+  },
+  {
+   "t": 52.758,
+   "arm": 1,
+   "phase": "PLACE",
+   "info": "kh\u1ed1i 1"
+  },
+  {
+   "t": 52.758,
+   "arm": 2,
+   "phase": "GRASP",
+   "info": "kh\u1ed1i 6"
+  },
+  {
+   "t": 52.758,
+   "arm": 3,
+   "phase": "PLACE",
+   "info": "kh\u1ed1i 0"
+  },
+  {
+   "t": 55.458,
+   "arm": 0,
+   "phase": "PLACED",
+   "info": "kh\u1ed1i 2"
+  },
+  {
+   "t": 55.458,
+   "arm": 1,
+   "phase": "PLACED",
+   "info": "kh\u1ed1i 1"
+  },
+  {
+   "t": 55.458,
+   "arm": 3,
+   "phase": "PLACED",
+   "info": "kh\u1ed1i 0"
+  },
+  {
+   "t": 55.458,
+   "arm": 0,
+   "phase": "TRANSIT_HOME",
+   "info": ""
+  },
+  {
+   "t": 55.458,
+   "arm": 1,
+   "phase": "TRANSIT_HOME",
+   "info": ""
+  },
+  {
+   "t": 55.458,
+   "arm": 3,
+   "phase": "TRANSIT_HOME",
+   "info": ""
+  },
+  {
+   "t": 55.458,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [0, 1, 3], 7 \u0111\u1ec9nh, 622 ms"
+  },
+  {
+   "t": 56.946,
+   "arm": 2,
+   "phase": "LIFT_CHECK",
+   "info": "v\u1eadt 6 (kh\u1ed1i th\u1eadt 3)"
+  },
+  {
+   "t": 56.946,
+   "arm": 2,
+   "phase": "TRANSIT_TO_PLACE",
+   "info": "kh\u1ed1i 6 \u2192 khay 2"
+  },
+  {
+   "t": 56.946,
+   "arm": -1,
+   "phase": "PLAN",
+   "info": "giao vi\u1ec7c: tay [0, 1, 2, 3], 6 \u0111\u1ec9nh, 705 ms"
+  },
+  {
+   "t": 64.386,
+   "arm": 0,
    "phase": "HOME",
    "info": ""
   },
   {
-   "t": 64.358,
+   "t": 64.386,
+   "arm": 1,
+   "phase": "HOME",
+   "info": ""
+  },
+  {
+   "t": 64.386,
+   "arm": 2,
+   "phase": "ARRIVED",
+   "info": "place kh\u1ed1i 6"
+  },
+  {
+   "t": 64.386,
    "arm": 3,
    "phase": "HOME",
    "info": ""
   },
   {
-   "t": 64.358,
-   "arm": 0,
+   "t": 64.386,
+   "arm": 2,
    "phase": "PLACE",
-   "info": "kh\u1ed1i 0"
+   "info": "kh\u1ed1i 6"
   },
   {
-   "t": 64.358,
-   "arm": 1,
-   "phase": "PLACE",
-   "info": "kh\u1ed1i 1"
-  },
-  {
-   "t": 67.058,
-   "arm": 0,
+   "t": 67.086,
+   "arm": 2,
    "phase": "PLACED",
-   "info": "kh\u1ed1i 0"
+   "info": "kh\u1ed1i 6"
   },
   {
-   "t": 67.058,
-   "arm": 1,
-   "phase": "PLACED",
-   "info": "kh\u1ed1i 1"
-  },
-  {
-   "t": 67.058,
-   "arm": 0,
+   "t": 67.086,
+   "arm": 2,
    "phase": "TRANSIT_HOME",
    "info": ""
   },
   {
-   "t": 67.058,
-   "arm": 1,
-   "phase": "TRANSIT_HOME",
-   "info": ""
-  },
-  {
-   "t": 67.058,
+   "t": 67.086,
    "arm": -1,
    "phase": "PLAN",
-   "info": "giao vi\u1ec7c: tay [0, 1], 7 \u0111\u1ec9nh, 445 ms"
+   "info": "giao vi\u1ec7c: tay [2], 4 \u0111\u1ec9nh, 391 ms"
   },
   {
-   "t": 75.986,
-   "arm": 0,
-   "phase": "HOME",
-   "info": ""
-  },
-  {
-   "t": 75.986,
-   "arm": 1,
+   "t": 71.634,
+   "arm": 2,
    "phase": "HOME",
    "info": ""
   }
@@ -564,66 +546,31 @@
   "placed",
   "placed"
  ],
- "wait_local_time": 2.469999999999832,
+ "wait_local_time": 2.851999999999034,
  "tasks": [
-  {
-   "arm": 3,
-   "cube": 3,
-   "t_assign": 1.300000000000001,
-   "active": [
-    0,
-    1,
-    2
-   ],
-   "hitbox": [],
-   "path_waits": 0,
-   "plans": 1,
-   "wait_local": 1.3520000000004515,
-   "truth": 1,
-   "err_xy": 0.0006324956695262573,
-   "err_yaw": 0.01324201486021237,
-   "color_ok": true
-  },
   {
    "arm": 0,
    "cube": 4,
-   "t_assign": 1.300000000000001,
-   "active": [
-    2
-   ],
+   "t_assign": 0.3000000000000002,
+   "active": [],
    "hitbox": [],
    "path_waits": 0,
-   "plans": 2,
-   "wait_local": 0.0,
+   "plans": 1,
+   "wait_local": 1.3839999999998476,
    "truth": 5,
-   "err_xy": 0.0005590626099659796,
+   "err_xy": 0.0005590625841123828,
    "err_yaw": 0.0055388829155704755,
    "color_ok": true
   },
   {
    "arm": 1,
-   "cube": 7,
-   "t_assign": 1.300000000000001,
+   "cube": 5,
+   "t_assign": 0.3000000000000002,
    "active": [
-    0,
-    2
+    0
    ],
    "hitbox": [],
-   "path_waits": 0,
-   "plans": 2,
-   "wait_local": 0.0,
-   "truth": 2,
-   "err_xy": 0.0004680072975705614,
-   "err_yaw": 0.0035195550255919805,
-   "color_ok": true
-  },
-  {
-   "arm": 2,
-   "cube": 5,
-   "t_assign": 0.35000000000000026,
-   "active": [],
-   "hitbox": [],
-   "path_waits": 0,
+   "path_waits": 1,
    "plans": 2,
    "wait_local": 0.0,
    "truth": 4,
@@ -632,65 +579,97 @@
    "color_ok": true
   },
   {
-   "arm": 2,
-   "cube": 6,
-   "t_assign": 31.241999999993563,
-   "active": [],
+   "arm": 3,
+   "cube": 3,
+   "t_assign": 0.3000000000000002,
+   "active": [
+    0,
+    1
+   ],
    "hitbox": [],
-   "path_waits": 0,
-   "plans": 1,
+   "path_waits": 1,
+   "plans": 2,
    "wait_local": 0.0,
-   "truth": 3,
-   "err_xy": 0.0006284940840695618,
-   "err_yaw": 0.019899130578397983,
+   "truth": 1,
+   "err_xy": 0.0006324956443376062,
+   "err_yaw": 0.01324201486021237,
    "color_ok": true
   },
   {
-   "arm": 3,
-   "cube": 2,
-   "t_assign": 31.241999999993563,
-   "active": [
-    2
-   ],
-   "hitbox": [
-    2
-   ],
+   "arm": 2,
+   "cube": 7,
+   "t_assign": 15.988000000002009,
+   "active": [],
+   "hitbox": [],
    "path_waits": 0,
-   "plans": 1,
+   "plans": 2,
    "wait_local": 0.0,
-   "truth": 7,
-   "err_xy": 0.0005897484958783229,
-   "err_yaw": 0.009370723678937098,
+   "truth": 2,
+   "err_xy": 0.0004680071137584547,
+   "err_yaw": 0.0035191043982287784,
    "color_ok": true
   },
   {
    "arm": 0,
-   "cube": 0,
-   "t_assign": 44.74000000000871,
-   "active": [],
+   "cube": 2,
+   "t_assign": 27.325999999995734,
+   "active": [
+    2
+   ],
    "hitbox": [],
    "path_waits": 0,
-   "plans": 1,
+   "plans": 3,
    "wait_local": 0.0,
-   "truth": 0,
-   "err_xy": 0.0006663842403999243,
-   "err_yaw": 0.008201557803291792,
+   "truth": 7,
+   "err_xy": 0.0005897484958803517,
+   "err_yaw": 0.009370595744100818,
    "color_ok": true
   },
   {
    "arm": 1,
    "cube": 1,
-   "t_assign": 44.74000000000871,
+   "t_assign": 33.22399999999464,
    "active": [
-    0
+    0,
+    3
    ],
    "hitbox": [],
    "path_waits": 0,
    "plans": 1,
    "wait_local": 0.0,
    "truth": 6,
-   "err_xy": 0.0004561860192756925,
-   "err_yaw": 0.00023488623970457922,
+   "err_xy": 0.0004561860192739059,
+   "err_yaw": 0.00023450739669494958,
+   "color_ok": true
+  },
+  {
+   "arm": 3,
+   "cube": 0,
+   "t_assign": 31.777999999993266,
+   "active": [
+    0
+   ],
+   "hitbox": [],
+   "path_waits": 0,
+   "plans": 2,
+   "wait_local": 0.0,
+   "truth": 0,
+   "err_xy": 0.0006663842403997171,
+   "err_yaw": 0.008201984893333125,
+   "color_ok": true
+  },
+  {
+   "arm": 2,
+   "cube": 6,
+   "t_assign": 43.85400000000763,
+   "active": [],
+   "hitbox": [],
+   "path_waits": 0,
+   "plans": 1,
+   "wait_local": 0.0,
+   "truth": 3,
+   "err_xy": 0.00026427875198212393,
+   "err_yaw": 0.008664173357888494,
    "color_ok": true
   }
  ],
@@ -699,10 +678,10 @@
  "disturbed": [],
  "arrivals": [],
  "busy_time": [
-  62.638,
-  64.088,
-  64.008,
-  63.058
+  64.086,
+  61.156,
+  54.946,
+  62.602
  ],
  "picks_per_arm": [
   2,
@@ -710,20 +689,24 @@
   2,
   2
  ],
- "wall_time": 319.9489132479939,
+ "collision_first": {},
+ "collision_max_depth": {},
+ "held_drift_mm": 2.77,
+ "held_tilt_deg": 1.05,
+ "wall_time": 45.1799705849844,
  "rounds": 12,
  "plan_times": [
-  1.2881406679807696,
-  0.5931619749753736,
-  0.5778022980084643,
-  0.36230860400246456,
-  0.5364878599939402,
-  0.36551234798389487,
-  0.43013724699267186,
-  0.40670328598935157,
-  0.5072482950054109,
-  1.1460887260036543,
-  0.5625196849869099,
-  0.4453513330081478
+  0.6557795440021437,
+  0.4923301730013918,
+  0.4276315799797885,
+  0.7682990510074887,
+  0.6142654819996096,
+  0.4005611689935904,
+  0.6333067270170432,
+  0.6562598769960459,
+  0.6939846079912968,
+  0.622480263991747,
+  0.7052724880049936,
+  0.39068415798828937
  ]
 }
