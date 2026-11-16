@@ -38,7 +38,36 @@ def summarize(results: list[dict]) -> dict:
         "deferrals": sum(r.get("deferrals", 0) for r in results),
         "deadlocks": sum(r["deadlock"] for r in results),
         "max_tracking_error_rad": float(max(r["max_tracking_error"] for r in results)),
+        "blocked": sum(r.get("blocked", 0) for r in results),
+        "disturbed_events": sum(len(r.get("disturbed", [])) for r in results),
+        "disturbed_max_mm": float(max((e["mm"] for r in results for e in r.get("disturbed", [])), default=0.0)),
+        "arrivals": arrival_summary(results),
+        "per_arm": per_arm_summary(results),
     }
+
+
+def per_arm_summary(results: list[dict]) -> dict | None:
+    """Mỗi tay: tỉ lệ thời gian không rảnh trên toàn thời gian mô phỏng của cảnh, và số khối gắp được; trung bình các cảnh."""
+    rs = [r for r in results if r.get("busy_time")]
+    if not rs:
+        return None
+    util = np.array([np.array(r["busy_time"]) / max(r["sim_time"], 1e-9) for r in rs])
+    picks = np.array([r["picks_per_arm"] for r in rs])
+    return {"utilization": util.mean(0).round(3).tolist(), "picks_per_scene": picks.mean(0).round(2).tolist(),
+            "picks_per_min_per_arm": (picks.sum(0) / sum(r["t_last_place"] for r in rs) * 60).round(2).tolist()}
+
+
+def arrival_summary(results: list[dict]) -> dict | None:
+    """Khối thả thêm giữa chừng (M4 việc 2): số khối, độ trễ thả → phát hiện → giao việc → nhấc lên (s)."""
+    arr = [a for r in results for a in r.get("arrivals", [])]
+    if not arr:
+        return None
+    out = {"n": len(arr), "detected": sum("t_detect" in a for a in arr), "lifted": sum("t_lift" in a for a in arr)}
+    for name, a_key, b_key in (("spawn_to_detect", "t_spawn", "t_detect"), ("spawn_to_assign", "t_spawn", "t_assign"),
+                               ("detect_to_assign", "t_detect", "t_assign"), ("spawn_to_lift", "t_spawn", "t_lift")):
+        v = [a[b_key] - a[a_key] for a in arr if a_key in a and b_key in a]
+        out[name] = _pct(v, (50, 95, 100)) if v else {"n": 0}
+    return out
 
 
 def _pct(x, qs=(50, 95, 99, 100)) -> dict:

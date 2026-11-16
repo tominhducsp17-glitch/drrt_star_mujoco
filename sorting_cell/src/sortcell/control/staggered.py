@@ -21,6 +21,7 @@ Mô phỏng tạm dừng trong lúc lập kế hoạch; thời gian lập kế h
 """
 from __future__ import annotations
 
+import math
 import time
 from dataclasses import asdict, dataclass, field
 
@@ -35,7 +36,7 @@ from ..allocation.zones import assign_level0
 from ..planning.query import QueryChecker
 from ..planning.service import PlannerService
 from ..scene.builder import COLOR_NAMES, CUBE, Layout
-from ..scene.sampling import CubeSpec
+from ..scene.sampling import MIN_DIST, CubeSpec
 from ..skills.ik import HOME
 from ..skills.scripted import ArmTools, LocalMove
 from .arm_fsm import (AMAX, LIFT_OK, MAX_ATTEMPTS, T_CLOSE, T_DOWN, T_OPEN, T_PLACE_DOWN, T_PLACE_UP, T_UP, VMAX)
@@ -47,6 +48,8 @@ IDLE_DT = 0.05
 MAX_PIECE = 0.8   # rad: cạnh dài hơn được chia nhỏ để sự kiện được xử lý sớm (xem docstring của subdivide)
 MAX_SIM = 400.0
 COOLDOWN = 1.0
+STUCK_T = 5.0       # s mô phỏng: mọi tay rảnh mà không giao được việc nào thì coi vật còn lại là bị vây
+DISTURB_MM = 3.0
 
 
 @dataclass
@@ -88,6 +91,7 @@ class Arm:
     sweep_ok: bool = False             # WAIT_LOCAL: tập quét đã được đưa vào tập cố định khi lập kế hoạch
     arrived_t: float = 0.0
     task: dict | None = None           # bản ghi tương tác của việc gắp hiện tại (xem StaggeredResult.tasks)
+    snapshot: dict | None = None       # đánh giá: vị trí thật các khối khác lúc bắt đầu gắp
 
     def sweep(self) -> list[np.ndarray]:
         d = self.move.down
@@ -121,24 +125,44 @@ class StaggeredResult:
     tasks: list = field(default_factory=list)
     perception: dict | None = None
     lift_disagree: int = 0             # số lần bộ điều khiển (cảm biến gripper) và pose thật kết luận khác nhau sau khi nhấc
+    blocked: int = 0                   # vật không tay nào gắp được (bị khối hàng xóm vây) khi cell dừng
+    disturbed: list = field(default_factory=list)  # khối khác bị xê dịch > DISTURB_MM trong một lần gắp
+    arrivals: list = field(default_factory=list)   # khối thả thêm: t_spawn, t_detect, t_assign, t_lift (s)
+    busy_time: list = field(default_factory=list)  # mỗi tay: thời gian mô phỏng không rảnh (đang đi, chờ, gắp, thả, mang vật)
+    picks_per_arm: list = field(default_factory=list)
 
 
 class StaggeredCell:
     def __init__(self, L: Layout, planner: PlannerService, tools: list[ArmTools], tables: list[CostTable] | None = None,
-                 alloc: str = "level1", budget: float = 0.3, penalty: float | None = None, perception: bool = False):
+                 alloc: str = "level1", budget: float = 0.3, penalty: float | None = None, perception: bool = False,
+                 split: bool = True, neighbor_check: bool = True):
         self.L, self.planner, self.tools, self.tables = L, planner, tools, tables
         self.alloc, self.budget = alloc, budget
         self.perception = perception
+        self.split, self.neighbor_check = split, neighbor_check   # tắt để so sánh (mục 11, M4)
         self.world = None
         self.penalty = penalty
         self._place_cache: dict = {}
+        self._pick_cache: dict = {}
 
     # ------------------------------------------------------------------ chuyển động cục bộ
     def pick_move(self, sim: CellSim, k: int, i: int) -> LocalMove | None:
+        """Cách gắp đầu tiên (theo thứ tự hướng kẹp ưu tiên) mà đoạn đi xuống không tới gần khối nào khác; None nếu không
+        có (khối bị khối hàng xóm vây). Cache theo phiên bản pose của các vật trên bàn."""
+        key = (k, i)
+        ver = self.world.version()
+        hit = self._pick_cache.get(key)
+        if hit is not None and hit[0] == ver:
+            return hit[1]
+        mv = self._pick_move(sim, k, i)
+        self._pick_cache[key] = (ver, mv)
+        return mv
+
+    def _pick_move(self, sim: CellSim, k: int, i: int) -> LocalMove | None:
         pos, yaw = self.world.pose(i)
         cube_qpos, tgt = self.world.check_cubes(i)
         for mv in self.tools[k].pick_options(pos[:2], yaw):
-            if not sim.descent_touches(k, mv.down, tgt, cube_qpos):
+            if not self.neighbor_check or not sim.descent_touches(k, mv.down, tgt, cube_qpos):
                 return mv
         return None
 
@@ -196,12 +220,18 @@ class StaggeredCell:
             qc.restore()
 
     # ------------------------------------------------------------------ một cảnh
-    def run(self, cubes: list[CubeSpec], seed: int = 0, recorder=None, verbose: bool = False) -> StaggeredResult:
+    def run(self, cubes: list[CubeSpec], seed: int = 0, recorder=None, verbose: bool = False,
+            arrivals: list | None = None) -> StaggeredResult:
         L = self.L
         self.cubes = cubes
         sim = CellSim(L, cubes, recorder)
         sim.wait(0.3)
-        world = self.world = PerceivedWorld(sim, cubes) if self.perception else TruthWorld(sim, cubes)
+        world = self.world = PerceivedWorld(sim, cubes, split=self.split) if self.perception else TruthWorld(sim, cubes)
+        self._handled: set[int] = set()   # đánh giá: khối thật đã từng được giao cho một tay
+        pending = sorted(arrivals or [], key=lambda a_: a_.t)   # khối sẽ được thả thêm (M4 việc 2)
+        self._arrivals: dict[int, dict] = {}                    # đánh giá: mốc thời gian của từng khối thả thêm
+        spawn_rng = np.random.default_rng([seed, 11])
+        self._pick_cache.clear()
         world.update(force=True)
         rng = np.random.default_rng(seed)
         status: dict[int, str] = {i: "on_table" for i in world.ids()}
@@ -228,6 +258,7 @@ class StaggeredCell:
         moving: tuple[int, ...] = ()
         seg_times: np.ndarray | None = None
         t_start = sim.time
+        self._t_start = t_start
         t_last = t_start
         replan_times, plan_failures, picks, pick_ok, max_err = [], 0, 0, 0, 0.0
         planning_wall = 0.0
@@ -235,6 +266,10 @@ class StaggeredCell:
         deadlock = False
         need_plan = False
         next_plan_t = 0.0   # sau một lần thất bại: chờ COOLDOWN giây mô phỏng rồi mới thử lại
+        stuck_since = None  # mọi tay rảnh mà còn vật trên bàn không tay nào nhận được (bị vây)
+        busy = np.zeros(L.n_arms)
+        picks_arm = [0] * L.n_arms
+        disturbed: list[dict] = []
         fail_streak = 0
         tasks: list[dict] = []
 
@@ -269,11 +304,24 @@ class StaggeredCell:
 
         while True:
             now = sim.time
+            while pending and now - t_start >= pending[0].t:   # thả thêm khối: môi trường, bộ điều phối không biết
+                arr = pending[0]
+                spot = self._spawn_spot(sim, arms, arr, spawn_rng)
+                if spot is None:
+                    break  # chưa có chỗ trống: thử lại ở vòng sau
+                sim.spawn_cube(arr.cube, *spot)
+                self._arrivals[arr.cube] = {"cube": arr.cube, "t_spawn": round(sim.time - t_start, 3),
+                                            "x": round(spot[0], 4), "y": round(spot[1], 4)}
+                log(-1, "SPAWN", f"khối thật {arr.cube} ở ({spot[0]:.3f}, {spot[1]:.3f})")
+                pending.pop(0)
             world.update()
             for oid in world.ids():
                 if oid not in status:
                     status[oid], attempts[oid] = "on_table", 0
                     log(-1, "NEW_OBJECT", f"vật {oid}")
+                    j = world.truth(oid)
+                    if j in self._arrivals and "t_detect" not in self._arrivals[j]:
+                        self._arrivals[j]["t_detect"] = round(sim.time - t_start, 3)
                 elif status[oid] == "on_table" and world.lost(oid):
                     status[oid] = "lost"
                     log(-1, "LOST", f"vật {oid}")
@@ -288,9 +336,21 @@ class StaggeredCell:
                     a.runner = None
                     if a.action == "pick":
                         picks += 1
+                        for j, p0 in (a.snapshot or {}).items():   # đánh giá: khối khác bị xê dịch trong lần gắp này
+                            pj = sim.cube_pose(j)[0]
+                            if j in self._handled:
+                                continue  # khối đã được giao cho một tay (đang gắp, đang mang, đã thả): không tính
+                            dd = float(np.linalg.norm(pj - p0))
+                            if dd > DISTURB_MM / 1000:
+                                disturbed.append({"t": round(sim.time, 3), "arm": a.k, "cube": j, "mm": round(dd * 1000, 1)})
+                        a.snapshot = None
                         lifted = sim.lifted_cube(a.k, LIFT_OK)      # đánh giá: khối thật nào đang ở trong gripper
                         if lifted is not None:
+                            self._handled.add(lifted)
                             pick_ok += 1
+                            picks_arm[a.k] += 1
+                            if lifted in self._arrivals and "t_lift" not in self._arrivals[lifted]:
+                                self._arrivals[lifted]["t_lift"] = round(sim.time - t_start, 3)
                             sim.carrying.add(lifted)
                         held = world.holding(a.k, i)               # quyết định của bộ điều khiển
                         if held != (lifted is not None):
@@ -345,8 +405,19 @@ class StaggeredCell:
                 if self._assign(sim, a, arms, status, log):
                     a.state = "TRANSIT"
                     need_plan = True
+            # kẹt: mọi tay rảnh, không có đường đi, còn vật trên bàn mà không tay nào gắp được (bị khối hàng xóm vây)
+            idle_all = all(a.state == "IDLE" and not a.holding for a in arms) and not path and not need_plan
+            if idle_all and any(s == "on_table" for s in status.values()) and not pending:
+                stuck_since = now if stuck_since is None else stuck_since
+                if now - stuck_since > STUCK_T:
+                    for oid, s_ in status.items():
+                        if s_ == "on_table":
+                            status[oid] = "blocked"
+                            log(-1, "BLOCKED", f"vật {oid}: không tay nào gắp được")
+            else:
+                stuck_since = None
             # kết thúc?
-            if (all(s in ("placed", "failed", "lost") for s in status.values())
+            if (not pending and all(s in ("placed", "failed", "lost", "blocked") for s in status.values())
                     and all(a.state == "IDLE" and not a.holding for a in arms)):
                 break
             # 4. lập kế hoạch
@@ -371,6 +442,8 @@ class StaggeredCell:
                     if any(a.state == "TRANSIT" for a in arms):
                         need_plan = True
             # 5. chạy
+            t_before = sim.time
+            was_busy = [a.state != "IDLE" or a.holding for a in arms]
             if path and len(path) > 1:
                 q0, q1, T = path[0], path[1], float(seg_times[0])
                 max_err = max(max_err, self._run_edge(sim, arms, moving, q0, q1, T))
@@ -392,6 +465,7 @@ class StaggeredCell:
                 if any(a.state == "TRANSIT" for a in arms) and not need_plan:
                     need_plan = True  # đứng yên mà còn tay chưa tới đích: lập kế hoạch lại
                 self._run_edge(sim, arms, (), None, None, IDLE_DT)
+            busy += np.array(was_busy) * (sim.time - t_before)
         sim.wait(0.5)
         from .arm_fsm import Cell
         correct, wrong, out = Cell._verify(self, sim, cubes)
@@ -399,7 +473,9 @@ class StaggeredCell:
                                t_last - t_start, planning_wall, len(replan_times), replan_times, plan_failures,
                                dict(sim.coll.steps), {"|".join(k): v for k, v in sim.coll.pairs.most_common(10)},
                                max_err, deadlock, events, [status[k] for k in sorted(status)], wait_local, tasks,
-                               self._perception_summary(), lift_disagree)
+                               self._perception_summary(), lift_disagree,
+                               sum(s_ == "blocked" for s_ in status.values()), disturbed,
+                               [self._arrivals[k] for k in sorted(self._arrivals)], busy.round(3).tolist(), picks_arm)
 
     # ------------------------------------------------------------------ giao việc
     def _assign(self, sim: CellSim, a: Arm, arms: list[Arm], status: dict[int, str], log) -> bool:
@@ -430,6 +506,10 @@ class StaggeredCell:
             a.truth_target = self.world.truth(i)
             if a.truth_target is not None:
                 sim.allowed[a.truth_target] = a.k
+                self._handled.add(a.truth_target)
+                rec = self._arrivals.get(a.truth_target)
+                if rec is not None and "t_assign" not in rec:
+                    rec["t_assign"] = round(sim.time - self._t_start, 3)
             a.task = self._task_record(sim, a, arms, i)
             log(a.k, "TRANSIT_TO_PICK", f"khối {i}")
             return True
@@ -468,13 +548,13 @@ class StaggeredCell:
         if self.alloc == "level0":
             p = self.tools[a.k].kin.fk(a.q)[0]
             mine = [i for i in a.queue if i in live]
-            return sorted(mine, key=lambda i: np.linalg.norm(sim.cube_pose(i)[0][:2] - p[:2]))[:4]
+            return sorted(mine, key=lambda i: np.linalg.norm(sim.cube_pose(i)[0][:2] - p[:2]))
         cands = [(i, self.world.pose(i)[0][:2], self.world.color(i)) for i in live]
         active = [(b.k, self.world.pose(b.target)[0][:2]) for b in arms
                   if b is not a and b.target is not None and b.action == "pick"]
         kw = {} if self.penalty is None else {"penalty": self.penalty}
         ranked = rank_level1(self.L, a.k, a.where, cands, self.tables[a.k], active, **kw)
-        return [i for _, i in ranked][:4]
+        return [i for _, i in ranked]  # mọi ứng viên: khối bị vây thì pick_move trả None, xét khối kế tiếp
 
     def _park_idle(self, arms: list[Arm], log) -> None:
         """Thất bại liên tiếp: có thể một tay đang rảnh đứng chắn đường tay khác. Cho các tay rảnh không ở HOME về HOME
@@ -488,6 +568,25 @@ class StaggeredCell:
                 a.state = "TRANSIT"
                 log(a.k, "PARK", "về HOME để dọn đường")
 
+    def _spawn_spot(self, sim: CellSim, arms: list[Arm], arr, rng) -> tuple[float, float, float] | None:
+        """Chỗ thả khối mới: chỗ mong muốn của cảnh, không được thì chỗ ngẫu nhiên trong vùng đặt vật. Điều kiện: tâm cách
+        mọi khối trên bàn ≥ MIN_DIST, cách khối mà một tay đang nhắm tới ≥ 0,12 m, không tay nào tới gần hơn 3 cm."""
+        L = self.L
+        z0 = L.table_top + CUBE / 2
+        lim = L.zone_half - CUBE / 2 * math.sqrt(2)
+        on_table = [sim.cube_pose(j)[0][:2] for j in range(len(sim.cubes)) if abs(sim.cube_pose(j)[0][2] - z0) < 0.02]
+        targets = [sim.cube_pose(a.truth_target)[0][:2] for a in arms if a.truth_target is not None]
+        cands = [(arr.x, arr.y)] + [tuple(rng.uniform(-lim, lim, 2)) for _ in range(300)]
+        for x, y in cands:
+            p = np.array([x, y])
+            if any(np.linalg.norm(p - q) < MIN_DIST for q in on_table):
+                continue
+            if any(np.linalg.norm(p - q) < 0.12 for q in targets):
+                continue
+            if sim.spot_free(x, y, arr.yaw, arr.cube):
+                return float(x), float(y), float(arr.yaw)
+        return None
+
     def _perception_summary(self) -> dict | None:
         w = self.world
         if w is None or not w.perceived:
@@ -500,6 +599,9 @@ class StaggeredCell:
             LineSeg(a.move.down[::-1], T_UP if a.action == "pick" else T_PLACE_UP)
         if a.action == "pick":
             steps = [Step(down, GRIP_OPEN), Step(None, GRIP_CLOSE, T_CLOSE), Step(up, GRIP_CLOSE)]
+            z0 = self.L.table_top + CUBE / 2
+            a.snapshot = {j: sim.cube_pose(j)[0] for j in range(len(sim.cubes))
+                          if j != a.truth_target and abs(sim.cube_pose(j)[0][2] - z0) < 0.01}
             log(a.k, "GRASP", f"khối {a.target}")
         else:
             steps = [Step(down, GRIP_CLOSE), Step(None, GRIP_OPEN, T_OPEN), Step(up, GRIP_OPEN)]

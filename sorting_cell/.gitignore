@@ -5,3 +5,4 @@ __pycache__/
 MUJOCO_LOG.TXT
 cache/
 results/**/*.npz
+results/logs/

@@ -18,7 +18,7 @@ from ..allocation.costs import build_cost_table
 from ..control.staggered import StaggeredCell
 from ..planning.service import PlannerService
 from ..scene.builder import Layout
-from ..scene.sampling import sample_scene
+from ..scene.sampling import scene_for_seed
 from ..skills.scripted import ArmTools
 from .metrics import perception_summary, summarize
 
@@ -26,17 +26,18 @@ _cell: StaggeredCell | None = None
 
 
 def make_cell(alloc: str, budget: float, penalty: float | None = None, max_total: float = 1.0,
-              perception: bool = False) -> StaggeredCell:
+              perception: bool = False, split: bool = True, neighbor_check: bool = True) -> StaggeredCell:
     L = Layout()
     planner = PlannerService(L, max_total=max_total)
     tools = [ArmTools(L, k, planner.spaces[k]) for k in range(L.n_arms)]
     tables = [build_cost_table(L, k, planner.rms[k], tools[k]) for k in range(L.n_arms)]
-    return StaggeredCell(L, planner, tools, tables, alloc=alloc, budget=budget, penalty=penalty, perception=perception)
+    return StaggeredCell(L, planner, tools, tables, alloc=alloc, budget=budget, penalty=penalty, perception=perception,
+                         split=split, neighbor_check=neighbor_check)
 
 
-def _init(alloc, budget, penalty, max_total=1.0, perception=False):
+def _init(alloc, budget, penalty, max_total=1.0, perception=False, split=True, neighbor_check=True):
     global _cell
-    _cell = make_cell(alloc, budget, penalty, max_total, perception)
+    _cell = make_cell(alloc, budget, penalty, max_total, perception, split, neighbor_check)
 
 
 def _run(seed: int, video: str | None = None, view: float | None = None) -> dict:
@@ -49,7 +50,8 @@ def _run(seed: int, video: str | None = None, view: float | None = None) -> dict
         rec = Recorder(video, size=(960, 720))
     t = time.perf_counter()
     try:
-        r = _cell.run(sample_scene(seed), seed=seed, recorder=rec)
+        cubes, arrivals = scene_for_seed(seed)
+        r = _cell.run(cubes, seed=seed, recorder=rec, arrivals=arrivals)
     finally:
         if rec is not None:
             rec.close()
@@ -70,6 +72,9 @@ def main():
     ap.add_argument("--budget", type=float, default=0.3)
     ap.add_argument("--penalty", type=float, default=None)
     ap.add_argument("--perception", action="store_true", help="pose từ camera trên cao (M3)")
+    ap.add_argument("--no-split", action="store_true", help="so sánh: không tách khối cùng màu dính nhau")
+    ap.add_argument("--no-neighbor-check", action="store_true",
+                    help="so sánh: chọn hướng kẹp không tính khối hàng xóm")
     ap.add_argument("--max-total", type=float, default=1.0, help="tổng ngân sách một lần lập kế hoạch (s)")
     ap.add_argument("--out", default=None, help="thư mục ghi kết quả; bỏ trống thì chỉ in ra, không ghi")
     ap.add_argument("--video", default=None)
@@ -81,7 +86,7 @@ def main():
     if out is not None:
         out.mkdir(parents=True, exist_ok=True)
     if a.video or a.view or len(seeds) == 1:
-        _init(a.alloc, a.budget, a.penalty, a.max_total, a.perception)
+        _init(a.alloc, a.budget, a.penalty, a.max_total, a.perception, not a.no_split, not a.no_neighbor_check)
         results = []
         for s in seeds:
             try:
@@ -93,9 +98,10 @@ def main():
             print(f"seed {r['seed']}: đúng {r['placed_correct']}/{r['n_cubes']}, va chạm {r['collision_steps']}, "
                   f"gắp {r['pick_success']}/{r['picks']}, makespan {r['t_last_place']:.1f} s", flush=True)
     else:
-        _init(a.alloc, a.budget, a.penalty, a.max_total, a.perception)  # dựng cache (bảng chi phí) trước khi chia tiến trình
+        _init(a.alloc, a.budget, a.penalty, a.max_total, a.perception, not a.no_split, not a.no_neighbor_check)  # dựng cache (bảng chi phí) trước khi chia tiến trình
         results = []
-        with ProcessPoolExecutor(a.workers, initializer=_init, initargs=(a.alloc, a.budget, a.penalty, a.max_total, a.perception)) as ex:
+        with ProcessPoolExecutor(a.workers, initializer=_init, initargs=(a.alloc, a.budget, a.penalty, a.max_total, a.perception, not a.no_split,
+                                                    not a.no_neighbor_check)) as ex:
             for r in ex.map(_run, seeds):
                 results.append(r)
                 print(f"seed {r['seed']}: đúng {r['placed_correct']}/{r['n_cubes']}, va chạm {r['collision_steps']}, "

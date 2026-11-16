@@ -37,7 +37,8 @@ class TruthWorld:
         pass
 
     def ids(self) -> list[int]:
-        return list(range(len(self.cubes)))
+        """Khối đang có trong cell (trừ khối chưa thả, còn đỗ trên sàn)."""
+        return [i for i in range(len(self.cubes)) if self.sim.cube_pose(i)[0][2] > self.sim.L.table_top - 0.2]
 
     def lost(self, oid: int) -> bool:
         return False
@@ -61,6 +62,15 @@ class TruthWorld:
         """(vị trí giả định của các khối cho kiểm tra đoạn đi xuống, chỉ số khối đích); None = dùng trạng thái sim."""
         return None, target
 
+    def version(self) -> tuple:
+        """Thay đổi khi pose (làm tròn 1 mm, 1°) của một vật trên bàn đổi: để cache cách gắp."""
+        out = []
+        for i in range(len(self.cubes)):
+            p, yaw = self.sim.cube_pose(i)
+            if abs(p[2] - (self.sim.L.table_top + CUBE / 2)) < 0.01:
+                out.append((i, round(p[0] * 1000), round(p[1] * 1000), round(math.degrees(yaw))))
+        return tuple(out)
+
     def holding(self, k: int, oid: int) -> bool:
         """Sau khi nhấc: tay k có đang giữ vật không (bộ điều khiển dùng để quyết định)."""
         rise = self.sim.cube_pose(oid)[0][2] - (self.sim.L.table_top + CUBE / 2)
@@ -70,9 +80,10 @@ class TruthWorld:
 class PerceivedWorld:
     perceived = True
 
-    def __init__(self, sim: CellSim, cubes: list[CubeSpec], period: float = 0.2, log_eval: bool = True):
+    def __init__(self, sim: CellSim, cubes: list[CubeSpec], period: float = 0.2, log_eval: bool = True,
+                 split: bool = True):
         self.sim, self.cubes, self.L = sim, cubes, sim.L
-        self.cam = OverheadCamera(sim.m, sim.L)
+        self.cam = OverheadCamera(sim.m, sim.L, split=split)
         self.tracker = Tracker(sim.L)
         self.period = period
         self.next_t = 0.0
@@ -183,6 +194,10 @@ class PerceivedWorld:
                 pos, quat = FAR + [b, 0, 0], np.array([1.0, 0, 0, 0])
             out[self._cube_qadr[b]] = np.concatenate([pos, quat])
         return out, tgt
+
+    def version(self) -> tuple:
+        return tuple((t.id, round(t.xy[0] * 1000), round(t.xy[1] * 1000), round(math.degrees(t.yaw)))
+                     for t in self.tracker.tracks if t.state in ("on_table", "busy"))
 
     def holding(self, k: int, oid: int) -> bool:
         q = self.sim.d.qpos[self._driver[k]]

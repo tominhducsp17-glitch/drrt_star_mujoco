@@ -129,6 +129,39 @@ class CellSim:
         R = self.d.xmat[b].reshape(3, 3)
         return self.d.xpos[b].copy(), math.atan2(R[1, 0], R[0, 0]) % (math.pi / 2)
 
+    def spot_free(self, x: float, y: float, yaw: float, i: int, clearance: float = 0.03) -> bool:
+        """Đặt thử khối i ở (x, y) trên bàn (trong model kiểm tra, trạng thái hiện tại của sim): không tay nào tới gần
+        hơn `clearance`, không chạm khối khác. Dùng để chọn chỗ thả khối mới (M4 việc 2)."""
+        d = self.chk_d
+        d.qpos[:] = self.d.qpos
+        adr = self.chk_m.jnt_qposadr[self.chk_m.body_jntadr[self.cube_body[i]]]
+        d.qpos[adr:adr + 7] = [x, y, self.L.table_top + CUBE / 2, math.cos(yaw / 2), 0, 0, math.sin(yaw / 2)]
+        g = self.chk_m.geom(self.cubes[i].name + "_geom").id
+        old = self.chk_m.geom_margin[g]
+        self.chk_m.geom_margin[g] = clearance
+        try:
+            mj.mj_kinematics(self.chk_m, d)
+            mj.mj_collision(self.chk_m, d)
+            for (g1, g2), dd in zip(d.contact.geom[: d.ncon], d.contact.dist[: d.ncon]):
+                if g not in (g1, g2):
+                    continue
+                other = g2 if g1 == g else g1
+                if self.geom_arm[other] >= 0 and dd < clearance:
+                    return False
+                if self.geom_cube[other] >= 0 and dd < 0.005:
+                    return False
+            return True
+        finally:
+            self.chk_m.geom_margin[g] = old
+
+    def spawn_cube(self, i: int, x: float, y: float, yaw: float) -> None:
+        """Đặt khối i lên bàn tại (x, y), vận tốc 0 (khối được thả thêm vào cell)."""
+        jnt = self.m.body_jntadr[self.cube_body[i]]
+        adr, vadr = self.m.jnt_qposadr[jnt], self.m.jnt_dofadr[jnt]
+        self.d.qpos[adr:adr + 7] = [x, y, self.L.table_top + CUBE / 2 + 0.001, math.cos(yaw / 2), 0, 0, math.sin(yaw / 2)]
+        self.d.qvel[vadr:vadr + 6] = 0
+        mj.mj_forward(self.m, self.d)
+
     def lifted_cube(self, k: int, lift: float) -> int | None:
         """Đánh giá: khối thật đang nằm trong gripper của tay k và cao hơn mặt bàn ít nhất lift (mục 2: nhấc lên 5 cm)."""
         tcp = self.d.site_xpos[self.tcp[k]]
